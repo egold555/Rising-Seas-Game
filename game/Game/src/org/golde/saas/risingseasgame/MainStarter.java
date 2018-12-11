@@ -13,7 +13,7 @@ public class MainStarter {
 		{
 			AppGameContainer appgc;
 			appgc = new AppGameContainer(new Game());
-			appgc.setDisplayMode(640, 480, false);
+			appgc.setDisplayMode(640, 480, false); //width, height, fullscreen
 			appgc.start();
 		}
 		catch (SlickException ex)
