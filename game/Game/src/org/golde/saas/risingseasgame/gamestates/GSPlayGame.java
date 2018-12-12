@@ -11,7 +11,7 @@ public class GSPlayGame extends GameStateAbstract {
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		super.init(gc, sbg);
+		
 	}
 
 	@Override
