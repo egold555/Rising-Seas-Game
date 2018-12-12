@@ -1,17 +1,18 @@
 package org.golde.saas.risingseasgame.objects;
 
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class ResImageMoveable extends ResImage {
-
+public class Sprite extends Image implements GameObject{
+	
 	private float posX, posY;
 	
-	public ResImageMoveable(String fileName) throws SlickException {
+	public Sprite(String fileName) throws SlickException {
 		this(fileName, 0, 0);
 	}
 	
-	public ResImageMoveable(String fileName, float startX, float startY) throws SlickException {
-		super(fileName);
+	public Sprite(String fileName, float startX, float startY) throws SlickException {
+		super("res\\" + fileName + ".png");
 		this.posX = startX;
 		this.posY = startY;
 	}
