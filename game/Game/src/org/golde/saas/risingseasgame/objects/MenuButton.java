@@ -1,12 +1,12 @@
 package org.golde.saas.risingseasgame.objects;
 
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.RoundedRectangle;
+import org.newdawn.slick.state.StateBasedGame;
 
 public class MenuButton extends RoundedRectangle implements GameObject {
 
@@ -26,12 +26,19 @@ public class MenuButton extends RoundedRectangle implements GameObject {
     
     boolean inside = false;
 
-    public MenuButton(String text, float x, float y, float width, float height) throws SlickException {
+    public MenuButton(String text, float x, float y, float width, float height) {
         super(x, y, width, height, CORNER_RADIUS);
         this.text = text;
-        
-        pressedBackground = new Sprite("button_pressed");
+    }
+    
+    @Override
+    public GameObject init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+    	pressedBackground = new Sprite("button_pressed");
         normalBackground = new Sprite("button_normal");
+        
+        pressedBackground.init(gc, sbg);
+        normalBackground.init(gc, sbg);
+        return this;
     }
 
     private void updateFontWidth(Font font) {
@@ -41,29 +48,31 @@ public class MenuButton extends RoundedRectangle implements GameObject {
         textPosY = (height - textHeight) / 2 + y;
     }
     
-    public final void mouseMoved(int newx, int newy) {
+    @Override
+    public void mouseMoved(int oldx, int oldy, int newx, int newy) {
     	inside = this.contains(newx, newy);
     }
     
-    public final void mouseClicked(int button, int x, int y) {
+    @Override
+    public void mouseClicked(int button, int x, int y, int clickCount) {
     	if(inside) {
     		System.out.println("Clicked id " + button);
     	}
     }
     
-
     @Override
-    public void draw(Graphics g) {
+    public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
     	updateFontWidth(g.getFont());
-    	if(inside) {
-    		pressedBackground.draw(x, y, width, height);
-    	} else {
-    		normalBackground.draw(x, y, width, height);
+    	if(pressedBackground.getImage() != null && normalBackground.getImage() != null) {
+    		if(inside) {
+        		pressedBackground.getImage().draw(x, y, width, height);
+        	} else {
+        		normalBackground.getImage().draw(x, y, width, height);
+        	}
     	}
     	
+    	
 		g.getFont().drawString(textPosX, textPosY, text, Color.white);
-        
-        
     }
 	
 }

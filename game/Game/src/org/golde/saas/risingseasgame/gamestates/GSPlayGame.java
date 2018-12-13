@@ -9,6 +9,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class GSPlayGame extends GameStateAbstract {
 
+	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		
@@ -16,12 +17,8 @@ public class GSPlayGame extends GameStateAbstract {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+		super.render(gc, sbg, g);
 		g.drawString("Game State: PLAY", 30, 30);
-	}
-
-	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		
 	}
 
 	@Override
@@ -31,9 +28,13 @@ public class GSPlayGame extends GameStateAbstract {
 	
 	@Override
 	public void keyPressed(int key, char c) {
+		super.keyPressed(key, c);
 		if(key == Keyboard.KEY_A) {
 			getStateBasedGame().enterState(GameStates.TITLE_SCREEN);
 		}
 	}
+	
+	
+	
 
 }

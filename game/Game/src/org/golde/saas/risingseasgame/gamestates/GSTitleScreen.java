@@ -10,45 +10,45 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class GSTitleScreen extends GameStateAbstract {
-	
-	Sprite exampleImage;
-	Sprite movingImage;
-	
-	MenuButton testButton;
-	
-	@Override //Used to initalise every game object
-	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		exampleImage = new Sprite("swordandshield");
-		exampleImage.setXY(10, 10);
-		movingImage = new Sprite("toast");
-		
-		testButton = new MenuButton("Test Button", 200, 200, 200, 20);
-	}
 
-	@Override //Used to render every element to the screen
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		g.drawString("Game State: TITLE_SCREEN", 30, 30);
-		exampleImage.draw(g);
-		movingImage.draw(g);
-		testButton.draw(g);
-	}
+	Sprite exampleImage = new Sprite("swordandshield");
+	Sprite movingImage = new Sprite("toast");
 
-	@Override //Used to update game logic
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		
-		//Testing moving a image on a screen
-		movingImage.setXY((float) (movingImage.getX() + 0.1), (float) (movingImage.getY() + 0.1));
-		
-	}
+	MenuButton testButton = new MenuButton("Test Button", 200, 200, 200, 20);
 
-	@Override //This should always be GameStates
+	@Override
 	public int getID() {
 		return GameStates.TITLE_SCREEN;
 	}
-	
+
+	@Override
+	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+		gameObjects.add(exampleImage.init(gc, sbg));
+		exampleImage.setXY(10, 10);
+		gameObjects.add(movingImage.init(gc, sbg));
+		gameObjects.add(testButton.init(gc, sbg));
+	}
+
+	@Override
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+		super.render(gc, sbg, g);
+		g.drawString("Game State: TITLE_SCREEN", 30, 30);
+
+	}
+
+	@Override
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+		super.update(gc, sbg, delta);
+
+		//Testing moving a image on a screen
+		movingImage.setXY((float) (movingImage.getX() + 0.1), (float) (movingImage.getY() + 0.1));
+
+	}
+
 	@Override
 	public void keyPressed(int key, char c) {
-		
+		super.keyPressed(key, c);
+
 		if(key == Keyboard.KEY_ESCAPE) {
 			System.exit(0);
 		}
@@ -56,16 +56,6 @@ public class GSTitleScreen extends GameStateAbstract {
 			getStateBasedGame().enterState(GameStates.PLAY);
 		}
 
-	}
-	
-	@Override
-	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-		testButton.mouseMoved(newx, newy);
-	}
-	
-	@Override
-	public void mouseClicked(int button, int x, int y, int clickCount) {
-		testButton.mouseClicked(button, x, y);
 	}
 
 }
