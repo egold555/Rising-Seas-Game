@@ -20,7 +20,7 @@ public enum EnumCircumstanceCards implements EnumCardImpl {
 	VEGETARIAN("All your citizens went vegetarian!", "Move ahead two spaces"),
 	OVERCAST("Overcast!", "Move back one space for each solar farm"),
 	//TEST("Install personal windmills for everyone on your island", ""),
-	ACID_OCEAN("Oceans acidify!", "Aqua tourism and fishing suffer. Move back two spaces."),
+	ACID_OCEAN("Oceans acidify!", "Aqua tourism and \nfishing suffer. \nMove back two \nspaces."),
 	
 	;
 

@@ -3,11 +3,14 @@ package org.golde.saas.risingseasgame.client.states;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.golde.saas.risingseasgame.client.ConstantsClient;
 import org.golde.saas.risingseasgame.client.objects.Card;
+import org.golde.saas.risingseasgame.client.objects.Gameboard;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
 import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -19,11 +22,23 @@ public class GameStatePlaying extends GameStateAbstract {
 	
 	List<Integer> connectedClients = new ArrayList<Integer>();
 	
-	Card<EnumCircumstanceCards> cardTest = new Card<EnumCircumstanceCards>(EnumCircumstanceCards.ACID_OCEAN);
+	List<Card<EnumCircumstanceCards>> listOfTestCards = new ArrayList<Card<EnumCircumstanceCards>>();
+	
+	Gameboard gameBoard = new Gameboard();
 	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		gameObjects.add(cardTest.init(gc, sbg));
+		
+		gameObjects.add(gameBoard.init(gc, sbg));
+		
+		for(int i = 0; i < 6; i++) {
+			Card<EnumCircumstanceCards> card = new Card<EnumCircumstanceCards>(EnumCircumstanceCards.ACID_OCEAN);
+			gameObjects.add(card.init(gc, sbg));
+			card.setY(Card.Y_HAND);
+			card.setCardIndex(i);
+		}
+		
+		
 	}
 	
 	@Override
@@ -32,7 +47,6 @@ public class GameStatePlaying extends GameStateAbstract {
 		if(o instanceof PacketAddPlayer) {
 			PacketAddPlayer packet = (PacketAddPlayer)o;
 			connectedClients.add(packet.id);
-			Logger.info("Yeah I added it to ze list");
 		}
 	}
 	
@@ -46,8 +60,10 @@ public class GameStatePlaying extends GameStateAbstract {
 			g.drawString(String.valueOf(id), 30 + idCountX, 60);
 			idCountX += 10;
 		} 
-
-		cardTest.setY(670);
+		
+		gameBoard.setX((ConstantsClient.WINDOW_WIDTH / 2) - gameBoard.getImage().getWidth() + 200);
+		
+		g.setBackground(new Color(66, 167, 187));
 		
 		super.render(gc, sbg, g);
 	}
