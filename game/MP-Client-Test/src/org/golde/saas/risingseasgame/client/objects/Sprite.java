@@ -24,7 +24,7 @@ public class Sprite implements GameObjectMoveable {
 	
 	@Override
 	public GameObject init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		img = new Image(imgSrc);
+		img = new Image(imgSrc).getScaledCopy(getScaleOfImage());
 		System.out.println("INIT: " + img);
 		return this;
 	}
@@ -63,6 +63,10 @@ public class Sprite implements GameObjectMoveable {
 	@Deprecated
 	public Image getImage() {
 		return img;
+	}
+	
+	public float getScaleOfImage() {
+		return 1;
 	}
 	
 }

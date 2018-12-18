@@ -1,5 +1,8 @@
 package org.golde.saas.risingseasgame.client;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import org.golde.saas.risingseasgame.client.states.GameStateConnecting;
 import org.golde.saas.risingseasgame.client.states.GameStatePlaying;
 import org.golde.saas.risingseasgame.shared.Logger;
@@ -13,6 +16,8 @@ public class MainClient extends StateBasedGame {
 	private Network network = new Network();
 	
 	private static MainClient INSTANCE;
+	
+	private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
 	public MainClient() {
 		super("MultiPlayer Client test");

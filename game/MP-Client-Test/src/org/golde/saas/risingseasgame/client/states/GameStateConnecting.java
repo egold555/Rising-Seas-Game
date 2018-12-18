@@ -27,4 +27,10 @@ public class GameStateConnecting extends GameStateAbstract {
 		return GameStates.CONNECTING;
 	}
 
+	@Override
+	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

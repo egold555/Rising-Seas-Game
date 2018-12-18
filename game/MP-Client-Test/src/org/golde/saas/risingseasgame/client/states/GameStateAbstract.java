@@ -22,8 +22,7 @@ public abstract class GameStateAbstract extends BasicGameState {
 	private StateBasedGame stateBasedGame;
 	
 	@Override
-	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-	}
+	public abstract void init(GameContainer gc, StateBasedGame sbg) throws SlickException;
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
