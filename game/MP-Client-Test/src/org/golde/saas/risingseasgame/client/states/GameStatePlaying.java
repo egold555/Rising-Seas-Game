@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.golde.saas.risingseasgame.client.ConstantsClient;
 import org.golde.saas.risingseasgame.client.objects.Card;
+import org.golde.saas.risingseasgame.client.objects.GameObject;
 import org.golde.saas.risingseasgame.client.objects.Gameboard;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
@@ -31,13 +32,17 @@ public class GameStatePlaying extends GameStateAbstract {
 		
 		gameObjects.add(gameBoard.init(gc, sbg));
 		
+		for(GameObject go : gameBoard.initPlacesToMove()) {
+			gameObjects.add(go.init(gc, sbg));
+		}
+		
 		for(int i = 0; i < 6; i++) {
 			Card<EnumCircumstanceCards> card = new Card<EnumCircumstanceCards>(EnumCircumstanceCards.ACID_OCEAN);
 			gameObjects.add(card.init(gc, sbg));
 			card.setY(Card.Y_HAND);
 			card.setCardIndex(i);
 		}
-		
+		scaleInput(gc, sbg, -1);
 		
 	}
 	
@@ -52,8 +57,8 @@ public class GameStatePlaying extends GameStateAbstract {
 	
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+		scaleRenderer(gc, sbg, g); //new render method thats abstract
 		g.drawString("PLAYING!", 30, 30);
-		
 		g.drawString("Connected Ids: " + connectedClients.size(), 30, 50);
 		int idCountX = 0;
 		for(int id : connectedClients) {
@@ -66,6 +71,11 @@ public class GameStatePlaying extends GameStateAbstract {
 		g.setBackground(new Color(66, 167, 187));
 		
 		super.render(gc, sbg, g);
+	}
+	
+	@Override
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+		super.update(gc, sbg, delta);
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package org.golde.saas.risingseasgame.client.states;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.golde.saas.risingseasgame.client.ConstantsClient;
 import org.golde.saas.risingseasgame.client.MainClient;
 import org.golde.saas.risingseasgame.client.Network;
 import org.golde.saas.risingseasgame.client.objects.GameObject;
@@ -24,6 +25,14 @@ public abstract class GameStateAbstract extends BasicGameState {
 	@Override
 	public abstract void init(GameContainer gc, StateBasedGame sbg) throws SlickException;
 
+	public void scaleRenderer(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+		g.scale(ConstantsClient.WINDOW_WIDTH / ConstantsClient.COORD_SYS_WIDTH,  ConstantsClient.WINDOW_HEIGHT / ConstantsClient.COORD_SYS_HEIGHT);
+	}
+	
+	public void scaleInput(GameContainer gc, StateBasedGame sbg, int delta) {
+		gc.getInput().setScale(ConstantsClient.COORD_SYS_WIDTH / ConstantsClient.WINDOW_WIDTH, ConstantsClient.COORD_SYS_HEIGHT / ConstantsClient.WINDOW_HEIGHT);
+	}
+	
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		for(GameObject obj : gameObjects) {

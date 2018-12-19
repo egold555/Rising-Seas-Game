@@ -1,16 +1,27 @@
 package org.golde.saas.risingseasgame.client.objects;
 
-/*
- * A game object that can move
- */
+public abstract class GameObjectMoveable implements GameObject {
 
-public interface GameObjectMoveable extends GameObject {
+	private float posX, posY;
 
-	public float getX();
-	public float getY();
+	public final float getX() {
+		return posX;
+	}
 	
-	public void setXY(float x, float y);
-	public void setX(float x);
-	public void setY(float y);
+	public final float getY() {
+		return posY;
+	}
 	
+	public final void setX(float x) {
+		this.posX = x;
+	}
+	
+	public final void setY(float y) {
+		this.posY = y;
+	}
+	
+	public final void setXY(float x, float y) {
+		setX(x);
+		setY(y);
+	}
 }

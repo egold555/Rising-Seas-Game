@@ -36,7 +36,7 @@ public class MainClient extends StateBasedGame {
 			AppGameContainer appgc;
 			//appgc = new AppGameContainer(new GameS());
 			appgc = new AppGameContainer(new MainClient());
-			appgc.setDisplayMode(ConstantsClient.WINDOW_WIDTH, ConstantsClient.WINDOW_HEIGHT, false); //width, height, fullscreen
+			appgc.setDisplayMode(ConstantsClient.WINDOW_WIDTH, ConstantsClient.WINDOW_HEIGHT, true); //width, height, fullscreen
 			appgc.setTargetFrameRate(ConstantsClient.MAX_FPS);
 			appgc.setAlwaysRender(true);
 			appgc.start();

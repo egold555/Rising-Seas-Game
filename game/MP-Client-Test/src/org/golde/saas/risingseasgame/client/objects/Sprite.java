@@ -6,9 +6,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class Sprite implements GameObjectMoveable {
-	
-	private float posX, posY;
+public class Sprite extends GameObjectMoveable {
+
 	private Image img;
 	private String imgSrc;
 	
@@ -18,8 +17,7 @@ public class Sprite implements GameObjectMoveable {
 	
 	public Sprite(String fileName, float startX, float startY) {
 		imgSrc = "res\\" + fileName + ".png";
-		this.posX = startX;
-		this.posY = startY;
+		setXY(startX, startY);
 	}
 	
 	@Override
@@ -28,36 +26,10 @@ public class Sprite implements GameObjectMoveable {
 		System.out.println("INIT: " + img);
 		return this;
 	}
-
-	@Override
-	public float getX() {
-		return posX;
-	}
-	
-	@Override
-	public float getY() {
-		return posY;
-	}
-	
-	@Override
-	public void setX(float x) {
-		this.posX = x;
-	}
-	
-	@Override
-	public void setY(float y) {
-		this.posY = y;
-	}
-	
-	@Override
-	public void setXY(float x, float y) {
-		setX(x);
-		setY(y);
-	}
 	
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		img.draw(posX, posY);
+		img.draw(getX(), getY());
 	}
 	
 	@Deprecated
