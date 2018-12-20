@@ -15,7 +15,7 @@ public class Sprite extends GameObjectMoveable {
 		this(fileName, 0, 0);
 	}
 	
-	public Sprite(String fileName, float startX, float startY) {
+	public Sprite(String fileName, int startX, int startY) {
 		imgSrc = "res\\" + fileName + ".png";
 		setXY(startX, startY);
 	}

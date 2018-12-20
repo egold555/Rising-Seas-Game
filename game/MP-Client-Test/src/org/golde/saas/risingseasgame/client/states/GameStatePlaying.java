@@ -27,9 +27,13 @@ public class GameStatePlaying extends GameStateAbstract {
 	
 	Gameboard gameBoard = new Gameboard();
 	
+	public static GameStatePlaying INSTANCE;
+	
+	public List<GameObject> tempGameObject = new ArrayList<GameObject>(); //so we can push more game objects to the screen without a concurrent modification exception
+	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		
+		INSTANCE = this;
 		gameObjects.add(gameBoard.init(gc, sbg));
 		
 		for(GameObject go : gameBoard.initPlacesToMove()) {
@@ -48,7 +52,7 @@ public class GameStatePlaying extends GameStateAbstract {
 	
 	@Override
 	public void received(Connection c, Object o) {
-		Logger.info("I got it! " + o.getClass().getSimpleName());
+		//Logger.info("I got it! " + o.getClass().getSimpleName());
 		if(o instanceof PacketAddPlayer) {
 			PacketAddPlayer packet = (PacketAddPlayer)o;
 			connectedClients.add(packet.id);
@@ -57,7 +61,17 @@ public class GameStatePlaying extends GameStateAbstract {
 	
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		scaleRenderer(gc, sbg, g); //new render method thats abstract
+		
+		scaleRenderer(gc, sbg, g);
+		
+		for(GameObject temp : tempGameObject) {
+			gameObjects.add(temp);
+		}
+		
+		tempGameObject.clear();
+		
+		
+		  //new render method thats abstract
 		g.drawString("PLAYING!", 30, 30);
 		g.drawString("Connected Ids: " + connectedClients.size(), 30, 50);
 		int idCountX = 0;
@@ -66,7 +80,7 @@ public class GameStatePlaying extends GameStateAbstract {
 			idCountX += 10;
 		} 
 		
-		gameBoard.setX((ConstantsClient.WINDOW_WIDTH / 2) - gameBoard.getImage().getWidth() + 200);
+		gameBoard.setX((ConstantsClient.WINDOW_WIDTH / 2) - gameBoard.getImage().getWidth());
 		
 		g.setBackground(new Color(66, 167, 187));
 		

@@ -2,6 +2,7 @@ package org.golde.saas.risingseasgame.client;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Random;
 
 import org.golde.saas.risingseasgame.client.states.GameStateConnecting;
 import org.golde.saas.risingseasgame.client.states.GameStatePlaying;
@@ -18,6 +19,8 @@ public class MainClient extends StateBasedGame {
 	private static MainClient INSTANCE;
 	
 	private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	
+	public static final Random RANDOM = new Random();
 	
 	public MainClient() {
 		super("MultiPlayer Client test");
@@ -36,7 +39,7 @@ public class MainClient extends StateBasedGame {
 			AppGameContainer appgc;
 			//appgc = new AppGameContainer(new GameS());
 			appgc = new AppGameContainer(new MainClient());
-			appgc.setDisplayMode(ConstantsClient.WINDOW_WIDTH, ConstantsClient.WINDOW_HEIGHT, true); //width, height, fullscreen
+			appgc.setDisplayMode(ConstantsClient.WINDOW_WIDTH, ConstantsClient.WINDOW_HEIGHT, false); //width, height, fullscreen
 			appgc.setTargetFrameRate(ConstantsClient.MAX_FPS);
 			appgc.setAlwaysRender(true);
 			appgc.start();
