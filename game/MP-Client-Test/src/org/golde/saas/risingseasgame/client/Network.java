@@ -45,18 +45,18 @@ public class Network extends Listener {
 	public boolean isConnected() {
 		return isConnected;
 	}
-//	
-//	@Override
-//	public void connected(Connection conn) {
-//		isConnected = true;
-//		Logger.info("Connected to server!");
-//	}
-//
-//	@Override
-//	public void disconnected(Connection conn) {
-//		isConnected = false;
-//		Logger.info("Disconnected from server!");
-//	}
+	
+	@Override
+	public void connected(Connection conn) {
+		isConnected = true;
+		Logger.info("Connected to server!");
+	}
+
+	@Override
+	public void disconnected(Connection conn) {
+		isConnected = false;
+		Logger.info("Disconnected from server!");
+	}
 	
 	public void sendToEveryone(Packet packet) {
 		packetManager.sendToEveryone(packet);

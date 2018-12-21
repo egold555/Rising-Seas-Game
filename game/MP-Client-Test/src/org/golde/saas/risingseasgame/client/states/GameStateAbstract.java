@@ -17,7 +17,7 @@ import com.esotericsoftware.kryonet.Connection;
 
 public abstract class GameStateAbstract extends BasicGameState {
 
-	protected final List<GameObject> gameObjects = new ArrayList<GameObject>();
+	public final List<GameObject> gameObjects = new ArrayList<GameObject>();
 	
 	private GameContainer container;
 	private StateBasedGame stateBasedGame;

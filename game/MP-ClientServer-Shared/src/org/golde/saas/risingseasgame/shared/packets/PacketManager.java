@@ -7,6 +7,7 @@ public abstract class PacketManager {
 	public void registerPackets(Kryo kryo) {
 			kryo.register(PacketAddPlayer.class);
 			kryo.register(PacketSetWater.class);
+			kryo.register(PacketInitalizeGameboard.class);
 	}
 	
 }

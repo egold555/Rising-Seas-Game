@@ -6,6 +6,8 @@ import java.util.List;
 import org.golde.saas.risingseasgame.client.MainClient;
 import org.golde.saas.risingseasgame.client.objects.graphics.SolidFill;
 import org.golde.saas.risingseasgame.client.states.GameStatePlaying;
+import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
+import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -15,30 +17,33 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Gameboard extends Sprite {
 
+	public int waterLevel = 0;
+
 	public Gameboard() {
 		super("Gameboard3");
 	}
 
-	public List<GameObjectMoveable> initPlacesToMove(){
-		List<GameObjectMoveable> toReturn = new ArrayList<GameObjectMoveable>();
+	public List<PlaceToMove> initPlacesToMove(){
+		List<PlaceToMove> toReturn = new ArrayList<PlaceToMove>();
 
+		//30
 		toReturn.add(new PlaceToMove(728, 406));
 		toReturn.add(new PlaceToMove(651, 379));
 		toReturn.add(new PlaceToMove(597, 321));
 		toReturn.add(new PlaceToMove(580, 235));
 		toReturn.add(new PlaceToMove(600, 172));
 		toReturn.add(new PlaceToMove(650, 118));
-		
+
 		toReturn.add(new PlaceToMove(726, 92));
-		
+
 		toReturn.add(new PlaceToMove(821, 119));
 		toReturn.add(new PlaceToMove(872, 166));
 		toReturn.add(new PlaceToMove(887, 235));
 		toReturn.add(new PlaceToMove(865, 301));
 		toReturn.add(new PlaceToMove(803, 350));
-		
+
 		toReturn.add(new PlaceToMove(733, 365));
-		
+
 		toReturn.add(new PlaceToMove(669, 342));
 		toReturn.add(new PlaceToMove(630, 297));
 		toReturn.add(new PlaceToMove(619, 236));
@@ -47,9 +52,9 @@ public class Gameboard extends Sprite {
 		toReturn.add(new PlaceToMove(814, 158));
 		toReturn.add(new PlaceToMove(847, 234));
 		toReturn.add(new PlaceToMove(814, 296));
-		
+
 		toReturn.add(new PlaceToMove(733, 322));
-		
+
 		toReturn.add(new PlaceToMove(673, 293));
 		toReturn.add(new PlaceToMove(656, 236));
 		toReturn.add(new PlaceToMove(675, 188));
@@ -58,21 +63,35 @@ public class Gameboard extends Sprite {
 		toReturn.add(new PlaceToMove(808, 235));
 		toReturn.add(new PlaceToMove(780, 267));
 		toReturn.add(new PlaceToMove(730, 281));
-		
-		List<GameObjectMoveable> toReturnTemp = new ArrayList<GameObjectMoveable>();
-		for(GameObjectMoveable temp : toReturn) {
-			toReturnTemp.add(new RandomActionOutline(temp.getX(), temp.getY()));
-		}
-		
-		//ConcurrentModification fix
-		for(GameObjectMoveable temp : toReturnTemp) {
-			if(MainClient.RANDOM.nextInt(5) == 0) {
-				toReturn.add(temp);
-			}
-			
-		}
-		
+
+		//		List<GameObjectMoveable> toReturnTemp = new ArrayList<GameObjectMoveable>();
+		//		for(GameObjectMoveable temp : toReturn) {
+		//			toReturnTemp.add(new RandomActionOutline(temp.getX(), temp.getY()));
+		//		}
+		//		
+		//		//ConcurrentModification fix
+		//		for(GameObjectMoveable temp : toReturnTemp) {
+		//			if(MainClient.RANDOM.nextInt(5) == 0) {
+		//				toReturn.add(temp);
+		//			}
+		//			
+		//		}
+
+//		for(PlaceToMove ptm : toReturn) {
+//			ptm.isAction = MainClient.RANDOM.nextBoolean();
+//		}
+
 		return toReturn;	
+	}
+
+	public void initalizeGameboard(PacketInitalizeGameboard p) {
+		int count = 0;
+		for(GameObject go : GameStatePlaying.INSTANCE.gameObjects) {
+			if(go instanceof PlaceToMove) {
+				((PlaceToMove)go).isAction = p.eventSpaces[count];
+				count++;
+			}
+		}
 	}
 
 	@Override
@@ -82,55 +101,85 @@ public class Gameboard extends Sprite {
 
 	@Override
 	public void mousePressed(int button, int x, int y) {
-		if(button == 0) {
-			GameStatePlaying.INSTANCE.tempGameObject.add(new PlaceToMove(x, y));
-		}
+		//		if(button == 0) {
+		//			GameStatePlaying.INSTANCE.tempGameObject.add(new PlaceToMove(x, y));
+		//		}
 	}
-	
+
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		super.render(gc, sbg, g); //draw bg
-		
+		g.drawString("Water Level: " + waterLevel, 10, 50);
 		//draw debug mouse
 		//g.fill(new Circle(mouseX, mouseY, 4), new SolidFill(Color.green));
 		//g.drawString("X " + mouseX + " Y " + mouseY, mouseX, mouseY);
-		
-		
-	}
-	
-	private class RandomActionOutline extends GameObjectMoveable {
-		
-		public RandomActionOutline(int x, int y) {
-			setXY(x, y);
-		}
 
-		@Override
-		public GameObject init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-			return this;
-		}
-
-		@Override
-		public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-			g.setLineWidth(3);
-			g.draw(new Circle(getX(), getY(), 8), new SolidFill(Color.black));
-			g.resetLineWidth();
-		}
 	}
 
-	private class PlaceToMove extends GameObjectMoveable {
+	//	private class RandomActionOutline extends GameObjectMoveable {
+	//		
+	//		public RandomActionOutline(int x, int y) {
+	//			setXY(x, y);
+	//		}
+	//
+	//		@Override
+	//		public GameObject init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+	//			return this;
+	//		}
+	//
+	//		@Override
+	//		public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+	//			g.setLineWidth(3);
+	//			g.draw(new Circle(getX(), getY(), 8), new SolidFill(Color.black));
+	//			g.resetLineWidth();
+	//		}
+	//	}
+
+	public class PlaceToMove extends GameObjectMoveable {
+
+		private boolean isAction = false;
 
 		public PlaceToMove(int x, int y) {
 			setXY(x, y);
 		}
 
+		//		public void setIsAction(boolean isAction) {
+		//			this.isAction = isAction;
+		//		}
+
+		public boolean isAction() {
+			return isAction;
+		}
+
 		@Override
 		public GameObject init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 			return this;
 		}
 
 		@Override
+		public void keyPressed(int key, char c) {
+			if(key == Keyboard.KEY_R) {
+				for(GameObject go : GameStatePlaying.INSTANCE.gameObjects) {
+					if(go instanceof PlaceToMove) {
+						((PlaceToMove)go).isAction = false;
+					}
+				}
+				for(GameObject go : GameStatePlaying.INSTANCE.gameObjects) {
+					if(go instanceof PlaceToMove) {
+						((PlaceToMove)go).isAction = MainClient.RANDOM.nextBoolean();
+					}
+				}
+			}
+		}
+
+		@Override
 		public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 			g.fill(new Circle(getX(), getY(), 4), new SolidFill(Color.red));
+			if(isAction) {
+				g.setLineWidth(3);
+				g.draw(new Circle(getX(), getY(), 8), new SolidFill(Color.black));
+				g.resetLineWidth();
+			}
 		}
 
 	}

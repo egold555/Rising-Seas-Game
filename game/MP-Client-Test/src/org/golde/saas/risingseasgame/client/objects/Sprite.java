@@ -1,5 +1,6 @@
 package org.golde.saas.risingseasgame.client.objects;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -10,6 +11,7 @@ public class Sprite extends GameObjectMoveable {
 
 	private Image img;
 	private String imgSrc;
+	private Color transparentColor = null;
 	
 	public Sprite(String fileName) {
 		this(fileName, 0, 0);
@@ -20,9 +22,19 @@ public class Sprite extends GameObjectMoveable {
 		setXY(startX, startY);
 	}
 	
+	public void setTransparentColor(Color transparentColor) {
+		this.transparentColor = transparentColor;
+	}
+	
 	@Override
 	public GameObject init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		img = new Image(imgSrc).getScaledCopy(getScaleOfImage());
+		if(transparentColor == null) {
+			img = new Image(imgSrc).getScaledCopy(getScaleOfImage());
+		}
+		else {
+			img = new Image(imgSrc, transparentColor).getScaledCopy(getScaleOfImage());
+		}
+		
 		System.out.println("INIT: " + img);
 		return this;
 	}

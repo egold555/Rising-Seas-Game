@@ -8,7 +8,7 @@ import org.newdawn.slick.state.StateBasedGame;
 /*
  * This interface is for every game object. 
  */
-public interface GameObject {
+public interface GameObject extends Comparable<GameObject> {
 	
 	public GameObject init(GameContainer gc, StateBasedGame sbg) throws SlickException;
 	public default void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {}
@@ -23,5 +23,14 @@ public interface GameObject {
 	public default void mouseReleased(int button, int x, int y) {}
 	public default void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {}
 	public default void leave(GameContainer container, StateBasedGame game) throws SlickException {}
+	
+	public default int getZIndex() {
+		return 0;
+	}
+	
+	@Override
+	public default int compareTo(GameObject o) {
+		return Integer.compare(this.getZIndex(), o.getZIndex());
+	}
 	
 }

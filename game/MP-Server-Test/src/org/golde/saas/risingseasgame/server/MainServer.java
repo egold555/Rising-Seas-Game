@@ -1,22 +1,23 @@
 package org.golde.saas.risingseasgame.server;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.constants.Constants;
 import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
-import org.golde.saas.risingseasgame.shared.packets.PacketManager;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
-public class ServerMain extends Listener {
+public class MainServer extends Listener {
 
 	private static Server server;
 	private static PacketManagerServer packetManager;
+	public static final Random RANDOM = new Random();
 
 	public static void main(String[] args) throws IOException {
 		server = new Server();
@@ -24,7 +25,7 @@ public class ServerMain extends Listener {
 		packetManager = new PacketManagerServer(server);
 		packetManager.registerPackets(server.getKryo());
 		server.start();
-		server.addListener(new ServerMain());
+		server.addListener(new MainServer());
 		Logger.info("Server started on: " + Constants.MP_PORT);
 	}
 
@@ -69,6 +70,15 @@ public class ServerMain extends Listener {
 				packetManager.sendToEveryone(packetAddPlayer);
 			}
 		}, 1000);
+		
+		timer.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				Player.getPlayerById(c.getID()).connectedToServer();
+				
+			}
+		}, 1000);
 
 
 	}
@@ -77,6 +87,10 @@ public class ServerMain extends Listener {
 	public void disconnected(Connection c) {
 		Logger.info("Connection dropped: " + c.getID());
 		Player.onDisconnect(c);
+	}
+	
+	public static PacketManagerServer getPacketManager() {
+		return packetManager;
 	}
 
 

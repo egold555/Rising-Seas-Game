@@ -1,20 +1,26 @@
 package org.golde.saas.risingseasgame.client.states;
 
+import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.golde.saas.risingseasgame.client.ConstantsClient;
 import org.golde.saas.risingseasgame.client.objects.Card;
 import org.golde.saas.risingseasgame.client.objects.GameObject;
 import org.golde.saas.risingseasgame.client.objects.Gameboard;
+import org.golde.saas.risingseasgame.client.objects.graphics.WaterLevelCircle;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
+import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
+import org.golde.saas.risingseasgame.shared.packets.PacketSetWater;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -25,16 +31,21 @@ public class GameStatePlaying extends GameStateAbstract {
 	
 	List<Card<EnumCircumstanceCards>> listOfTestCards = new ArrayList<Card<EnumCircumstanceCards>>();
 	
-	Gameboard gameBoard = new Gameboard();
+	private Gameboard gameBoard = new Gameboard();
 	
 	public static GameStatePlaying INSTANCE;
 	
 	public List<GameObject> tempGameObject = new ArrayList<GameObject>(); //so we can push more game objects to the screen without a concurrent modification exception
 	
+	public TrueTypeFont ttf;
+	
+	//WaterLevelCircle WaterLevelCircle = new WaterLevelCircle();
+	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		INSTANCE = this;
 		gameObjects.add(gameBoard.init(gc, sbg));
+		
 		
 		for(GameObject go : gameBoard.initPlacesToMove()) {
 			gameObjects.add(go.init(gc, sbg));
@@ -48,20 +59,42 @@ public class GameStatePlaying extends GameStateAbstract {
 		}
 		scaleInput(gc, sbg, -1);
 		
+		Font font = new Font("Helvetica", Font.PLAIN, 14);
+		ttf = new TrueTypeFont(font, true);
+		//gameObjects.add(WaterLevelCircle.init(gc, sbg));
+		//Collections.sort(gameObjects);
+		
 	}
 	
 	@Override
 	public void received(Connection c, Object o) {
-		//Logger.info("I got it! " + o.getClass().getSimpleName());
+		Logger.info("Recieved: " + o.getClass().getSimpleName());
 		if(o instanceof PacketAddPlayer) {
 			PacketAddPlayer packet = (PacketAddPlayer)o;
 			connectedClients.add(packet.id);
 		}
+		else if(o instanceof PacketSetWater) {
+			PacketSetWater packet = (PacketSetWater)o;
+			gameBoard.waterLevel = packet.waterLevel;
+		}
+		
+		else if(o instanceof PacketInitalizeGameboard) {
+			gameBoard.initalizeGameboard((PacketInitalizeGameboard)o);
+		}
 	}
+	
+//	public void drawText(Graphics g, String text, int x, int y, Color color) {
+//		g.pushTransform();
+//		g.resetTransform();
+//		g.setColor(color);
+//		g.drawString(text, x, y);
+//		g.popTransform();
+//	}
 	
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		
+		//g.setFont(ttf);
 		scaleRenderer(gc, sbg, g);
 		
 		for(GameObject temp : tempGameObject) {
@@ -72,8 +105,6 @@ public class GameStatePlaying extends GameStateAbstract {
 		
 		
 		  //new render method thats abstract
-		g.drawString("PLAYING!", 30, 30);
-		g.drawString("Connected Ids: " + connectedClients.size(), 30, 50);
 		int idCountX = 0;
 		for(int id : connectedClients) {
 			g.drawString(String.valueOf(id), 30 + idCountX, 60);
@@ -81,8 +112,9 @@ public class GameStatePlaying extends GameStateAbstract {
 		} 
 		
 		gameBoard.setX((ConstantsClient.WINDOW_WIDTH / 2) - gameBoard.getImage().getWidth());
+		//WaterLevelCircle.setXY(0, 0);
 		
-		g.setBackground(new Color(66, 167, 187));
+		g.setBackground(ConstantsClient.WATER_COLOR);
 		
 		super.render(gc, sbg, g);
 	}
