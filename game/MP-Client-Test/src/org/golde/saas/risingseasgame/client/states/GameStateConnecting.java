@@ -1,11 +1,19 @@
 package org.golde.saas.risingseasgame.client.states;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import org.golde.saas.risingseasgame.shared.packets.PacketHelloWorld;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.esotericsoftware.kryonet.Connection;
+
 public class GameStateConnecting extends GameStateAbstract {
+	
+	StateBasedGame whyDontYouWork;
 	
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
@@ -20,6 +28,7 @@ public class GameStateConnecting extends GameStateAbstract {
 		if(getNetwork().isConnected()) {
 			sbg.enterState(GameStates.PLAYING);
 		}
+		whyDontYouWork = sbg;
 	}
 
 	@Override
@@ -29,8 +38,15 @@ public class GameStateConnecting extends GameStateAbstract {
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		// TODO Auto-generated method stub
-		
+		whyDontYouWork = sbg;
+	}
+	
+	@Override
+	public void received(Connection c, Object o) {
+//		if(o instanceof PacketHelloWorld) {
+//			getStateBasedGame().enterState(GameStates.PLAYING);
+//			
+//		}
 	}
 
 }

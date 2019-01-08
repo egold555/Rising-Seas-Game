@@ -39,6 +39,7 @@ public class Network extends Listener {
 	public void received(Connection c, Object o) {
 		Logger.info("Recieved packet from server: " + o.getClass().getSimpleName());
 		GameStateAbstract gsa = (GameStateAbstract)MainClient.getInstance().getCurrentState();
+		System.out.println("gsa: " + gsa.getClass().getSimpleName());
 		gsa.received(c, o);
 	}
 	

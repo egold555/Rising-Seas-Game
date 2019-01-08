@@ -1,5 +1,6 @@
 package org.golde.saas.risingseasgame.client.objects;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,9 +87,31 @@ public class Gameboard extends Sprite {
 
 	public void initalizeGameboard(PacketInitalizeGameboard p) {
 		int count = 0;
+		
+		int eventSpacesCount = 0;
+		
+		boolean[] eventSpaces = new boolean[30];
+		
+		System.out.println("Am I Even being called/");
+		for(Field f : PacketInitalizeGameboard.class.getDeclaredFields()) {
+			
+			if(f.getName().startsWith("eventSpace") && f.getType() == boolean.class) {
+				//found boolean field
+				try {
+					eventSpaces[eventSpacesCount] = f.getBoolean(p);
+					eventSpacesCount++;
+					System.out.println("Set " + eventSpacesCount + " to " + eventSpaces[eventSpacesCount]);
+					
+				}
+				catch (IllegalArgumentException | IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		for(GameObject go : GameStatePlaying.INSTANCE.gameObjects) {
 			if(go instanceof PlaceToMove) {
-				((PlaceToMove)go).isAction = p.eventSpaces[count];
+				((PlaceToMove)go).isAction = eventSpaces[count];
 				count++;
 			}
 		}

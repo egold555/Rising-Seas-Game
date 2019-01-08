@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.constants.Constants;
 import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
+import org.golde.saas.risingseasgame.shared.packets.PacketHelloWorld;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -42,7 +43,18 @@ public class MainServer extends Listener {
 		Player.onConnect(c);
 
 		//TEST
+		
+		
 		Timer timer = new Timer();
+		
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				packetManager.sendToPlayer(c.getID(), new PacketHelloWorld());
+				
+			}
+		}, 500);
 
 		timer.schedule(new TimerTask() {
 

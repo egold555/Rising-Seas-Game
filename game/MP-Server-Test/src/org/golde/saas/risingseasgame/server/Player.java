@@ -1,10 +1,13 @@
 package org.golde.saas.risingseasgame.server;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
 import org.golde.saas.risingseasgame.shared.packets.PacketManager;
+import org.golde.saas.risingseasgame.shared.packets.PacketSetWater;
 
 import com.esotericsoftware.kryonet.Connection;
 
@@ -18,10 +21,6 @@ public class Player {
 	//Called when they join the server
 	public Player(Connection conn) {
 		this.conn = conn;
-		for(int i = 0; i < eventSpaces.length; i++) {
-			eventSpaces[i] = MainServer.RANDOM.nextBoolean();
-		}
-		
 	}
 
 	public int getId() {
@@ -56,8 +55,26 @@ public class Player {
 
 	public void connectedToServer() {
 		PacketInitalizeGameboard packetInitalizeGameboard = new PacketInitalizeGameboard();
-		packetInitalizeGameboard.eventSpaces = eventSpaces;
+		int eventSpacesCount = 0;
+		for(Field f : PacketInitalizeGameboard.class.getDeclaredFields()) {
+			if(f.getName().startsWith("eventSpace") && f.getType() == boolean.class) {
+				//found boolean field
+				try {
+					boolean state = MainServer.RANDOM.nextBoolean();
+					f.setBoolean(packetInitalizeGameboard, state);
+					eventSpaces[eventSpacesCount] = state;
+					eventSpacesCount++;
+					
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		System.out.println("Set array: " + Arrays.toString(eventSpaces));
 		MainServer.getPacketManager().sendToPlayer(conn.getID(), packetInitalizeGameboard);
+//		PacketSetWater packetSetWater = new PacketSetWater();
+//		packetSetWater.waterLevel = 6;
+//		MainServer.getPacketManager().sendToPlayer(conn.getID(), packetSetWater);
 	}
 
 }

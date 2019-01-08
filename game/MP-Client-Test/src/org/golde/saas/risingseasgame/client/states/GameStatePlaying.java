@@ -78,9 +78,10 @@ public class GameStatePlaying extends GameStateAbstract {
 			gameBoard.waterLevel = packet.waterLevel;
 		}
 		
-		else if(o instanceof PacketInitalizeGameboard) {
-			gameBoard.initalizeGameboard((PacketInitalizeGameboard)o);
-		}
+//		else if(o instanceof PacketInitalizeGameboard) {
+//			System.out.println("I am calling the method");
+//			gameBoard.initalizeGameboard((PacketInitalizeGameboard)o);
+//		}
 	}
 	
 //	public void drawText(Graphics g, String text, int x, int y, Color color) {
