@@ -11,6 +11,7 @@ import org.golde.saas.risingseasgame.client.objects.Gameboard;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
+import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetWater;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.GameContainer;
@@ -73,10 +74,10 @@ public class GameStatePlaying extends GameStateAbstract {
 			gameBoard.waterLevel = packet.waterLevel;
 		}
 		
-//		else if(o instanceof PacketInitalizeGameboard) {
-//			System.out.println("I am calling the method");
-//			gameBoard.initalizeGameboard((PacketInitalizeGameboard)o);
-//		}
+		else if(o instanceof PacketInitalizeGameboard) {
+			System.out.println("I am calling the method");
+			gameBoard.initalizeGameboard((PacketInitalizeGameboard)o);
+		}
 	}
 	
 //	public void drawText(Graphics g, String text, int x, int y, Color color) {

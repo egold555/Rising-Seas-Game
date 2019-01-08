@@ -98,9 +98,9 @@ public class Gameboard extends Sprite {
 				//found boolean field
 				try {
 					eventSpaces[eventSpacesCount] = f.getBoolean(p);
-					eventSpacesCount++;
-					System.out.println("Set " + eventSpacesCount + " to " + eventSpaces[eventSpacesCount]);
 					
+					System.out.println("Set " + eventSpacesCount + " to " + eventSpaces[eventSpacesCount]);
+					eventSpacesCount++;
 				}
 				catch (IllegalArgumentException | IllegalAccessException e) {
 					e.printStackTrace();
