@@ -14,7 +14,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.state.StateBasedGame;
 
 public class Gameboard extends Sprite {
 
@@ -130,8 +129,8 @@ public class Gameboard extends Sprite {
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		super.render(gc, sbg, g); //draw bg
+	public void render(GameContainer gc, Graphics g) throws SlickException {
+		super.render(gc, g); //draw bg
 		g.drawString("Water Level: " + waterLevel, 10, 50);
 		//draw debug mouse
 		//g.fill(new Circle(mouseX, mouseY, 4), new SolidFill(Color.green));
@@ -175,7 +174,7 @@ public class Gameboard extends Sprite {
 		}
 
 		@Override
-		public GameObject init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+		public GameObject init(GameContainer gc) throws SlickException {
 			return this;
 		}
 
@@ -196,7 +195,7 @@ public class Gameboard extends Sprite {
 		}
 
 		@Override
-		public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+		public void render(GameContainer gc, Graphics g) throws SlickException {
 			g.fill(new Circle(getX(), getY(), 4), new SolidFill(Color.red));
 			if(isAction) {
 				g.setLineWidth(3);

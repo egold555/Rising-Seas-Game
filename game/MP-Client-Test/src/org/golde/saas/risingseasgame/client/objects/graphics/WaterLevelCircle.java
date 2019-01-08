@@ -5,7 +5,6 @@ import org.golde.saas.risingseasgame.client.objects.Sprite;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
 
 public class WaterLevelCircle extends Sprite {
 
@@ -15,9 +14,9 @@ public class WaterLevelCircle extends Sprite {
 	}
 
 	@Override
-	public GameObject init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+	public GameObject init(GameContainer gc) throws SlickException {
 		
-		super.init(gc, sbg);
+		super.init(gc);
 		
 		return this;
 	}

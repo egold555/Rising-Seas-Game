@@ -2,7 +2,6 @@ package org.golde.saas.risingseasgame.client;
 
 import java.io.IOException;
 
-import org.golde.saas.risingseasgame.client.states.GameStateAbstract;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.constants.Constants;
 import org.golde.saas.risingseasgame.shared.packets.base.Packet;
@@ -38,9 +37,7 @@ public class Network extends Listener {
 	@Override
 	public void received(Connection c, Object o) {
 		Logger.info("Recieved packet from server: " + o.getClass().getSimpleName());
-		GameStateAbstract gsa = (GameStateAbstract)MainClient.getInstance().getCurrentState();
-		System.out.println("gsa: " + gsa.getClass().getSimpleName());
-		gsa.received(c, o);
+		MainClient.getInstance().recievedPacket(c, o);
 	}
 	
 	public boolean isConnected() {

@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
-import org.golde.saas.risingseasgame.shared.packets.PacketManager;
-import org.golde.saas.risingseasgame.shared.packets.PacketSetWater;
 
 import com.esotericsoftware.kryonet.Connection;
 

@@ -5,7 +5,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
 
 //Assign "EnumCard" to be a generic type of enum that extends EnumCard that also extends Enum. This could be any name but EnumCard is specific enough.
 public class Card<EnumCard extends Enum<EnumCard> & EnumCardImpl> extends Sprite {
@@ -26,8 +25,8 @@ public class Card<EnumCard extends Enum<EnumCard> & EnumCardImpl> extends Sprite
 	}
 	
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		super.render(gc, sbg, g);
+	public void render(GameContainer gc, Graphics g) throws SlickException {
+		super.render(gc, g);
 //		System.out.println("Card width: " + getImage().getWidth());
 		g.setColor(Color.black);
 		g.drawString(theEnum.getTitle(), getX() + 20, getY() + 15);

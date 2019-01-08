@@ -1,52 +1,39 @@
 package org.golde.saas.risingseasgame.client.states;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import org.golde.saas.risingseasgame.shared.packets.PacketHelloWorld;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
 
 import com.esotericsoftware.kryonet.Connection;
 
 public class GameStateConnecting extends GameStateAbstract {
 	
-	StateBasedGame whyDontYouWork;
-	
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+	public void render(GameContainer gc, Graphics g) throws SlickException {
 		
 		g.drawString("Connecting.......", 30, 30);
 		
-		super.render(gc, sbg, g);
+		super.render(gc, g);
 	}
 	
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+	public void update(GameContainer gc, int delta) throws SlickException {
 		if(getNetwork().isConnected()) {
-			sbg.enterState(GameStates.PLAYING);
+			
 		}
-		whyDontYouWork = sbg;
-	}
-
-	@Override
-	public int getID() {
-		return GameStates.CONNECTING;
-	}
-
-	@Override
-	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		whyDontYouWork = sbg;
 	}
 	
 	@Override
-	public void received(Connection c, Object o) {
-//		if(o instanceof PacketHelloWorld) {
-//			getStateBasedGame().enterState(GameStates.PLAYING);
-//			
-//		}
+	public void recievedPacket(Connection c, Object o) {
+		if(o instanceof PacketHelloWorld) {
+			getMainClient().changeState(EnumGameState.PLAYING);
+		}
+	}
+
+	@Override
+	public EnumGameState getEnumGameState() {
+		return EnumGameState.TITLE_SCREEN;
 	}
 
 }

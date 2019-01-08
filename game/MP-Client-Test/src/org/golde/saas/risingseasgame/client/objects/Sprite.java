@@ -5,7 +5,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
 
 public class Sprite extends GameObjectMoveable {
 
@@ -27,7 +26,7 @@ public class Sprite extends GameObjectMoveable {
 	}
 	
 	@Override
-	public GameObject init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+	public GameObject init(GameContainer gc) throws SlickException {
 		if(transparentColor == null) {
 			img = new Image(imgSrc).getScaledCopy(getScaleOfImage());
 		}
@@ -40,7 +39,7 @@ public class Sprite extends GameObjectMoveable {
 	}
 	
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+	public void render(GameContainer gc, Graphics g) throws SlickException {
 		img.draw(getX(), getY());
 	}
 	

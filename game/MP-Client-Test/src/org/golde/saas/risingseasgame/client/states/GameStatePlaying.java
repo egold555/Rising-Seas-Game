@@ -2,26 +2,21 @@ package org.golde.saas.risingseasgame.client.states;
 
 import java.awt.Font;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.golde.saas.risingseasgame.client.ConstantsClient;
 import org.golde.saas.risingseasgame.client.objects.Card;
 import org.golde.saas.risingseasgame.client.objects.GameObject;
 import org.golde.saas.risingseasgame.client.objects.Gameboard;
-import org.golde.saas.risingseasgame.client.objects.graphics.WaterLevelCircle;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
-import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetWater;
 import org.lwjgl.input.Keyboard;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.state.StateBasedGame;
 
 import com.esotericsoftware.kryonet.Connection;
 
@@ -42,22 +37,22 @@ public class GameStatePlaying extends GameStateAbstract {
 	//WaterLevelCircle WaterLevelCircle = new WaterLevelCircle();
 	
 	@Override
-	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+	public void init(GameContainer gc) throws SlickException {
 		INSTANCE = this;
-		gameObjects.add(gameBoard.init(gc, sbg));
+		gameObjects.add(gameBoard.init(gc));
 		
 		
 		for(GameObject go : gameBoard.initPlacesToMove()) {
-			gameObjects.add(go.init(gc, sbg));
+			gameObjects.add(go.init(gc));
 		}
 		
 		for(int i = 0; i < 6; i++) {
 			Card<EnumCircumstanceCards> card = new Card<EnumCircumstanceCards>(EnumCircumstanceCards.ACID_OCEAN);
-			gameObjects.add(card.init(gc, sbg));
+			gameObjects.add(card.init(gc));
 			card.setY(Card.Y_HAND);
 			card.setCardIndex(i);
 		}
-		scaleInput(gc, sbg, -1);
+		scaleInput(gc, -1);
 		
 		Font font = new Font("Helvetica", Font.PLAIN, 14);
 		ttf = new TrueTypeFont(font, true);
@@ -67,7 +62,7 @@ public class GameStatePlaying extends GameStateAbstract {
 	}
 	
 	@Override
-	public void received(Connection c, Object o) {
+	public void recievedPacket(Connection c, Object o) {
 		Logger.info("Recieved: " + o.getClass().getSimpleName());
 		if(o instanceof PacketAddPlayer) {
 			PacketAddPlayer packet = (PacketAddPlayer)o;
@@ -92,11 +87,12 @@ public class GameStatePlaying extends GameStateAbstract {
 //		g.popTransform();
 //	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+	public void render(GameContainer gc, Graphics g) throws SlickException {
 		
 		//g.setFont(ttf);
-		scaleRenderer(gc, sbg, g);
+		scaleRenderer(gc, g);
 		
 		for(GameObject temp : tempGameObject) {
 			gameObjects.add(temp);
@@ -117,25 +113,20 @@ public class GameStatePlaying extends GameStateAbstract {
 		
 		g.setBackground(ConstantsClient.WATER_COLOR);
 		
-		super.render(gc, sbg, g);
-	}
-	
-	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		super.update(gc, sbg, delta);
+		super.render(gc, g);
 	}
 
-	@Override
-	public int getID() {
-		return GameStates.PLAYING;
-	}
-	
 	@Override
 	public void keyPressed(int key, char c) {
 		super.keyPressed(key, c);
 		if(key == Keyboard.KEY_ESCAPE) {
 			System.exit(0);
 		}
+	}
+
+	@Override
+	public EnumGameState getEnumGameState() {
+		return EnumGameState.PLAYING;
 	}
 
 }

@@ -6,7 +6,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.RoundedRectangle;
-import org.newdawn.slick.state.StateBasedGame;
 
 public class MenuButton extends RoundedRectangle implements GameObject {
 
@@ -32,12 +31,12 @@ public class MenuButton extends RoundedRectangle implements GameObject {
     }
     
     @Override
-    public GameObject init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+    public GameObject init(GameContainer gc) throws SlickException {
     	pressedBackground = new Sprite("button_pressed");
         normalBackground = new Sprite("button_normal");
         
-        pressedBackground.init(gc, sbg);
-        normalBackground.init(gc, sbg);
+        pressedBackground.init(gc);
+        normalBackground.init(gc);
         return this;
     }
 
@@ -60,8 +59,9 @@ public class MenuButton extends RoundedRectangle implements GameObject {
     	}
     }
     
-    @Override
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+    @SuppressWarnings("deprecation")
+	@Override
+    public void render(GameContainer gc, Graphics g) throws SlickException {
     	updateFontWidth(g.getFont());
     	if(pressedBackground.getImage() != null && normalBackground.getImage() != null) {
     		if(inside) {
