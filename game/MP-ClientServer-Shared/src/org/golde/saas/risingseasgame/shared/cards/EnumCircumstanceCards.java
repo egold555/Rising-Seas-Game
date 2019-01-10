@@ -41,5 +41,10 @@ public enum EnumCircumstanceCards implements EnumCardImpl {
 		return desc;
 	}
 
+	@Override
+	public String getImage() {
+		return name();
+	}
+
 	
 }

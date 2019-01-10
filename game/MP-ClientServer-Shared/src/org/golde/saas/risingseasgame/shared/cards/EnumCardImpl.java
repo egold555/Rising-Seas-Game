@@ -5,4 +5,6 @@ public interface EnumCardImpl {
 	public String getTitle();
 	public String getDesc();
 	
+	public String getImage();
+	
 }

@@ -11,7 +11,7 @@ public class Card<EnumCard extends Enum<EnumCard> & EnumCardImpl> extends Sprite
 
 	private EnumCard theEnum;
 	
-	public static final int CARD_WIDTH = 221;
+	public static final int CARD_WIDTH = 190;
 	public static final int Y_HAND = 450;
 	
 	//Takes any enum that implements EnumCardImpl
@@ -29,14 +29,14 @@ public class Card<EnumCard extends Enum<EnumCard> & EnumCardImpl> extends Sprite
 		super.render(gc, g);
 //		System.out.println("Card width: " + getImage().getWidth());
 		g.setColor(Color.black);
-		g.drawString(theEnum.getTitle(), getX() + 20, getY() + 15);
-		g.drawString(theEnum.getDesc(), getX() + 20, getY() + 190);
+		g.drawString(theEnum.getTitle(), getX() + 18, getY() + 14);
+		g.drawString(theEnum.getDesc(), getX() + 18, getY() + 172);
 		g.setColor(Color.white);
 	}
 	
 	@Override
 	public float getScaleOfImage() {
-		return 0.3f;
+		return 0.27f;
 	}
 	
 	public void setCardIndex(int index) {

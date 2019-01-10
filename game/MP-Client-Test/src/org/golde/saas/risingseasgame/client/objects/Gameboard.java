@@ -7,6 +7,7 @@ import java.util.List;
 import org.golde.saas.risingseasgame.client.MainClient;
 import org.golde.saas.risingseasgame.client.objects.graphics.SolidFill;
 import org.golde.saas.risingseasgame.client.states.GameStatePlaying;
+import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
@@ -64,23 +65,6 @@ public class Gameboard extends Sprite {
 		toReturn.add(new PlaceToMove(780, 267));
 		toReturn.add(new PlaceToMove(730, 281));
 
-		//		List<GameObjectMoveable> toReturnTemp = new ArrayList<GameObjectMoveable>();
-		//		for(GameObjectMoveable temp : toReturn) {
-		//			toReturnTemp.add(new RandomActionOutline(temp.getX(), temp.getY()));
-		//		}
-		//		
-		//		//ConcurrentModification fix
-		//		for(GameObjectMoveable temp : toReturnTemp) {
-		//			if(MainClient.RANDOM.nextInt(5) == 0) {
-		//				toReturn.add(temp);
-		//			}
-		//			
-		//		}
-
-//		for(PlaceToMove ptm : toReturn) {
-//			ptm.isAction = MainClient.RANDOM.nextBoolean();
-//		}
-
 		return toReturn;	
 	}
 
@@ -91,7 +75,6 @@ public class Gameboard extends Sprite {
 		
 		boolean[] eventSpaces = new boolean[30];
 		
-		System.out.println("Am I Even being called/");
 		for(Field f : PacketInitalizeGameboard.class.getDeclaredFields()) {
 			
 			if(f.getName().startsWith("eventSpace") && f.getType() == boolean.class) {
@@ -99,7 +82,7 @@ public class Gameboard extends Sprite {
 				try {
 					eventSpaces[eventSpacesCount] = f.getBoolean(p);
 					
-					System.out.println("Set " + eventSpacesCount + " to " + eventSpaces[eventSpacesCount]);
+					Logger.info("Set " + eventSpacesCount + " to " + eventSpaces[eventSpacesCount]);
 					eventSpacesCount++;
 				}
 				catch (IllegalArgumentException | IllegalAccessException e) {
@@ -123,9 +106,7 @@ public class Gameboard extends Sprite {
 
 	@Override
 	public void mousePressed(int button, int x, int y) {
-		//		if(button == 0) {
-		//			GameStatePlaying.INSTANCE.tempGameObject.add(new PlaceToMove(x, y));
-		//		}
+		
 	}
 
 	@Override
@@ -133,29 +114,8 @@ public class Gameboard extends Sprite {
 		super.render(gc, g); //draw bg
 		g.drawString("Water Level: " + waterLevel, 10, 50);
 		//draw debug mouse
-		//g.fill(new Circle(mouseX, mouseY, 4), new SolidFill(Color.green));
-		//g.drawString("X " + mouseX + " Y " + mouseY, mouseX, mouseY);
 
 	}
-
-	//	private class RandomActionOutline extends GameObjectMoveable {
-	//		
-	//		public RandomActionOutline(int x, int y) {
-	//			setXY(x, y);
-	//		}
-	//
-	//		@Override
-	//		public GameObject init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-	//			return this;
-	//		}
-	//
-	//		@Override
-	//		public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-	//			g.setLineWidth(3);
-	//			g.draw(new Circle(getX(), getY(), 8), new SolidFill(Color.black));
-	//			g.resetLineWidth();
-	//		}
-	//	}
 
 	public class PlaceToMove extends GameObjectMoveable {
 
@@ -164,10 +124,6 @@ public class Gameboard extends Sprite {
 		public PlaceToMove(int x, int y) {
 			setXY(x, y);
 		}
-
-		//		public void setIsAction(boolean isAction) {
-		//			this.isAction = isAction;
-		//		}
 
 		public boolean isAction() {
 			return isAction;

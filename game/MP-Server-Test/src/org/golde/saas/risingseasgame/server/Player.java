@@ -5,26 +5,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.golde.saas.risingseasgame.shared.cards.EnumCardImpl;
 import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
 
 import com.esotericsoftware.kryonet.Connection;
 
 public class Player {
-
+	
 	private static List<Player> PLAYERS = new ArrayList<Player>();
 	
-	private boolean[] eventSpaces = new boolean[30];
-	private Connection conn;
-	
-	//Called when they join the server
-	public Player(Connection conn) {
-		this.conn = conn;
-	}
-
-	public int getId() {
-		return conn.getID();
-	}
-
 	public static Player getPlayerById(int id) {
 		for(Player player : PLAYERS){
 			if(player.getId() == id){
@@ -46,6 +35,21 @@ public class Player {
 			PLAYERS.remove(getPlayerById(con.getID()));
 		}
 	}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private boolean[] eventSpaces = new boolean[30];
+	private Connection conn;
+	private EnumCardImpl[] cards = new EnumCardImpl[7];
+	
+	//Called when they join the server
+	public Player(Connection conn) {
+		this.conn = conn;
+	}
+
+	public int getId() {
+		return conn.getID();
+	}
 	
 	public static List<Player> getPlayers() {
 		return PLAYERS;
@@ -54,6 +58,7 @@ public class Player {
 	public void connectedToServer() {
 		PacketInitalizeGameboard packetInitalizeGameboard = new PacketInitalizeGameboard();
 		int eventSpacesCount = 0;
+		
 		for(Field f : PacketInitalizeGameboard.class.getDeclaredFields()) {
 			if(f.getName().startsWith("eventSpace") && f.getType() == boolean.class) {
 				//found boolean field
@@ -68,6 +73,7 @@ public class Player {
 				}
 			}
 		}
+		
 		System.out.println("Set array: " + Arrays.toString(eventSpaces));
 		MainServer.getPacketManager().sendToPlayer(conn.getID(), packetInitalizeGameboard);
 //		PacketSetWater packetSetWater = new PacketSetWater();

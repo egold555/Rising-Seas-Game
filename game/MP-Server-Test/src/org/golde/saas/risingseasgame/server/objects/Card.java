@@ -4,6 +4,7 @@ import org.golde.saas.risingseasgame.server.Player;
 import org.golde.saas.risingseasgame.shared.cards.EnumCardImpl;
 import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
 import org.golde.saas.risingseasgame.shared.cards.EnumDiplomaticStrategies;
+import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 
 public class Card<EnumCard extends Enum<EnumCard> & EnumCardImpl> {
 
@@ -20,9 +21,29 @@ public class Card<EnumCard extends Enum<EnumCard> & EnumCardImpl> {
 		else if(theEnum instanceof EnumDiplomaticStrategies) {
 			doDiplomaticAction((EnumDiplomaticStrategies)theEnum);
 		}
+		else if(theEnum instanceof EnumPowerCards) {
+			doPowerCards((EnumPowerCards)theEnum);
+		}
 			
 	}
 	
+	private void doPowerCards(EnumPowerCards card) {
+		switch(card) {
+		case COAL:
+			break;
+		case FOREST:
+			break;
+		case GEOTHERMAL:
+			break;
+		case SOLAR:
+			break;
+		case WIND:
+			break;
+		default:
+			break;
+		}
+	}
+
 	private void doCircumstanceAction(EnumCircumstanceCards card) {
 		switch(card) {
 		case ACID_OCEAN:
