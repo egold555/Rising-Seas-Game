@@ -1,8 +1,8 @@
 package org.golde.saas.risingseasgame.shared.packets;
 
-import org.golde.saas.risingseasgame.shared.packets.base.PacketUDP;
+import org.golde.saas.risingseasgame.shared.packets.base.PacketTCP;
 
-public class PacketInitalizeGameboard extends PacketUDP {
+public class PacketInitalizeGameboard extends PacketTCP {
 
 	//Alright, so I cant send arrays of booleans for some apparent reason, the client just disconnects, fo this is my way of improvising.
 	public boolean eventSpace1;

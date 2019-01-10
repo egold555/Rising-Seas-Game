@@ -1,7 +1,7 @@
 package org.golde.saas.risingseasgame.shared.packets;
 
-import org.golde.saas.risingseasgame.shared.packets.base.PacketUDP;
+import org.golde.saas.risingseasgame.shared.packets.base.PacketTCP;
 
-public class PacketHelloWorld extends PacketUDP {
+public class PacketHelloWorld extends PacketTCP {
 
 }

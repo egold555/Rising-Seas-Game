@@ -123,7 +123,7 @@ public class MainServer extends Listener {
 
 				for(Field f : packetSetCards.getClass().getDeclaredFields()) {
 					if(f.getName().startsWith("card") && f.getType() == String.class) {
-						String what = /*EnumCircumstanceCards.values()[RANDOM.nextInt(EnumCircumstanceCards.values().length)].name();*/getRandomCard().name();
+						String what = getRandomCard().name();
 						try {
 							f.set(packetSetCards, what);
 						} catch (IllegalArgumentException | IllegalAccessException e) {

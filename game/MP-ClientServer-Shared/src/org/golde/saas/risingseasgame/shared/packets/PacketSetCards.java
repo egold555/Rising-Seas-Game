@@ -1,8 +1,8 @@
 package org.golde.saas.risingseasgame.shared.packets;
 
-import org.golde.saas.risingseasgame.shared.packets.base.PacketUDP;
+import org.golde.saas.risingseasgame.shared.packets.base.PacketTCP;
 
-public class PacketSetCards extends PacketUDP {
+public class PacketSetCards extends PacketTCP {
 
 	public String card1;
 	public String card2;
