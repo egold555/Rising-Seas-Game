@@ -6,7 +6,7 @@ import java.util.List;
 import org.golde.saas.risingseasgame.client.ConstantsClient;
 import org.golde.saas.risingseasgame.client.MainClient;
 import org.golde.saas.risingseasgame.client.Network;
-import org.golde.saas.risingseasgame.client.objects.GameObject;
+import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;

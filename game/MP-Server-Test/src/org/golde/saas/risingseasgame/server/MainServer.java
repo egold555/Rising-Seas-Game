@@ -112,29 +112,29 @@ public class MainServer extends Listener {
 		}, 1000);
 
 		//This seems to not like 'activate' until I run in debug code and change a number and save again? Very confusing
-		scheduler.runRepeatingTask(1, 500, new Runnable() {
-
-			@Override
-			public void run() {
-
-				Logger.info("Set cards");
-
-				PacketSetCards packetSetCards = new PacketSetCards();
-
-				for(Field f : packetSetCards.getClass().getDeclaredFields()) {
-					if(f.getName().startsWith("card") && f.getType() == String.class) {
-						String what = getRandomCard().name();
-						try {
-							f.set(packetSetCards, what);
-						} catch (IllegalArgumentException | IllegalAccessException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-
-				packetManager.sendToPlayer(c.getID(), packetSetCards);
-			}
-		});
+//		scheduler.runRepeatingTask(1, 500, new Runnable() {
+//
+//			@Override
+//			public void run() {
+//
+//				Logger.info("Set cards");
+//
+//				PacketSetCards packetSetCards = new PacketSetCards();
+//
+//				for(Field f : packetSetCards.getClass().getDeclaredFields()) {
+//					if(f.getName().startsWith("card") && f.getType() == String.class) {
+//						String what = getRandomCard().name();
+//						try {
+//							f.set(packetSetCards, what);
+//						} catch (IllegalArgumentException | IllegalAccessException e) {
+//							e.printStackTrace();
+//						}
+//					}
+//				}
+//
+//				packetManager.sendToPlayer(c.getID(), packetSetCards);
+//			}
+//		});
 
 	}
 

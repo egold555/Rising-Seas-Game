@@ -1,6 +1,5 @@
-package org.golde.saas.risingseasgame.client.objects;
+package org.golde.saas.risingseasgame.client.impl;
 
-import org.golde.saas.risingseasgame.client.impl.GameStateObjectSharedFunctions;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 

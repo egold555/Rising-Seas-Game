@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.golde.saas.risingseasgame.client.MainClient;
+import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.graphics.SolidFill;
+import org.golde.saas.risingseasgame.client.objects.graphics.sprite.Sprite;
 import org.golde.saas.risingseasgame.client.states.GameStatePlaying;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;

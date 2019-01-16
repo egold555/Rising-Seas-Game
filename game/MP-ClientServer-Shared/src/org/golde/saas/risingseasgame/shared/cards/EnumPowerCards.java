@@ -1,11 +1,14 @@
 package org.golde.saas.risingseasgame.shared.cards;
 
 public enum EnumPowerCards implements EnumCardImpl{
-	WIND(19), COAL(22), SOLAR(17), FOREST(17), GEOTHERMAL(4);
+	WIND("Wind Generator", "", 19), COAL("Coal Generator", "", 22), SOLAR("Solar Generator", "", 17), FOREST("Forest", "", 17), GEOTHERMAL("Geothermal Generator", "", 4);
 	
 	
 	private final int maxInDeck;
-	EnumPowerCards(int maxInDeck){
+	private final String name, desc;
+	EnumPowerCards(String name, String desc, int maxInDeck){
+		this.name = name;
+		this.desc = desc;
 		this.maxInDeck = maxInDeck;
 	}
 	
@@ -19,12 +22,12 @@ public enum EnumPowerCards implements EnumCardImpl{
 
 	@Override
 	public String getTitle() {
-		return name();
+		return name;
 	}
 
 	@Override
 	public String getDesc() {
-		return "";
+		return desc;
 	}
 
 	@Override

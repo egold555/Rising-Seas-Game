@@ -1,5 +1,7 @@
 package org.golde.saas.risingseasgame.client.objects;
 
+import org.golde.saas.risingseasgame.client.impl.GameObject;
+import org.golde.saas.risingseasgame.client.objects.graphics.sprite.Sprite;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;

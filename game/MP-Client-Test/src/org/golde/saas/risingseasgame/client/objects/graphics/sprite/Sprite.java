@@ -1,12 +1,15 @@
-package org.golde.saas.risingseasgame.client.objects;
+package org.golde.saas.risingseasgame.client.objects.graphics.sprite;
 
+import org.golde.saas.risingseasgame.client.impl.GameObject;
+import org.golde.saas.risingseasgame.client.impl.ISprite;
+import org.golde.saas.risingseasgame.client.objects.GameObjectMoveable;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Sprite extends GameObjectMoveable {
+public class Sprite extends GameObjectMoveable implements ISprite {
 
 	private Image img;
 	private String imgSrc;
@@ -21,6 +24,7 @@ public class Sprite extends GameObjectMoveable {
 		setXY(startX, startY);
 	}
 	
+	@Override
 	public void setTransparentColor(Color transparentColor) {
 		this.transparentColor = transparentColor;
 	}
@@ -44,10 +48,12 @@ public class Sprite extends GameObjectMoveable {
 	}
 	
 	@Deprecated
+	@Override
 	public Image getImage() {
 		return img;
 	}
 	
+	@Override
 	public float getScaleOfImage() {
 		return 1;
 	}

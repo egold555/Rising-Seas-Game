@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.golde.saas.risingseasgame.client.ConstantsClient;
+import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.Card;
-import org.golde.saas.risingseasgame.client.objects.GameObject;
 import org.golde.saas.risingseasgame.client.objects.Gameboard;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;

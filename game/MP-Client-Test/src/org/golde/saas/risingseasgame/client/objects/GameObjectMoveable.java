@@ -1,14 +1,17 @@
 package org.golde.saas.risingseasgame.client.objects;
 
-public abstract class GameObjectMoveable implements GameObject {
+import org.golde.saas.risingseasgame.client.impl.GameObject;
+import org.golde.saas.risingseasgame.client.impl.IGameObjectMoveable;
+
+public abstract class GameObjectMoveable implements GameObject, IGameObjectMoveable {
 
 	private int posX, posY;
 
-	public final int getX() {
+	public final float getX() {
 		return posX;
 	}
 	
-	public final int getY() {
+	public final float getY() {
 		return posY;
 	}
 	
