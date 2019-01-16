@@ -14,6 +14,7 @@ import org.golde.saas.risingseasgame.client.states.GameStatePlaying;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Game;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -26,7 +27,7 @@ public class MainClient extends BasicGame implements GameStateImpl {
 	
 	private static MainClient INSTANCE;
 	
-	private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
 	public static final Random RANDOM = new Random();
 	
@@ -52,7 +53,7 @@ public class MainClient extends BasicGame implements GameStateImpl {
 			appgc = new AppGameContainer(new MainClient());
 			appgc.setDisplayMode(ConstantsClient.WINDOW_WIDTH, ConstantsClient.WINDOW_HEIGHT, false); //width, height, fullscreen
 			appgc.setTargetFrameRate(ConstantsClient.MAX_FPS);
-			appgc.setAlwaysRender(true);
+			//appgc.setAlwaysRender(true);
 			appgc.start();
 		}
 		catch (SlickException ex) {
@@ -71,6 +72,15 @@ public class MainClient extends BasicGame implements GameStateImpl {
 	public void changeState(EnumGameState newState) {
 		Logger.info("Changed game state from " + GAME_STATE.name() + " to " + newState.name());
 		this.GAME_STATE = newState;
+	}
+	
+	public GameStateAbstract getGameState(EnumGameState getState) {
+		for(GameStateAbstract theGameState : everyGameState) {
+			if(theGameState.getEnumGameState() == getState) {
+				return theGameState;
+			}
+		}
+		return null;
 	}
 	
 	@Override

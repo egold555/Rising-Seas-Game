@@ -58,4 +58,9 @@ public class Sprite extends GameObjectMoveable implements ISprite {
 		return 1;
 	}
 	
+	@Override
+	public void setXY(float inX, float inY) {
+		setXY((int)inX, (int)inY);
+	}
+	
 }

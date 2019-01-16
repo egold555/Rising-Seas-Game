@@ -9,6 +9,7 @@ import org.golde.saas.risingseasgame.client.ConstantsClient;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.Card;
 import org.golde.saas.risingseasgame.client.objects.Gameboard;
+import org.golde.saas.risingseasgame.client.objects.graphics.DialogBox;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
 import org.golde.saas.risingseasgame.shared.cards.EnumDiplomaticStrategies;
@@ -40,12 +41,17 @@ public class GameStatePlaying extends GameStateAbstract {
 	List<Card> cards = new ArrayList<Card>();
 
 	//WaterLevelCircle WaterLevelCircle = new WaterLevelCircle();
+	
+	DialogBox dBox = new DialogBox();
+	
+	private boolean canSelectCard = true;
+	private static final int MAX_CARDS_SELECTABLE = 4;
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		INSTANCE = this;
 		gameObjects.add(gameBoard.init(gc));
-
+		
 
 		for(GameObject go : gameBoard.initPlacesToMove()) {
 			gameObjects.add(go.init(gc));
@@ -63,11 +69,13 @@ public class GameStatePlaying extends GameStateAbstract {
 		Font font = new Font("Helvetica", Font.PLAIN, 14);
 		ttf = new TrueTypeFont(font, true);
 
+		dBox.init(gc);
+		
 	}
 
 	@Override
 	public void recievedPacket(Connection c, Object o) {
-		Logger.info("Recieved: " + o.getClass().getSimpleName());
+
 		if(o instanceof PacketAddPlayer) {
 			PacketAddPlayer packet = (PacketAddPlayer)o;
 			connectedClients.add(packet.id);
@@ -112,8 +120,31 @@ public class GameStatePlaying extends GameStateAbstract {
 		//WaterLevelCircle.setXY(0, 0);
 
 		g.setBackground(ConstantsClient.WATER_COLOR);
-
+		
 		super.render(gc, g);
+		
+		//dBox.render(gc, g);
+
+		
+		
+		
+	}
+	
+	@Override
+	public void update(GameContainer gc, int delta) throws SlickException {
+		int selected = 0;
+		canSelectCard = true;
+		for(GameObject go : gameObjects) {
+			if(go instanceof Card) {
+				Card card = (Card)go;
+				if(card.isSelected()) {
+					selected++;
+					if(selected > MAX_CARDS_SELECTABLE - 1) { //1 - the amount of cards you want to select. THIS IS A WORKAROUND IDK IT JUST WORKS DONT TOUCH
+						canSelectCard = false;
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -189,6 +220,10 @@ public class GameStatePlaying extends GameStateAbstract {
 			}
 		}
 
+	}
+	
+	public boolean canSelectCard() {
+		return canSelectCard;
 	}
 
 }

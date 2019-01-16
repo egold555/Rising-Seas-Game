@@ -61,6 +61,11 @@ public class SpriteClickable extends GameObjectClickable implements ISprite {
 		super.setY(y);
 	}
 	
+	@Override
+	public void setXY(float inX, float inY) {
+		setXY((int)inX, (int)inY);
+	}
+	
 	private void mockConstructorForRectangle() {
 		setSize(img.getWidth(), img.getHeight()); //Set the rectangle size
 		checkPoints(); //Not sure if I need to call this but the constructor does so Ill do it to

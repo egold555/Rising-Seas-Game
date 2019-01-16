@@ -4,9 +4,8 @@ import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.impl.IGameObjectMoveable;
 import org.newdawn.slick.geom.Rectangle;
 
+@SuppressWarnings("serial")
 public abstract class GameObjectClickable extends Rectangle implements GameObject, IGameObjectMoveable {
-
-	private static final long serialVersionUID = -7472670243158709466L;
 	
 	boolean inside = false;
 

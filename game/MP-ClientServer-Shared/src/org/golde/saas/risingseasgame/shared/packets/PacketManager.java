@@ -1,5 +1,7 @@
 package org.golde.saas.risingseasgame.shared.packets;
 
+import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketSubmitCards;
+
 import com.esotericsoftware.kryo.Kryo;
 
 public abstract class PacketManager {
@@ -10,6 +12,10 @@ public abstract class PacketManager {
 		kryo.register(PacketInitalizeGameboard.class);
 		kryo.register(PacketHelloWorld.class);
 		kryo.register(PacketSetCards.class);
+		
+		
+		
+		kryo.register(PacketSubmitCards.class);
 	}
 
 }

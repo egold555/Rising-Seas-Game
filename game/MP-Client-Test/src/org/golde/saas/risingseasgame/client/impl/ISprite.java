@@ -11,5 +11,6 @@ public interface ISprite {
 	public Image getImage();
 	
 	public float getScaleOfImage();
+	public void setXY(float inX, float inY);
 	
 }
