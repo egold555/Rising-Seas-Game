@@ -5,7 +5,6 @@ import org.golde.saas.risingseasgame.client.helper.BetterTrueTypeFont;
 import org.golde.saas.risingseasgame.client.helper.FontManager;
 import org.golde.saas.risingseasgame.client.helper.TextHelper;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
-import org.golde.saas.risingseasgame.client.objects.graphics.SolidFill;
 import org.golde.saas.risingseasgame.client.objects.graphics.sprite.Sprite;
 import org.golde.saas.risingseasgame.client.objects.graphics.sprite.SpriteClickable;
 import org.golde.saas.risingseasgame.client.states.EnumGameState;
@@ -65,8 +64,8 @@ public class Card<EnumCard extends Enum<EnumCard> & EnumCardImpl> extends Sprite
 			checkmark.render(gc, g);
 		}
 
-		g.draw(this, new SolidFill(isMouseInside() ? Color.green : Color.blue));
-
+		drawDebugHitbox(g);
+		
 	}
 
 	@Override

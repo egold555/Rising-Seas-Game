@@ -32,7 +32,7 @@ public abstract class GameStateAbstract implements GameStateImpl {
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		for(GameObject obj : gameObjects) {
-			obj.render(gc, g);
+			if(obj.isVisable()) { obj.render(gc, g); }
 		}
 	}
 	
@@ -42,13 +42,6 @@ public abstract class GameStateAbstract implements GameStateImpl {
 			obj.update(gc, delta);
 		}
 	}
-	
-//	public void enter(GameContainer gc) throws SlickException {
-//		this.container = gc;
-//		for(GameObject obj : gameObjects) {
-//			obj.enter(gc);
-//		}
-//	}
 	
 	@Override
 	public void keyPressed(int key, char c) {
@@ -105,7 +98,6 @@ public abstract class GameStateAbstract implements GameStateImpl {
 			obj.mouseReleased(button, x, y);
 		}
 	}
-	
 	
 	@Override
 	public void recievedPacket(Connection c, Object o) {}

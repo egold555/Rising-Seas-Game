@@ -26,6 +26,9 @@ public class MenuButton extends RoundedRectangle implements GameObject {
     private float textPosY;
     
     boolean inside = false;
+    
+
+	private boolean visable = true;
 
     public MenuButton(String text, float x, float y, float width, float height) {
         super(x, y, width, height, CORNER_RADIUS);
@@ -76,5 +79,15 @@ public class MenuButton extends RoundedRectangle implements GameObject {
     	
 		g.getFont().drawString(textPosX, textPosY, text, Color.white);
     }
+
+	@Override
+	public boolean isVisable() {
+		return visable;
+	}
+
+	@Override
+	public void setVisable(boolean visable) {
+		this.visable = visable;
+	}
 	
 }

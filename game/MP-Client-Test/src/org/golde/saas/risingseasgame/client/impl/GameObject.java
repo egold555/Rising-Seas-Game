@@ -9,8 +9,9 @@ import org.newdawn.slick.SlickException;
 public interface GameObject extends Comparable<GameObject>, GameStateObjectSharedFunctions {
 	
 	public GameObject init(GameContainer gc) throws SlickException;
-	public default void enter(GameContainer gc) throws SlickException {}
-	public default void leave(GameContainer container) throws SlickException {}
+	
+	public boolean isVisable();
+	public void setVisable(boolean visable);
 	
 	public default int getZIndex() {
 		return 0;

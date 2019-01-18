@@ -48,20 +48,6 @@ public class SpriteClickable extends GameObjectClickable implements ISprite {
 	}
 	
 	@Override
-	public void setX(int x) {
-		this.setX((float)x);
-		createPoints();
-		super.setX(x);
-	}
-	
-	@Override
-	public void setY(float y) {
-		this.setY((float)y);
-		createPoints();
-		super.setY(y);
-	}
-	
-	@Override
 	public void setXY(float inX, float inY) {
 		setXY((int)inX, (int)inY);
 	}

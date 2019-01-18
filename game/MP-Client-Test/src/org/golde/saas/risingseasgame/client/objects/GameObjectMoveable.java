@@ -6,6 +6,8 @@ import org.golde.saas.risingseasgame.client.impl.IGameObjectMoveable;
 public abstract class GameObjectMoveable implements GameObject, IGameObjectMoveable {
 
 	private int posX, posY;
+	
+	private boolean visable = true;
 
 	public final float getX() {
 		return posX;
@@ -26,5 +28,15 @@ public abstract class GameObjectMoveable implements GameObject, IGameObjectMovea
 	public final void setXY(int x, int y) {
 		setX(x);
 		setY(y);
+	}
+	
+	@Override
+	public boolean isVisable() {
+		return visable;
+	}
+
+	@Override
+	public void setVisable(boolean visable) {
+		this.visable = visable;
 	}
 }

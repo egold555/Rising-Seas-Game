@@ -15,6 +15,7 @@ public class Sprite extends GameObjectMoveable implements ISprite {
 	private String imgSrc;
 	private Color transparentColor = null;
 	
+	
 	public Sprite(String fileName) {
 		this(fileName, 0, 0);
 	}
@@ -62,5 +63,7 @@ public class Sprite extends GameObjectMoveable implements ISprite {
 	public void setXY(float inX, float inY) {
 		setXY((int)inX, (int)inY);
 	}
+
+	
 	
 }

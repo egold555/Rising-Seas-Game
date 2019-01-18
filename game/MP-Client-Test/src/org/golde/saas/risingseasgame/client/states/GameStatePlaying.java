@@ -9,6 +9,9 @@ import org.golde.saas.risingseasgame.client.ConstantsClient;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.Card;
 import org.golde.saas.risingseasgame.client.objects.Gameboard;
+import org.golde.saas.risingseasgame.client.objects.MenuButton;
+import org.golde.saas.risingseasgame.client.objects.btn.Button;
+import org.golde.saas.risingseasgame.client.objects.btn.ButtonAbstract;
 import org.golde.saas.risingseasgame.client.objects.graphics.DialogBox;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
@@ -42,7 +45,9 @@ public class GameStatePlaying extends GameStateAbstract {
 
 	//WaterLevelCircle WaterLevelCircle = new WaterLevelCircle();
 	
-	DialogBox dBox = new DialogBox();
+	Button sendCards = new Button(0, 0, 90, 30, "Send Cards");
+	
+//	DialogBox dBox = new DialogBox();
 	
 	private boolean canSelectCard = true;
 	private static final int MAX_CARDS_SELECTABLE = 4;
@@ -51,6 +56,7 @@ public class GameStatePlaying extends GameStateAbstract {
 	public void init(GameContainer gc) throws SlickException {
 		INSTANCE = this;
 		gameObjects.add(gameBoard.init(gc));
+		gameObjects.add(sendCards.init(gc));
 		
 
 		for(GameObject go : gameBoard.initPlacesToMove()) {
@@ -69,7 +75,10 @@ public class GameStatePlaying extends GameStateAbstract {
 		Font font = new Font("Helvetica", Font.PLAIN, 14);
 		ttf = new TrueTypeFont(font, true);
 
-		dBox.init(gc);
+		//dBox.init(gc);
+		
+		sendCards.setXY(ConstantsClient.WINDOW_WIDTH - 700, ConstantsClient.WINDOW_HEIGHT - 670);
+		sendCards.setVisable(false);
 		
 	}
 
@@ -127,7 +136,6 @@ public class GameStatePlaying extends GameStateAbstract {
 
 		
 		
-		
 	}
 	
 	@Override
@@ -145,6 +153,8 @@ public class GameStatePlaying extends GameStateAbstract {
 				}
 			}
 		}
+		
+		sendCards.setVisable(selected > 0);
 	}
 
 	@Override
