@@ -150,18 +150,18 @@ public class MainServer extends Listener {
 		return packetManager;
 	}
 
-	private Enum<?> getRandomCard() {
-		switch(RANDOM.nextInt(3)) {
-		case 0: return randomEnum(EnumCircumstanceCards.class); 
-		case 1: return randomEnum(EnumDiplomaticStrategies.class); 
-		case 2: return randomEnum(EnumPowerCards.class); 
-		default: return null; // :(
-		}
-	}
-
-	private <T extends Enum<? extends EnumCardImpl>> T randomEnum(Class<T> clazz){
-		int x = RANDOM.nextInt(clazz.getEnumConstants().length);
-		return clazz.getEnumConstants()[x];
-	}
+//	private Enum<?> getRandomCard() {
+//		switch(RANDOM.nextInt(3)) {
+//		case 0: return randomEnum(EnumCircumstanceCards.class); 
+//		case 1: return randomEnum(EnumDiplomaticStrategies.class); 
+//		case 2: return randomEnum(EnumPowerCards.class); 
+//		default: return null; // :(
+//		}
+//	}
+//
+//	private <T extends Enum<? extends EnumCardImpl>> T randomEnum(Class<T> clazz){
+//		int x = RANDOM.nextInt(clazz.getEnumConstants().length);
+//		return clazz.getEnumConstants()[x];
+//	}
 
 }

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.GameObjectClickable;
-import org.golde.saas.risingseasgame.client.objects.GameObjectMoveable;
 import org.golde.saas.risingseasgame.client.objects.graphics.SolidFill;
 import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.newdawn.slick.Color;
@@ -15,6 +14,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 
 public class PlaceToMove extends GameObjectClickable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8371359323528305995L;
 
 	public static final List<PlaceToMove> getEveryPlaceToMove(){
 		List<PlaceToMove> toReturn = new ArrayList<PlaceToMove>();
@@ -61,9 +65,14 @@ public class PlaceToMove extends GameObjectClickable {
 	}
 	
 	private boolean isAction = false;
+	
 	private EnumPowerCards placedGenerator;
 	
 	public static final int OFFSET = 7;
+	
+	private boolean isSelected;
+	
+	private static boolean isAtLeastOneCardSelected = false;
 	
 	public PlaceToMove(float x, float y) {
 		super(x - OFFSET, y - OFFSET, 15, 15);
@@ -78,6 +87,27 @@ public class PlaceToMove extends GameObjectClickable {
 		this.isAction = isAction;
 	}
 	
+	public void setIsSelected(boolean isSelected) {
+		
+		if(!isSelected) {
+			this.isSelected = false;
+			isAtLeastOneCardSelected = false;
+		}
+		
+		if(!isAtLeastOneCardSelected && isSelected) {
+			isAtLeastOneCardSelected = true;
+			this.isSelected = isSelected;
+		}
+	}
+	
+	public void resetStaticSelectedCards() {
+		isAtLeastOneCardSelected = false;
+	}
+	
+	public boolean isSelected() {
+		return isSelected;
+	}
+	
 	public void setPlacedGenerator(EnumPowerCards placedGenerator) {
 		this.placedGenerator = placedGenerator;
 	}
@@ -89,7 +119,6 @@ public class PlaceToMove extends GameObjectClickable {
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		//g.fill(new Circle(getX(), getY(), 4), new SolidFill(Color.red));
 		if(isAction) {
 			g.setLineWidth(3);
 			g.draw(new Circle(getX() + OFFSET, getY() + OFFSET, 8), new SolidFill(Color.black));
@@ -126,6 +155,13 @@ public class PlaceToMove extends GameObjectClickable {
 			
 		}
 		
+		if(isSelected) {
+			g.fill(new Circle(getX() + OFFSET, getY() + OFFSET, 6), new SolidFill(Color.red));
+		}
+		
 	}
+	
+	
+	
 
 }

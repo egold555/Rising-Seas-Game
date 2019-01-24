@@ -78,6 +78,16 @@ public class Gameboard extends Sprite {
 			}
 		}
 	}
+	
+	@Override
+	public void mouseClicked(int button, int x, int y, int clickCount) {
+		for(PlaceToMove ptm : placesToMove) {
+			if(ptm.isMouseInside()) {
+				ptm.setIsSelected(!ptm.isSelected());
+			}
+		}
+		
+	}
 
 	@Override
 	public float getScaleOfImage() {

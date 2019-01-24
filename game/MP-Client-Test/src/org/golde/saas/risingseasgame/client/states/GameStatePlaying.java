@@ -16,6 +16,7 @@ import org.golde.saas.risingseasgame.client.objects.graphics.DialogBox;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
 import org.golde.saas.risingseasgame.shared.cards.EnumDiplomaticStrategies;
+import org.golde.saas.risingseasgame.shared.cards.EnumGenericCards;
 import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
 import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
@@ -64,7 +65,7 @@ public class GameStatePlaying extends GameStateAbstract {
 		}
 
 		for(int i = 0; i < 7; i++) {
-			Card<EnumCircumstanceCards> card = new Card<EnumCircumstanceCards>(EnumCircumstanceCards.values()[i]);
+			Card<EnumGenericCards> card = new Card<EnumGenericCards>(EnumGenericCards.BLANK);
 			gameObjects.add(card.init(gc));
 			card.setY(Card.Y_HAND);
 			card.setCardIndex(i);
