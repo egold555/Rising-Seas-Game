@@ -7,4 +7,6 @@ public interface EnumCardImpl {
 	
 	public String getImage();
 	
+	public Enum getEnum();
+	
 }

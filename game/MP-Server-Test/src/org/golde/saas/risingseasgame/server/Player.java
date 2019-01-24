@@ -6,11 +6,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.golde.saas.risingseasgame.server.helper.EnumUtil;
+import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.cards.EnumCardImpl;
 import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetPosition;
+import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketSubmitCards;
 
 import com.esotericsoftware.kryonet.Connection;
 
@@ -83,23 +85,52 @@ public class Player {
 		MainServer.getPacketManager().sendToPlayer(conn.getID(), packetInitalizeGameboard);
 
 		//Set initial cards
-		PacketSetCards packetSetCards = new PacketSetCards();
+		
+		EnumCardImpl[] initialCards = new EnumCardImpl[7];
+		for(int i = 0; i < initialCards.length; i++) {
+			initialCards[i] = EnumUtil.randomEnum(EnumPowerCards.class);
+		}
+		
+		setCards(initialCards);
 
+	}
+	
+	private void setCards(EnumCardImpl[] theCards) {
+		cards = theCards;
+		
+		PacketSetCards packetSetCards = new PacketSetCards();
+		
 		for(int i = 0; i < packetSetCards.getClass().getDeclaredFields().length; i++) {
 			Field f = packetSetCards.getClass().getDeclaredFields()[i];
 			if(f.getName().startsWith("card") && f.getType() == String.class) {
-				EnumPowerCards cardPicked = EnumUtil.randomEnum(EnumPowerCards.class);
 				try {
-					f.set(packetSetCards, cardPicked.name());
-					cards[i] = cardPicked;
+					f.set(packetSetCards, cards[i].getEnum().name());
 				} catch (IllegalArgumentException | IllegalAccessException e) {
 					e.printStackTrace();
 				}
 			}
 		}
-
+		
 		MainServer.getPacketManager().sendToPlayer(conn.getID(), packetSetCards);
-
+		
+	}
+	
+	public void recievePacket(Object o) {
+		
+		if(o instanceof PacketSubmitCards) {
+			PacketSubmitCards packetSubmitCards = (PacketSubmitCards)o;
+			Logger.info("Got submitted cards");
+			EnumCardImpl[] newCards = cards.clone();
+			
+			newCards[packetSubmitCards.card1] = EnumUtil.randomEnum(EnumPowerCards.class);
+			newCards[packetSubmitCards.card2] = EnumUtil.randomEnum(EnumPowerCards.class);
+			newCards[packetSubmitCards.card3] = EnumUtil.randomEnum(EnumPowerCards.class);
+			newCards[packetSubmitCards.card4] = EnumUtil.randomEnum(EnumPowerCards.class);
+			
+			
+			setCards(newCards);
+		}
+		
 	}
 	
 	public void setPosition(int pos) {

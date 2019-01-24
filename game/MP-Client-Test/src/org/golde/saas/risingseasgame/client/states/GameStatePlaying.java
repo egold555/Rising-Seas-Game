@@ -57,7 +57,7 @@ public class GameStatePlaying extends GameStateAbstract {
 	private boolean canSelectCard = true;
 	private static final int MAX_CARDS_SELECTABLE = 4;
 	
-	private String[] selectedCards = new String[MAX_CARDS_SELECTABLE];
+	private int[] selectedCards = new int[MAX_CARDS_SELECTABLE];
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
@@ -172,6 +172,10 @@ public class GameStatePlaying extends GameStateAbstract {
 		super.update(gc, delta);
 		int selected = 0;
 		canSelectCard = true;
+		int cardIndex = 0;
+		
+		selectedCards = new int[MAX_CARDS_SELECTABLE];
+		
 		for(GameObject go : gameObjects) { //could use array shifting. Might be fore the better and that could also potentally fix cards being doublely clicked
 			if(go instanceof Card) {
 				Card card = (Card)go;
@@ -183,9 +187,10 @@ public class GameStatePlaying extends GameStateAbstract {
 						selected--;
 					}
 					
-					selectedCards[selected-1] = card.getTheEnum().name();
+					selectedCards[selected-1] = cardIndex;
 					
 				}
+				cardIndex++;
 			}
 		}
 		

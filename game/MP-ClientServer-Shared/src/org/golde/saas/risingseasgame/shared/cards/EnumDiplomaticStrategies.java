@@ -35,5 +35,10 @@ public enum EnumDiplomaticStrategies implements EnumCardImpl {
 	public String getImage() {
 		return name();
 	}
+
+	@Override
+	public Enum getEnum() {
+		return this;
+	}
 	
 }

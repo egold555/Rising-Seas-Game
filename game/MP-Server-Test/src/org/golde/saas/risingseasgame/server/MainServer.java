@@ -52,6 +52,7 @@ public class MainServer extends Listener {
 	@Override
 	public void received(Connection c, Object o) {
 		Logger.info("Recieved packet " + o.getClass().getSimpleName() + " from " + c.getID());
+		Player.getPlayerById(c.getID()).recievePacket(o);
 	}
 
 	@Override

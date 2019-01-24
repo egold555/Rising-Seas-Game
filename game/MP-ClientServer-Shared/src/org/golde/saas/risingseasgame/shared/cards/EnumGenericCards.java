@@ -24,4 +24,9 @@ public enum EnumGenericCards implements EnumCardImpl{
 		return name();
 	}
 
+	@Override
+	public Enum getEnum() {
+		return this;
+	}
+
 }
