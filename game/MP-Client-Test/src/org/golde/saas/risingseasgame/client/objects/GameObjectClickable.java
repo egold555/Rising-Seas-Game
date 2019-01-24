@@ -61,5 +61,5 @@ public abstract class GameObjectClickable extends RoundedRectangle implements Ga
 	public void setVisable(boolean visable) {
 		this.visable = visable;
 	}
-
+	
 }

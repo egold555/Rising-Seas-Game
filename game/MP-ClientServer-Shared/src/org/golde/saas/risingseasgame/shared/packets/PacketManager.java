@@ -12,7 +12,8 @@ public abstract class PacketManager {
 		kryo.register(PacketInitalizeGameboard.class);
 		kryo.register(PacketHelloWorld.class);
 		kryo.register(PacketSetCards.class);
-		
+		kryo.register(PacketSetPosition.class);
+		kryo.register(PacketPlaceGenerator.class);
 		
 		
 		kryo.register(PacketSubmitCards.class);

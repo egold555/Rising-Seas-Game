@@ -8,8 +8,8 @@ import java.util.List;
 import org.golde.saas.risingseasgame.client.ConstantsClient;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.Card;
-import org.golde.saas.risingseasgame.client.objects.Gameboard;
 import org.golde.saas.risingseasgame.client.objects.MenuButton;
+import org.golde.saas.risingseasgame.client.objects.board.Gameboard;
 import org.golde.saas.risingseasgame.client.objects.btn.Button;
 import org.golde.saas.risingseasgame.client.objects.btn.ButtonAbstract;
 import org.golde.saas.risingseasgame.client.objects.graphics.DialogBox;
@@ -59,7 +59,7 @@ public class GameStatePlaying extends GameStateAbstract {
 		gameObjects.add(sendCards.init(gc));
 		
 
-		for(GameObject go : gameBoard.initPlacesToMove()) {
+		for(GameObject go : gameBoard.getObjectsToInit()) {
 			gameObjects.add(go.init(gc));
 		}
 
@@ -84,19 +84,12 @@ public class GameStatePlaying extends GameStateAbstract {
 
 	@Override
 	public void recievedPacket(Connection c, Object o) {
-
+		
+		gameBoard.recievedPacket(c, o);
+		
 		if(o instanceof PacketAddPlayer) {
 			PacketAddPlayer packet = (PacketAddPlayer)o;
 			connectedClients.add(packet.id);
-		}
-		else if(o instanceof PacketSetWater) {
-			PacketSetWater packet = (PacketSetWater)o;
-			gameBoard.waterLevel = packet.waterLevel;
-		}
-
-		else if(o instanceof PacketInitalizeGameboard) {
-			System.out.println("I am calling the method");
-			gameBoard.initalizeGameboard((PacketInitalizeGameboard)o);
 		}
 
 		else if(o instanceof PacketSetCards) {
@@ -140,9 +133,10 @@ public class GameStatePlaying extends GameStateAbstract {
 	
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
+		super.update(gc, delta);
 		int selected = 0;
 		canSelectCard = true;
-		for(GameObject go : gameObjects) {
+		for(GameObject go : gameObjects) { //could use array shifting. Might be fore the better and that could also potentally fix cards being doublely clicked
 			if(go instanceof Card) {
 				Card card = (Card)go;
 				if(card.isSelected()) {
