@@ -56,8 +56,12 @@ public class Network extends Listener {
 		Logger.info("Disconnected from server!");
 	}
 	
-	public void sendToEveryone(Packet packet) {
-		packetManager.sendToEveryone(packet);
+	public void sendPacketToServer(Packet packet) {
+		packetManager.sendPacketToServer(packet);
+	}
+	
+	public PacketManagerClient getPacketManager() {
+		return packetManager;
 	}
 
 }

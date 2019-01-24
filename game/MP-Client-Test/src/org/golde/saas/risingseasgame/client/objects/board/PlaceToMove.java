@@ -100,7 +100,7 @@ public class PlaceToMove extends GameObjectClickable {
 		}
 	}
 	
-	public void resetStaticSelectedCards() {
+	public static void resetStaticSelectedCards() {
 		isAtLeastOneCardSelected = false;
 	}
 	

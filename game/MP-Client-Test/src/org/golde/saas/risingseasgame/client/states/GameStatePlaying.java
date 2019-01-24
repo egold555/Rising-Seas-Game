@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.golde.saas.risingseasgame.client.ConstantsClient;
+import org.golde.saas.risingseasgame.client.MainClient;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.Card;
 import org.golde.saas.risingseasgame.client.objects.MenuButton;
 import org.golde.saas.risingseasgame.client.objects.board.Gameboard;
+import org.golde.saas.risingseasgame.client.objects.board.PlaceToMove;
 import org.golde.saas.risingseasgame.client.objects.btn.Button;
+import org.golde.saas.risingseasgame.client.objects.btn.Button.ButtonClickHandler;
 import org.golde.saas.risingseasgame.client.objects.btn.ButtonAbstract;
 import org.golde.saas.risingseasgame.client.objects.graphics.DialogBox;
 import org.golde.saas.risingseasgame.shared.Logger;
@@ -22,6 +25,7 @@ import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
 import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetWater;
+import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketSubmitCards;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -52,6 +56,8 @@ public class GameStatePlaying extends GameStateAbstract {
 	
 	private boolean canSelectCard = true;
 	private static final int MAX_CARDS_SELECTABLE = 4;
+	
+	private String[] selectedCards = new String[MAX_CARDS_SELECTABLE];
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
@@ -80,6 +86,35 @@ public class GameStatePlaying extends GameStateAbstract {
 		
 		sendCards.setXY(ConstantsClient.WINDOW_WIDTH - 700, ConstantsClient.WINDOW_HEIGHT - 670);
 		sendCards.setVisable(false);
+		
+		
+		sendCards.setHandler(new ButtonClickHandler() {
+			
+			@Override
+			public void onClicked(int button, int x, int y, int clickCount) {
+				PacketSubmitCards packetSubmitCards = new PacketSubmitCards();
+				
+				packetSubmitCards.card1 = selectedCards[0];
+				packetSubmitCards.card2 = selectedCards[1];
+				packetSubmitCards.card3 = selectedCards[2];
+				packetSubmitCards.card4 = selectedCards[3];
+				packetSubmitCards.place = gameBoard.getSelectedPTM();
+				
+				getNetwork().sendPacketToServer(packetSubmitCards);
+				
+				for(Card card : cards) {
+					card.setSelected(false);
+				}
+				
+				PlaceToMove.resetStaticSelectedCards();
+				for(PlaceToMove ptm : gameBoard.getPlacesToMove()) {
+					ptm.setIsSelected(false);
+					
+				}
+				
+				
+			}
+		});
 		
 	}
 
@@ -142,9 +177,14 @@ public class GameStatePlaying extends GameStateAbstract {
 				Card card = (Card)go;
 				if(card.isSelected()) {
 					selected++;
+					
 					if(selected > MAX_CARDS_SELECTABLE - 1) { //1 - the amount of cards you want to select. THIS IS A WORKAROUND IDK IT JUST WORKS DONT TOUCH
 						canSelectCard = false;
+						selected--;
 					}
+					
+					selectedCards[selected-1] = card.getTheEnum().name();
+					
 				}
 			}
 		}

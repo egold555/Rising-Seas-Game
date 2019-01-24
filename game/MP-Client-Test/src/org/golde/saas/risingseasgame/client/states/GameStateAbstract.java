@@ -113,7 +113,7 @@ public abstract class GameStateAbstract implements GameStateImpl {
 	public Network getNetwork() {
 		return MainClient.getInstance().getNetwork();
 	}
-	
+
 	public abstract EnumGameState getEnumGameState();
 
 }

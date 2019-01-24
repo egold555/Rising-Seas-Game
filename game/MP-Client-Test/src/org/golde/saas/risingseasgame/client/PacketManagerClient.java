@@ -16,17 +16,17 @@ public class PacketManagerClient extends PacketManager {
 		this.client = client;
 	}
 	
-	public void sendToEveryone(Packet packet) {
+	public void sendPacketToServer(Packet packet) {
 		//Used for connection
 		String packetName = packet.getClass().getSimpleName();
 		if(packet instanceof PacketTCP) {
 			client.sendTCP(packet);
-			Logger.info("Sending TCP Packet " + packetName + " to everyone");
+			Logger.info("Sending TCP Packet " + packetName + " to server");
 		}
 		//Every type of game packet
 		else if(packet instanceof PacketUDP) {
 			client.sendUDP(packet);
-			Logger.info("Sending UDP Packet " + packetName + " to everyone");
+			Logger.info("Sending UDP Packet " + packetName + " to server");
 		}
 		else {
 			Logger.warning("Unknown type of packet being sent: " + packetName);

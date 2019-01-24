@@ -38,6 +38,19 @@ public class Gameboard extends Sprite {
 	}
 
 	
+	public List<PlaceToMove> getPlacesToMove() {
+		return placesToMove;
+	}
+	
+	
+	public int getSelectedPTM() {
+		for(int i = 0; i < placesToMove.size(); i++) {
+			if(placesToMove.get(i).isSelected()) {
+				return i;
+			}
+		}
+		return -1;
+	}
 	
 	public List<GameObject> getObjectsToInit(){
 		List<GameObject> toReturn = new ArrayList<GameObject>();

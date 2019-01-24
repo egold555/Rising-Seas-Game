@@ -45,6 +45,9 @@ public class Card<EnumCard extends Enum<EnumCard> & EnumCardImpl> extends Sprite
 	public void setTheEnum(EnumCard theEnum) {
 		this.theEnum = theEnum;
 	}
+	public EnumCard getTheEnum() {
+		return theEnum;
+	}
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
