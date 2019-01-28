@@ -265,13 +265,26 @@ public class Player {
 	}
 	
 	public void setPosition(int pos) {
+		
 		this.position = pos;
+		
+		if(pos > 29) {
+			//Player won the game
+			this.position = 29;
+			pos = 29;
+			System.out.println("Player " + getId() + " won the game!");
+		}
+		
+		
 		PacketSetPosition packetSetPosition = new PacketSetPosition();
 		packetSetPosition.position = this.position;
 		MainServer.getPacketManager().sendToPlayer(conn.getID(), packetSetPosition);
 		if(eventSpaces[pos]) {
 			System.out.println("Player " + getId() + " landed on a event space");
 		}
+		
+		
+		
 	}
 	
 	private static int howManySpacesToMove(int generatorPlacedIn) {
