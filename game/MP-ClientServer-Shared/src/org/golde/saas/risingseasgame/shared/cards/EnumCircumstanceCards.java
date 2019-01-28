@@ -14,7 +14,7 @@ public enum EnumCircumstanceCards implements EnumCardImpl {
 	VOLCANO_ERUPTS("Huge volcano erupts!", "Particles in the air reflect sunlight and cool the Earth. Move ahead two spaces"),
 	FUSION_REACTOR("ITER, World’s largest fusion reactor is successful", "All players move forward two spaces."),
 	SNOW_PACK("Low snow-pack this year", "Move back two spaces"),
-	SOLAR_ROOF("Install solar panels on every roof! ", "Move ahead two  spaces"),
+	SOLAR_ROOF("Install solar panels on every roof! ", "Move ahead two spaces"),
 	WINDFARM("Doldrums!", "Move back one space for each wind farm"),
 	WINTER_WARMTH("Unreasonable Winter Warmth!", "Relocate displaced indigenous peoples. Move back two spaces"),
 	VEGETARIAN("All your citizens went vegetarian!", "Move ahead two spaces"),

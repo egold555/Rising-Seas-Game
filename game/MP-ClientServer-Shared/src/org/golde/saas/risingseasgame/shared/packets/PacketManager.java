@@ -14,6 +14,7 @@ public abstract class PacketManager {
 		kryo.register(PacketSetCards.class);
 		kryo.register(PacketSetPosition.class);
 		kryo.register(PacketPlaceGenerator.class);
+		kryo.register(PacketMessage.class);
 		
 		
 		kryo.register(PacketSubmitCards.class);

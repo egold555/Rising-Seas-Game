@@ -15,6 +15,7 @@ import org.golde.saas.risingseasgame.shared.constants.Constants;
 import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
 import org.golde.saas.risingseasgame.shared.packets.PacketHelloWorld;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetCards;
+import org.golde.saas.risingseasgame.shared.packets.PacketSetWater;
 import org.golde.saas.risingseasgame.shared.scheduler.Scheduler;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -28,6 +29,8 @@ public class MainServer extends Listener {
 	public static final Random RANDOM = new Random();
 
 	private static Scheduler scheduler = new Scheduler();
+	
+	private static int waterLevel = 0;
 
 	public static void main(String[] args) throws IOException {
 		server = new Server();
@@ -145,7 +148,12 @@ public class MainServer extends Listener {
 		Player.onDisconnect(c);
 	}
 
-
+	public static void addWater(int waterAmount) {
+		waterLevel = waterAmount;
+		PacketSetWater packetSetWater = new PacketSetWater();
+		packetSetWater.waterLevel = waterLevel;
+		packetManager.sendToEveryone(packetSetWater);
+	}
 
 	public static PacketManagerServer getPacketManager() {
 		return packetManager;

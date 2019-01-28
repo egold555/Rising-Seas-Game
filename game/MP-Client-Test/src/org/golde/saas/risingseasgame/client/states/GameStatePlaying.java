@@ -3,6 +3,7 @@ package org.golde.saas.risingseasgame.client.states;
 import java.awt.Font;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.golde.saas.risingseasgame.client.ConstantsClient;
@@ -96,8 +97,8 @@ public class GameStatePlaying extends GameStateAbstract {
 				
 				packetSubmitCards.card1 = selectedCards[0];
 				packetSubmitCards.card2 = selectedCards[1];
-				packetSubmitCards.card3 = selectedCards[2];
-				packetSubmitCards.card4 = selectedCards[3];
+				//packetSubmitCards.card3 = selectedCards[2];
+				//packetSubmitCards.card4 = selectedCards[3];
 				packetSubmitCards.place = gameBoard.getSelectedPTM();
 				
 				getNetwork().sendPacketToServer(packetSubmitCards);
@@ -182,9 +183,13 @@ public class GameStatePlaying extends GameStateAbstract {
 				if(card.isSelected()) {
 					selected++;
 					
+					if(selected > MAX_CARDS_SELECTABLE) {
+						selected--;
+					}
+					
 					if(selected > MAX_CARDS_SELECTABLE - 1) { //1 - the amount of cards you want to select. THIS IS A WORKAROUND IDK IT JUST WORKS DONT TOUCH
 						canSelectCard = false;
-						selected--;
+						
 					}
 					
 					selectedCards[selected-1] = cardIndex;
@@ -194,9 +199,36 @@ public class GameStatePlaying extends GameStateAbstract {
 			}
 		}
 		
-		sendCards.setVisable(selected > 0);
+		sendCards.setVisable(canSubmitCards(selectedCards, selected));
 	}
 
+	private boolean canSubmitCards(int[] selectedCards, int selectedCount) {
+
+		//System.out.println("SelectedCOunt " + selectedCount);
+		
+		if(selectedCount == 2) {
+			
+			return (cards.get(selectedCards[0]).getTheEnum() == cards.get(selectedCards[1]).getTheEnum() && 
+					cards.get(selectedCards[0]).getTheEnum() == EnumPowerCards.COAL);
+			
+		}
+		else if(selectedCount == 4) {
+			
+			//System.out.println("1) " + cards.get(selectedCards[0]).getTheEnum().name());
+			//System.out.println("2) " + cards.get(selectedCards[1]).getTheEnum().name());
+			//System.out.println("3) " + cards.get(selectedCards[2]).getTheEnum().name());
+			//System.out.println("4) " + cards.get(selectedCards[3]).getTheEnum().name());
+			
+			return (cards.get(selectedCards[0]).getTheEnum() == cards.get(selectedCards[1]).getTheEnum() && 
+					cards.get(selectedCards[2]).getTheEnum() == cards.get(selectedCards[3]).getTheEnum() && 
+					cards.get(selectedCards[1]).getTheEnum() == cards.get(selectedCards[2]).getTheEnum() &&
+					cards.get(selectedCards[1]).getTheEnum() != EnumPowerCards.COAL);
+			
+		}
+		return false;
+		
+	}
+	
 	@Override
 	public void keyPressed(int key, char c) {
 		super.keyPressed(key, c);

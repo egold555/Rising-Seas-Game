@@ -8,6 +8,8 @@ import java.util.List;
 import org.golde.saas.risingseasgame.server.helper.EnumUtil;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.cards.EnumCardImpl;
+import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
+import org.golde.saas.risingseasgame.shared.cards.EnumDiplomaticStrategies;
 import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetCards;
@@ -121,23 +123,149 @@ public class Player {
 			PacketSubmitCards packetSubmitCards = (PacketSubmitCards)o;
 			Logger.info("Got submitted cards");
 			EnumCardImpl[] newCards = cards.clone();
+			EnumCardImpl origCard = cards.clone()[0];
 			
 			newCards[packetSubmitCards.card1] = EnumUtil.randomEnum(EnumPowerCards.class);
 			newCards[packetSubmitCards.card2] = EnumUtil.randomEnum(EnumPowerCards.class);
-			newCards[packetSubmitCards.card3] = EnumUtil.randomEnum(EnumPowerCards.class);
-			newCards[packetSubmitCards.card4] = EnumUtil.randomEnum(EnumPowerCards.class);
+			if(newCards.length == 4) {
+				newCards[packetSubmitCards.card3] = EnumUtil.randomEnum(EnumPowerCards.class);
+				newCards[packetSubmitCards.card4] = EnumUtil.randomEnum(EnumPowerCards.class);
+			}
 			
 			
 			setCards(newCards);
+			handelCardFunctions(origCard);
 		}
 		
 	}
 	
+	private void handelCardFunctions(EnumCardImpl card) {
+		if(card instanceof EnumCircumstanceCards) {
+			doCircumstanceAction((EnumCircumstanceCards)card);
+		}
+		else if(card instanceof EnumDiplomaticStrategies) {
+			doDiplomaticAction((EnumDiplomaticStrategies)card);
+		}
+		else if(card instanceof EnumPowerCards) {
+			doPowerCards((EnumPowerCards)card);
+		}
+	}
+	
+	private void doPowerCards(EnumPowerCards card) {
+//		switch(card) {
+//		case COAL:
+//			break;
+//		case FOREST:
+//			break;
+//		case GEOTHERMAL:
+//			break;
+//		case SOLAR:
+//			break;
+//		case WIND:
+//			break;
+//		default:
+//			break;
+//		}
+		
+		if(card == EnumPowerCards.COAL) {
+			MainServer.addWater(3);
+		}
+		
+		move(1);
+	}
+
+	private void doCircumstanceAction(EnumCircumstanceCards card) {
+		switch(card) {
+		case ACID_OCEAN:
+			move(-2);
+			break;
+		case CARBON_FARM:
+			move(1);
+			break;
+		case CARBON_SCRUBBER:
+			move(1);
+			break;
+		case FUSION_REACTOR:
+			for(Player p : PLAYERS) {
+				p.move(2);
+			}
+			break;
+		case GEOTHERMAL_VENTS:
+			move(2);
+			break;
+		case HOME_BATTERY_SYSTEMS:
+			break;
+		case OVERCAST:
+			break;
+		case SAILBOAT_FORCE:
+			move(1);
+			break;
+		case SCARCE_RESOURCES:
+			break;
+		case SNOW_PACK:
+			move(-2);
+			break;
+		case SOLAR_ROADS:
+			move(1);
+			break;
+		case SOLAR_ROOF:
+			move(2);
+			break;
+		case TORNADO:
+			break;
+		case VEGETARIAN:
+			move(2);
+			break;
+		case VOLCANO_ERUPTS:
+			move(2);
+			break;
+		case WILD_FIRE:
+			break;
+		case WINDFARM:
+			break;
+		case WINTER_WARMTH:
+			move(-2);
+			break;
+		default:
+			break;
+		
+		}
+	}
+	
+	private void doDiplomaticAction(EnumDiplomaticStrategies card) {
+		switch(card) {
+		case Covert_Operation:
+			break;
+		case Economic_Diplomacy:
+			break;
+		case Emissary:
+			break;
+		case Espionage:
+			break;
+		case Gun_Boat_Diplomacy:
+			break;
+		case Immunity:
+			break;
+		case Sanctions:
+			break;
+		default:
+			break;
+		
+		}
+	}
+
+	public void move(int pos) {
+		this.setPosition(this.position + pos);
+	}
+	
 	public void setPosition(int pos) {
-		this.position = position;
+		this.position = pos;
 		PacketSetPosition packetSetPosition = new PacketSetPosition();
 		packetSetPosition.position = this.position;
 		MainServer.getPacketManager().sendToPlayer(conn.getID(), packetSetPosition);
+		if(eventSpaces[pos]) {
+			System.out.println("Player " + getId() + " landed on a event space");
+		}
 	}
 
 }
