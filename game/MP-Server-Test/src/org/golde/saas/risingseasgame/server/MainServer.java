@@ -16,6 +16,7 @@ import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
 import org.golde.saas.risingseasgame.shared.packets.PacketHelloWorld;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetWater;
+import org.golde.saas.risingseasgame.shared.packets.base.Packet;
 import org.golde.saas.risingseasgame.shared.scheduler.Scheduler;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -54,7 +55,12 @@ public class MainServer extends Listener {
 
 	@Override
 	public void received(Connection c, Object o) {
-		Logger.info("Recieved packet " + o.getClass().getSimpleName() + " from " + c.getID());
+		if(o instanceof Packet) {
+			Logger.info("Recieved packet : " + o.getClass().getSimpleName() +  " from " + c.getID() + ". " + ((Packet)o).toString());
+		} else {
+			Logger.info("Recieved packet " + o.getClass().getSimpleName() + " from " + c.getID());
+		}
+		
 		Player.getPlayerById(c.getID()).recievePacket(o);
 	}
 

@@ -97,8 +97,8 @@ public class GameStatePlaying extends GameStateAbstract {
 				
 				packetSubmitCards.card1 = selectedCards[0];
 				packetSubmitCards.card2 = selectedCards[1];
-				//packetSubmitCards.card3 = selectedCards[2];
-				//packetSubmitCards.card4 = selectedCards[3];
+				packetSubmitCards.card3 = selectedCards[2];
+				packetSubmitCards.card4 = selectedCards[3];
 				packetSubmitCards.place = gameBoard.getSelectedPTM();
 				
 				getNetwork().sendPacketToServer(packetSubmitCards);
@@ -107,11 +107,7 @@ public class GameStatePlaying extends GameStateAbstract {
 					card.setSelected(false);
 				}
 				
-				PlaceToMove.resetStaticSelectedCards();
-				for(PlaceToMove ptm : gameBoard.getPlacesToMove()) {
-					ptm.setIsSelected(false);
-					
-				}
+				PlaceToMove.resetStaticSelectedCards(gameBoard);
 				
 				
 			}
@@ -206,10 +202,15 @@ public class GameStatePlaying extends GameStateAbstract {
 
 		//System.out.println("SelectedCOunt " + selectedCount);
 		
+		//No generators selected
+		if(gameBoard.getSelectedPTM() == -1) {
+			return false;
+		}
+		
 		if(selectedCount == 2) {
 			
-			return (cards.get(selectedCards[0]).getTheEnum() == cards.get(selectedCards[1]).getTheEnum() && 
-					cards.get(selectedCards[0]).getTheEnum() == EnumPowerCards.COAL);
+			return (cards.get(selectedCards[0]).getTheEnum() == cards.get(selectedCards[1]).getTheEnum() /*&& 
+					cards.get(selectedCards[0]).getTheEnum() == EnumPowerCards.COAL*/);
 			
 		}
 		else if(selectedCount == 4) {
@@ -221,8 +222,8 @@ public class GameStatePlaying extends GameStateAbstract {
 			
 			return (cards.get(selectedCards[0]).getTheEnum() == cards.get(selectedCards[1]).getTheEnum() && 
 					cards.get(selectedCards[2]).getTheEnum() == cards.get(selectedCards[3]).getTheEnum() && 
-					cards.get(selectedCards[1]).getTheEnum() == cards.get(selectedCards[2]).getTheEnum() &&
-					cards.get(selectedCards[1]).getTheEnum() != EnumPowerCards.COAL);
+					cards.get(selectedCards[1]).getTheEnum() == cards.get(selectedCards[2]).getTheEnum() /*&&
+					cards.get(selectedCards[1]).getTheEnum() != EnumPowerCards.COAL*/);
 			
 		}
 		return false;

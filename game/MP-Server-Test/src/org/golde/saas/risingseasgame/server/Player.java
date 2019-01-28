@@ -12,6 +12,7 @@ import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
 import org.golde.saas.risingseasgame.shared.cards.EnumDiplomaticStrategies;
 import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
+import org.golde.saas.risingseasgame.shared.packets.PacketPlaceGenerator;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetPosition;
 import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketSubmitCards;
@@ -134,12 +135,12 @@ public class Player {
 			
 			
 			setCards(newCards);
-			handelCardFunctions(origCard);
+			handelCardFunctions(origCard, packetSubmitCards.place);
 		}
 		
 	}
 	
-	private void handelCardFunctions(EnumCardImpl card) {
+	private void handelCardFunctions(EnumCardImpl card, int place) {
 		if(card instanceof EnumCircumstanceCards) {
 			doCircumstanceAction((EnumCircumstanceCards)card);
 		}
@@ -147,11 +148,11 @@ public class Player {
 			doDiplomaticAction((EnumDiplomaticStrategies)card);
 		}
 		else if(card instanceof EnumPowerCards) {
-			doPowerCards((EnumPowerCards)card);
+			doPowerCards((EnumPowerCards)card, place);
 		}
 	}
 	
-	private void doPowerCards(EnumPowerCards card) {
+	private void doPowerCards(EnumPowerCards card, int place) {
 //		switch(card) {
 //		case COAL:
 //			break;
@@ -171,7 +172,12 @@ public class Player {
 			MainServer.addWater(3);
 		}
 		
-		move(1);
+		move(howManySpacesToMove(place));
+		PacketPlaceGenerator packetPlaceGenerator = new PacketPlaceGenerator();
+		packetPlaceGenerator.generator = card.name();
+		packetPlaceGenerator.position = place;
+		MainServer.getPacketManager().sendToPlayer(getId(), packetPlaceGenerator);
+		
 	}
 
 	private void doCircumstanceAction(EnumCircumstanceCards card) {
@@ -265,6 +271,21 @@ public class Player {
 		MainServer.getPacketManager().sendToPlayer(conn.getID(), packetSetPosition);
 		if(eventSpaces[pos]) {
 			System.out.println("Player " + getId() + " landed on a event space");
+		}
+	}
+	
+	private static int howManySpacesToMove(int generatorPlacedIn) {
+		if(generatorPlacedIn > 21) {
+			return 1;
+		}
+		else if(generatorPlacedIn > 12) {
+			return 2;
+		}
+		else if(generatorPlacedIn > 6) {
+			return 3;
+		}
+		else {
+			return 4;
 		}
 	}
 

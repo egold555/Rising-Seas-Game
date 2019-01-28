@@ -10,9 +10,12 @@ import org.golde.saas.risingseasgame.client.objects.graphics.SolidFill;
 import org.golde.saas.risingseasgame.client.objects.graphics.sprite.Sprite;
 import org.golde.saas.risingseasgame.client.states.GameStatePlaying;
 import org.golde.saas.risingseasgame.shared.Logger;
+import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
+import org.golde.saas.risingseasgame.shared.packets.PacketPlaceGenerator;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetPosition;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetWater;
+import org.golde.saas.risingseasgame.shared.packets.base.Packet;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -117,6 +120,14 @@ public class Gameboard extends Sprite {
 		}
 		else if(o instanceof PacketInitalizeGameboard) {
 			this.initalizeGameboard((PacketInitalizeGameboard)o);
+		}
+		else if(o instanceof PacketPlaceGenerator) {
+			PacketPlaceGenerator packetPlaceGenerator = (PacketPlaceGenerator)o;
+			if(packetPlaceGenerator.position == -1) {
+				System.err.println("Failed to place " + packetPlaceGenerator.generator + " @ " + "-1");
+				return;
+			}
+			getPlacesToMove().get(packetPlaceGenerator.position).setPlacedGenerator(EnumPowerCards.valueOf(packetPlaceGenerator.generator));
 		}
 	}
 

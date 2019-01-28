@@ -21,15 +21,15 @@ public class PacketManagerClient extends PacketManager {
 		String packetName = packet.getClass().getSimpleName();
 		if(packet instanceof PacketTCP) {
 			client.sendTCP(packet);
-			Logger.info("Sending TCP Packet " + packetName + " to server");
+			Logger.info("Sending TCP Packet " + packetName + " to server" + ". " + packet.toString());
 		}
 		//Every type of game packet
 		else if(packet instanceof PacketUDP) {
 			client.sendUDP(packet);
-			Logger.info("Sending UDP Packet " + packetName + " to server");
+			Logger.info("Sending UDP Packet " + packetName + " to server" + ". " + packet.toString());
 		}
 		else {
-			Logger.warning("Unknown type of packet being sent: " + packetName);
+			Logger.warning("Unknown type of packet being sent: " + packetName + ". " + packet.toString());
 		}
 	}
 	

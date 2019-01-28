@@ -100,8 +100,13 @@ public class PlaceToMove extends GameObjectClickable {
 		}
 	}
 	
-	public static void resetStaticSelectedCards() {
+	public static void resetStaticSelectedCards(Gameboard gb) {
 		isAtLeastOneCardSelected = false;
+		for(PlaceToMove ptm : gb.getPlacesToMove()) {
+			ptm.setIsSelected(false);
+			
+		}
+		
 	}
 	
 	public boolean isSelected() {

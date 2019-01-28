@@ -21,15 +21,15 @@ public class PacketManagerServer extends PacketManager {
 		String packetName = packet.getClass().getSimpleName();
 		if(packet instanceof PacketTCP) {
 			server.sendToTCP(id, packet);
-			Logger.info("Sending TCP Packet " + packetName + " to " + id);
+			Logger.info("Sending TCP Packet " + packetName + " to " + id + ". " + packet.toString());
 		}
 		//Every type of game packet
 		else if(packet instanceof PacketUDP) {
 			server.sendToUDP(id, packet);
-			Logger.info("Sending UDP Packet " + packetName + " to " + id);
+			Logger.info("Sending UDP Packet " + packetName + " to " + id + ". " + packet.toString());
 		}
 		else {
-			Logger.warning("Unknown type of packet being sent: " + packetName);
+			Logger.warning("Unknown type of packet being sent: " + packetName + ". " + packet.toString());
 		}
 	}
 
@@ -38,15 +38,15 @@ public class PacketManagerServer extends PacketManager {
 		String packetName = packet.getClass().getSimpleName();
 		if(packet instanceof PacketTCP) {
 			server.sendToAllTCP(packet);
-			Logger.info("Sending TCP Packet " + packetName + " to everyone");
+			Logger.info("Sending TCP Packet " + packetName + " to everyone" + ". " + packet.toString());
 		}
 		//Every type of game packet
 		else if(packet instanceof PacketUDP) {
 			server.sendToAllUDP(packet);
-			Logger.info("Sending UDP Packet " + packetName + " to everyone");
+			Logger.info("Sending UDP Packet " + packetName + " to everyone" + ". " + packet.toString());
 		}
 		else {
-			Logger.warning("Unknown type of packet being sent: " + packetName);
+			Logger.warning("Unknown type of packet being sent: " + packetName + ". " + packet.toString());
 		}
 	}
 	
@@ -55,15 +55,15 @@ public class PacketManagerServer extends PacketManager {
 		String packetName = packet.getClass().getSimpleName();
 		if(packet instanceof PacketTCP) {
 			server.sendToAllExceptTCP(except, packet);
-			Logger.info("Sending TCP Packet " + packetName + " to everyone except " + except);
+			Logger.info("Sending TCP Packet " + packetName + " to everyone except " + except + ". " + packet.toString());
 		}
 		//Every type of game packet
 		else if(packet instanceof PacketUDP) {
 			server.sendToAllExceptUDP(except, packet);
-			Logger.info("Sending UDP Packet " + packetName + " to everyone except " + except);
+			Logger.info("Sending UDP Packet " + packetName + " to everyone except " + except + ". " + packet.toString());
 		}
 		else {
-			Logger.warning("Unknown type of packet being sent: " + packetName);
+			Logger.warning("Unknown type of packet being sent: " + packetName + ". " + packet.toString());
 		}
 	}
 
