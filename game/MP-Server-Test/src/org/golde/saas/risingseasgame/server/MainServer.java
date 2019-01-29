@@ -149,7 +149,7 @@ public class MainServer extends Listener {
 	}
 
 	public static void addWater(int waterAmount) {
-		waterLevel = waterAmount;
+		waterLevel = waterLevel + waterAmount;
 		PacketSetWater packetSetWater = new PacketSetWater();
 		packetSetWater.waterLevel = waterLevel;
 		packetManager.sendToEveryone(packetSetWater);

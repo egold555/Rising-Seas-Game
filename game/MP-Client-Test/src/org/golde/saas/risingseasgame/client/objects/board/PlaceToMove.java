@@ -140,7 +140,8 @@ public class PlaceToMove extends GameObjectClickable {
 				
 				//g.fill(new Circle(getX() - 15 + OFFSET, getY() + OFFSET, 4), new SolidFill(genColor));
 			}
-			placedGenerator.setXY(getX() - 50 + OFFSET, getY() + OFFSET - 15);
+			//placedGenerator.setXY(getX() - 50 + OFFSET, getY() + OFFSET - 15);
+			placedGenerator.setXY(getX() - OFFSET, getY() - OFFSET);
 			placedGenerator.render(gc, g);
 			
 		}
