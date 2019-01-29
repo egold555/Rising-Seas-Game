@@ -6,6 +6,7 @@ import java.util.List;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.GameObjectClickable;
 import org.golde.saas.risingseasgame.client.objects.graphics.SolidFill;
+import org.golde.saas.risingseasgame.client.objects.graphics.sprite.Sprite;
 import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -66,7 +67,7 @@ public class PlaceToMove extends GameObjectClickable {
 	
 	private boolean isAction = false;
 	
-	private EnumPowerCards placedGenerator;
+	private SmallGeneratorIcon placedGenerator;
 	
 	public static final int OFFSET = 7;
 	
@@ -114,7 +115,7 @@ public class PlaceToMove extends GameObjectClickable {
 	}
 	
 	public void setPlacedGenerator(EnumPowerCards placedGenerator) {
-		this.placedGenerator = placedGenerator;
+		this.placedGenerator = new SmallGeneratorIcon(placedGenerator);
 	}
 
 	@Override
@@ -134,29 +135,13 @@ public class PlaceToMove extends GameObjectClickable {
 		
 		if(placedGenerator != null) {
 			
-			Color genColor = null;
-			
-			switch(placedGenerator) {
-			case COAL:
-				genColor = Color.black;
-				break;
-			case FOREST:
-				genColor = Color.green;
-				break;
-			case GEOTHERMAL:
-				genColor = Color.yellow;
-				break;
-			case SOLAR:
-				genColor = Color.magenta;
-				break;
-			case WIND:
-				genColor = Color.magenta;
-				break;
-			default:
-				break;
+			if(placedGenerator.getImage() == null) {
+				placedGenerator.init(gc);
+				
+				//g.fill(new Circle(getX() - 15 + OFFSET, getY() + OFFSET, 4), new SolidFill(genColor));
 			}
-			
-			g.fill(new Circle(getX() - 15 + OFFSET, getY() + OFFSET, 4), new SolidFill(genColor));
+			placedGenerator.setXY(getX() - 50 + OFFSET, getY() + OFFSET - 15);
+			placedGenerator.render(gc, g);
 			
 		}
 		
@@ -166,7 +151,18 @@ public class PlaceToMove extends GameObjectClickable {
 		
 	}
 	
-	
+	private class SmallGeneratorIcon extends Sprite {
+
+		public SmallGeneratorIcon(EnumPowerCards power) {
+			super("cardicons/" + power.getImage());
+		}
+		
+		@Override
+		public float getScaleOfImage() {
+			return 0.1F;
+		}
+		
+	}
 	
 
 }

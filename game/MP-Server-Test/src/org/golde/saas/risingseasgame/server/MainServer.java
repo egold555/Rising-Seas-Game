@@ -1,20 +1,14 @@
 package org.golde.saas.risingseasgame.server;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.golde.saas.risingseasgame.shared.Logger;
-import org.golde.saas.risingseasgame.shared.cards.EnumCardImpl;
-import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
-import org.golde.saas.risingseasgame.shared.cards.EnumDiplomaticStrategies;
-import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.golde.saas.risingseasgame.shared.constants.Constants;
 import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
 import org.golde.saas.risingseasgame.shared.packets.PacketHelloWorld;
-import org.golde.saas.risingseasgame.shared.packets.PacketSetCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetWater;
 import org.golde.saas.risingseasgame.shared.packets.base.Packet;
 import org.golde.saas.risingseasgame.shared.scheduler.Scheduler;
@@ -56,9 +50,9 @@ public class MainServer extends Listener {
 	@Override
 	public void received(Connection c, Object o) {
 		if(o instanceof Packet) {
-			Logger.info("Recieved packet : " + o.getClass().getSimpleName() +  " from " + c.getID() + ". " + ((Packet)o).toString());
+			Logger.packetRecieved( "Recieved packet : " + o.getClass().getSimpleName() +  " from " + c.getID() + ". " + ((Packet)o).toString());
 		} else {
-			Logger.info("Recieved packet " + o.getClass().getSimpleName() + " from " + c.getID());
+			Logger.packetRecieved("Recieved packet " + o.getClass().getSimpleName() + " from " + c.getID());
 		}
 		
 		Player.getPlayerById(c.getID()).recievePacket(o);

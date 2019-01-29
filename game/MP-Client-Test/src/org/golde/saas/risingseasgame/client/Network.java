@@ -8,7 +8,6 @@ import org.golde.saas.risingseasgame.shared.packets.base.Packet;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.FrameworkMessage.KeepAlive;
 import com.esotericsoftware.kryonet.Listener;
 
 public class Network extends Listener {
@@ -38,10 +37,10 @@ public class Network extends Listener {
 	@Override
 	public void received(Connection c, Object o) {
 		if(o instanceof Packet) {
-			Logger.info("Recieved packet from server: " + o.getClass().getSimpleName() +  ". " + ((Packet)o).toString());
+			Logger.packetRecieved("Recieved packet from server: " + o.getClass().getSimpleName() +  ". " + ((Packet)o).toString());
 		}
 		else {
-			Logger.info("Recieved packet from server: " + o.getClass().getSimpleName());
+			Logger.packetRecieved("Recieved packet from server: " + o.getClass().getSimpleName());
 		}
 		MainClient.getInstance().recievedPacket(c, o);
 	}

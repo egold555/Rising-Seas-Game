@@ -10,6 +10,7 @@ import org.golde.saas.risingseasgame.client.objects.graphics.sprite.SpriteClicka
 import org.golde.saas.risingseasgame.client.states.EnumGameState;
 import org.golde.saas.risingseasgame.client.states.GameStatePlaying;
 import org.golde.saas.risingseasgame.shared.cards.EnumCardImpl;
+import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -27,23 +28,36 @@ public class Card<EnumCard extends Enum<EnumCard> & EnumCardImpl> extends Sprite
 	boolean selected;
 
 	private CheckmarkSprite checkmark = new CheckmarkSprite();
+	
+	private Sprite cardInsideImage = null;
 
 	//Takes any enum that implements EnumCardImpl
 	public Card(EnumCard theEnum) {
-		super("card");
+		super("cardicons/card");
 		this.theEnum = theEnum;
+	}
+	
+	private void setInsideSprite() {
+		if(theEnum instanceof EnumPowerCards) {
+			cardInsideImage = new InsideSprite(theEnum);
+			cardInsideImage.setXY(getX(), getY());
+		}
+		else {
+			cardInsideImage = null;
+		}
 	}
 
 	@Override
 	public GameObject init(GameContainer gc) throws SlickException {
 		GameObject toReturn = super.init(gc);
 		checkmark.init(gc);
-
+		setInsideSprite();
 		return toReturn;
 	}
 
 	public void setTheEnum(EnumCard theEnum) {
 		this.theEnum = theEnum;
+		setInsideSprite();
 	}
 	public EnumCard getTheEnum() {
 		return theEnum;
@@ -62,6 +76,13 @@ public class Card<EnumCard extends Enum<EnumCard> & EnumCardImpl> extends Sprite
 		fontDesc.drawString(getX() + 18, getY() + 172, TextHelper.stringArrayToNewLineChar(TextHelper.wordWrap(theEnum.getDesc(), 20)), Color.black);
 		//g.setColor(Color.white);
 
+		if(cardInsideImage != null) {
+			if(cardInsideImage.getImage() == null) {
+				cardInsideImage.init(gc);
+			}
+			cardInsideImage.render(gc, g);
+		}
+		
 		if(selected) {
 			checkmark.setXY(getX() + 10, getY() + 2);
 			checkmark.render(gc, g);
@@ -122,6 +143,25 @@ public class Card<EnumCard extends Enum<EnumCard> & EnumCardImpl> extends Sprite
 			return 0.05f;
 		}
 
+	}
+	
+	private class InsideSprite extends Sprite {
+
+		public InsideSprite(EnumCard theEnum) {
+			super("cardicons/" + theEnum.getImage());
+		}
+		
+		@Override
+		public float getScaleOfImage() {
+			return 0.3f;
+		}
+		
+		@Override
+		public void setXY(float inX, float inY) {
+			// TODO Auto-generated method stub
+			super.setXY(inX + 50, inY + 50);
+		}
+		
 	}
 
 }

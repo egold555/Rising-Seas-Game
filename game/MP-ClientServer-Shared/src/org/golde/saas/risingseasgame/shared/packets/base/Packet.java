@@ -9,10 +9,6 @@ public class Packet {
 		  StringBuilder result = new StringBuilder();
 		  String newLine = System.getProperty("line.separator");
 
-//		  result.append( this.getClass().getName() );
-//		  result.append( " Object {" );
-//		  result.append(newLine);
-
 		  result.append( " {" );
 		  result.append(newLine);
 		  

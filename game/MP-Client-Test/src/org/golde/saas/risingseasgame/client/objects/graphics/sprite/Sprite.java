@@ -1,8 +1,10 @@
 package org.golde.saas.risingseasgame.client.objects.graphics.sprite;
 
+import org.golde.saas.risingseasgame.client.MainClient;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.impl.ISprite;
 import org.golde.saas.risingseasgame.client.objects.GameObjectMoveable;
+import org.golde.saas.risingseasgame.shared.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -39,12 +41,16 @@ public class Sprite extends GameObjectMoveable implements ISprite {
 			img = new Image(imgSrc, transparentColor).getScaledCopy(getScaleOfImage());
 		}
 		
-		System.out.println("INIT: " + img);
+		//System.out.println("INIT: " + img);
 		return this;
 	}
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
+		if(img == null) {
+			Logger.warning("Sprite tried to render with a null image!");
+			return;
+		}
 		img.draw(getX(), getY());
 	}
 	

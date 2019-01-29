@@ -124,7 +124,7 @@ public class Player {
 			PacketSubmitCards packetSubmitCards = (PacketSubmitCards)o;
 			Logger.info("Got submitted cards");
 			EnumCardImpl[] newCards = cards.clone();
-			EnumCardImpl origCard = cards.clone()[0];
+			EnumCardImpl origCard = cards.clone()[packetSubmitCards.card1];
 			
 			newCards[packetSubmitCards.card1] = EnumUtil.randomEnum(EnumPowerCards.class);
 			newCards[packetSubmitCards.card2] = EnumUtil.randomEnum(EnumPowerCards.class);
