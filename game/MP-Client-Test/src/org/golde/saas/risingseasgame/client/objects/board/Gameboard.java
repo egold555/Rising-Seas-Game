@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.golde.saas.risingseasgame.client.MainClient;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.GameObjectMoveable;
 import org.golde.saas.risingseasgame.client.objects.graphics.SolidFill;
@@ -25,14 +26,14 @@ import org.newdawn.slick.geom.Circle;
 import com.esotericsoftware.kryonet.Connection;
 
 public class Gameboard extends Sprite {
-
-	private int waterLevel = 0;
 	
 	private int playerPosition = 0;
 	
 	private final List<PlaceToMove> placesToMove = new ArrayList<PlaceToMove>();
 	
 	private PlayerPositionGraphic playerPositionGraphic;
+	
+	private WaterLevelGraphic waterLevelGraphic = new WaterLevelGraphic();
 	
 	public Gameboard() {
 		super("Gameboard3");
@@ -60,6 +61,7 @@ public class Gameboard extends Sprite {
 		
 		toReturn.addAll(placesToMove);
 		toReturn.add(playerPositionGraphic);
+		toReturn.add(waterLevelGraphic);
 		
 		return toReturn;
 	}
@@ -93,6 +95,9 @@ public class Gameboard extends Sprite {
 				count++;
 			}
 		}
+		
+		waterLevelGraphic.setX(MainClient.screenSize.width - 900);
+		
 	}
 	
 	@Override
@@ -112,7 +117,7 @@ public class Gameboard extends Sprite {
 	
 	public final void recievedPacket(Connection c, Object o) {
 		if(o instanceof PacketSetWater) {
-			this.waterLevel = ((PacketSetWater)o).waterLevel;
+			waterLevelGraphic.setWaterLevel( ((PacketSetWater)o).waterLevel);
 		}
 		else if(o instanceof PacketSetPosition) {
 			this.playerPosition = ((PacketSetPosition)o).position;
@@ -134,9 +139,9 @@ public class Gameboard extends Sprite {
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		super.render(gc, g); //draw bg
-		g.drawString("Water Level: " + waterLevel, 10, 50);
+		//g.drawString("Water Level: " + waterLevel, 10, 50);
 		//draw debug mouse
-
+		
 	}
 
 }

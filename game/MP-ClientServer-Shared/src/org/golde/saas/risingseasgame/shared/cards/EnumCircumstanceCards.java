@@ -18,7 +18,7 @@ public enum EnumCircumstanceCards implements EnumCardImpl {
 	WINDFARM("Doldrums!", "Move back one space for each wind farm"),
 	WINTER_WARMTH("Unreasonable Winter Warmth!", "Relocate displaced indigenous peoples. Move back two spaces"),
 	VEGETARIAN("All your citizens went vegetarian!", "Move ahead two spaces"),
-	OVERCAST("Overcast!", "Move back one space for eachsolar farm"),
+	OVERCAST("Overcast!", "Move back one space for each solar farm"),
 	//TEST("Install personal windmills for everyone on your island", ""),
 	ACID_OCEAN("Oceans acidify!", "Aqua tourism and fishing suffer. Move back two spaces."),
 	

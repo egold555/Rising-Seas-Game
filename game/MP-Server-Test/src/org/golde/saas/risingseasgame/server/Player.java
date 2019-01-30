@@ -3,6 +3,7 @@ package org.golde.saas.risingseasgame.server;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.golde.saas.risingseasgame.server.helper.EnumUtil;
@@ -51,10 +52,16 @@ public class Player {
 	private Connection conn;
 	private EnumCardImpl[] cards = new EnumCardImpl[7];
 	private int position = 0;
+	private HashMap<EnumPowerCards, Integer> generatorsPlaced = new HashMap<EnumPowerCards, Integer>();
 
 	//Called when they join the server
 	public Player(Connection conn) {
 		this.conn = conn;
+		
+		for(EnumPowerCards ep : EnumPowerCards.values()) {
+			generatorsPlaced.put(ep, 0);
+		}
+		
 	}
 
 	public int getId() {
@@ -178,6 +185,12 @@ public class Player {
 		packetPlaceGenerator.position = place;
 		MainServer.getPacketManager().sendToPlayer(getId(), packetPlaceGenerator);
 		
+		incrementGeneratorHashmap(card);
+		
+	}
+	
+	private void incrementGeneratorHashmap(EnumPowerCards ep) {
+		generatorsPlaced.put(ep, generatorsPlaced.get(ep) + 1);
 	}
 
 	private void doCircumstanceAction(EnumCircumstanceCards card) {
@@ -199,14 +212,15 @@ public class Player {
 		case GEOTHERMAL_VENTS:
 			move(2);
 			break;
-		case HOME_BATTERY_SYSTEMS:
-			break;
+		case HOME_BATTERY_SYSTEMS: //Choose an opponent and play one round of rock, paper, scissors. Winner moves ahead one space, loser back
+			break; 
 		case OVERCAST:
+			move(-generatorsPlaced.get(EnumPowerCards.SOLAR)); //Move back one space for each solar farm
 			break;
 		case SAILBOAT_FORCE:
 			move(1);
 			break;
-		case SCARCE_RESOURCES:
+		case SCARCE_RESOURCES: //Choose an opponent and play one round of rock, paper, scissors. Winner moves ahead one space, loser back
 			break;
 		case SNOW_PACK:
 			move(-2);
@@ -218,6 +232,7 @@ public class Player {
 			move(2);
 			break;
 		case TORNADO:
+			move(-generatorsPlaced.get(EnumPowerCards.COAL)); //Move back one space for each coal plant
 			break;
 		case VEGETARIAN:
 			move(2);
@@ -226,8 +241,10 @@ public class Player {
 			move(2);
 			break;
 		case WILD_FIRE:
+			move(-generatorsPlaced.get(EnumPowerCards.FOREST)); //Move back one space for each forest
 			break;
 		case WINDFARM:
+			move(-generatorsPlaced.get(EnumPowerCards.WIND)); //Move back one space for each wind farm
 			break;
 		case WINTER_WARMTH:
 			move(-2);
