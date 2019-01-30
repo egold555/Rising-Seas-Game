@@ -22,4 +22,8 @@ public interface GameObject extends Comparable<GameObject>, GameStateObjectShare
 		return Integer.compare(this.getZIndex(), o.getZIndex());
 	}
 	
+	public default boolean isOnDialog() {
+		return false;
+	}
+	
 }

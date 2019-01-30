@@ -2,6 +2,7 @@ package org.golde.saas.risingseasgame.server;
 
 import java.io.IOException;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -9,6 +10,7 @@ import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.constants.Constants;
 import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
 import org.golde.saas.risingseasgame.shared.packets.PacketHelloWorld;
+import org.golde.saas.risingseasgame.shared.packets.PacketRPSChallenge;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetWater;
 import org.golde.saas.risingseasgame.shared.packets.base.Packet;
 import org.golde.saas.risingseasgame.shared.scheduler.Scheduler;
@@ -41,10 +43,38 @@ public class MainServer extends Listener {
 	}
 
 	private static void startGameLoop() {
-		Logger.info("Game loop started. Type ' ' to close");
+		Logger.info("Game loop started.");
+		new Thread() {
+			public void run() {
+				while(true) {
+					scheduler.update();
+				}
+			}
+		}.start();
+		
 		while(true) {
-			scheduler.update();
+			Scanner scanner = new Scanner(System.in);
+			String in = scanner.nextLine();
+			
+			if(in.equalsIgnoreCase("exit")) {
+				System.exit(0);
+			}
+			else if(in.equalsIgnoreCase("rpc")) {
+				int id = Player.getPlayers().get(0).getId();
+				
+				PacketRPSChallenge challenge = new PacketRPSChallenge();
+				
+				challenge.playerId = -1;
+				
+				packetManager.sendToPlayer(id, challenge);
+			}
+			else
+			{
+				System.out.println("Unknown cmd: " + in);
+			}
+			
 		}
+		
 	}
 
 	@Override

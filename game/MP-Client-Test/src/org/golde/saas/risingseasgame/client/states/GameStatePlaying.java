@@ -15,8 +15,9 @@ import org.golde.saas.risingseasgame.client.objects.board.Gameboard;
 import org.golde.saas.risingseasgame.client.objects.board.PlaceToMove;
 import org.golde.saas.risingseasgame.client.objects.btn.Button;
 import org.golde.saas.risingseasgame.client.objects.btn.Button.ButtonClickHandler;
+import org.golde.saas.risingseasgame.client.objects.graphics.dialog.DialogBox;
+import org.golde.saas.risingseasgame.client.objects.graphics.dialog.DialogRPS;
 import org.golde.saas.risingseasgame.client.objects.btn.ButtonAbstract;
-import org.golde.saas.risingseasgame.client.objects.graphics.DialogBox;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
 import org.golde.saas.risingseasgame.shared.cards.EnumDiplomaticStrategies;
@@ -24,6 +25,7 @@ import org.golde.saas.risingseasgame.shared.cards.EnumGenericCards;
 import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
 import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
+import org.golde.saas.risingseasgame.shared.packets.PacketRPSChallenge;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetWater;
 import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketSubmitCards;
@@ -58,6 +60,8 @@ public class GameStatePlaying extends GameStateAbstract {
 	private boolean canSelectCard = true;
 	private static final int MAX_CARDS_SELECTABLE = 4;
 	
+	private DialogRPS dialogRPS = new DialogRPS();
+	
 	private int[] selectedCards = new int[MAX_CARDS_SELECTABLE];
 
 	@Override
@@ -65,6 +69,7 @@ public class GameStatePlaying extends GameStateAbstract {
 		INSTANCE = this;
 		gameObjects.add(gameBoard.init(gc));
 		gameObjects.add(sendCards.init(gc));
+		
 		
 
 		for(GameObject go : gameBoard.getObjectsToInit()) {
@@ -80,8 +85,8 @@ public class GameStatePlaying extends GameStateAbstract {
 		}
 		scaleInput(gc, -1);
 
-		Font font = new Font("Helvetica", Font.PLAIN, 14);
-		ttf = new TrueTypeFont(font, true);
+		//Font font = new Font("Helvetica", Font.PLAIN, 14);
+		//ttf = new TrueTypeFont(font, true);
 
 		//dBox.init(gc);
 		
@@ -113,6 +118,8 @@ public class GameStatePlaying extends GameStateAbstract {
 			}
 		});
 		
+		gameObjects.add(dialogRPS.init(gc));
+		
 	}
 
 	@Override
@@ -127,6 +134,10 @@ public class GameStatePlaying extends GameStateAbstract {
 
 		else if(o instanceof PacketSetCards) {
 			setCards((PacketSetCards)o);
+		}
+		
+		else if(o instanceof PacketRPSChallenge) {
+			dialogRPS.open(this);
 		}
 	}
 

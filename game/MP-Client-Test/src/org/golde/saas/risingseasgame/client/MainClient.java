@@ -53,7 +53,7 @@ public class MainClient extends BasicGame implements GameStateImpl {
 			appgc = new AppGameContainer(new MainClient());
 			appgc.setDisplayMode(ConstantsClient.WINDOW_WIDTH, ConstantsClient.WINDOW_HEIGHT, false); //width, height, fullscreen
 			appgc.setTargetFrameRate(ConstantsClient.MAX_FPS);
-			//appgc.setAlwaysRender(true);
+			appgc.setAlwaysRender(true);
 			appgc.start();
 		}
 		catch (SlickException ex) {
@@ -186,6 +186,24 @@ public class MainClient extends BasicGame implements GameStateImpl {
 		for(GameStateAbstract gs : everyGameState) {
 			if(gs.getEnumGameState() == GAME_STATE) {
 				gs.recievedPacket(c, o);
+			}
+		}
+	}
+
+	@Override
+	public void setDialogOpen() {
+		for(GameStateAbstract gs : everyGameState) {
+			if(gs.getEnumGameState() == GAME_STATE) {
+				gs.setDialogOpen();
+			}
+		}
+	}
+
+	@Override
+	public void setDialogClosed() {
+		for(GameStateAbstract gs : everyGameState) {
+			if(gs.getEnumGameState() == GAME_STATE) {
+				gs.setDialogClosed();
 			}
 		}
 	}

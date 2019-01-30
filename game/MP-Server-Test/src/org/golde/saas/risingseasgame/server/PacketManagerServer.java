@@ -1,14 +1,14 @@
 package org.golde.saas.risingseasgame.server;
 
 import org.golde.saas.risingseasgame.shared.Logger;
-import org.golde.saas.risingseasgame.shared.packets.PacketManager;
+import org.golde.saas.risingseasgame.shared.packets._PacketManager;
 import org.golde.saas.risingseasgame.shared.packets.base.Packet;
 import org.golde.saas.risingseasgame.shared.packets.base.PacketTCP;
 import org.golde.saas.risingseasgame.shared.packets.base.PacketUDP;
 
 import com.esotericsoftware.kryonet.Server;
 
-public class PacketManagerServer extends PacketManager {
+public class PacketManagerServer extends _PacketManager {
 
 	private final Server server;
 
