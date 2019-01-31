@@ -1,32 +1,32 @@
 package org.golde.saas.risingseasgame.client.states;
 
+import org.golde.saas.risingseasgame.client.event.EventTarget;
+import org.golde.saas.risingseasgame.client.event.events.EventPacketRecieved;
+import org.golde.saas.risingseasgame.client.event.events.EventRender;
+import org.golde.saas.risingseasgame.client.event.events.EventUpdate;
 import org.golde.saas.risingseasgame.shared.packets.PacketHelloWorld;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-
-import com.esotericsoftware.kryonet.Connection;
 
 public class GameStateConnecting extends GameStateAbstract {
 	
-	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException {
+	@EventTarget
+	public void render(EventRender event) throws SlickException {
 		
-		g.drawString("Connecting.......", 30, 30);
+		event.getGraphics().drawString("Connecting.......", 30, 30);
 		
-		super.render(gc, g);
+		//super.render(gc, g);
 	}
 	
-	@Override
-	public void update(GameContainer gc, int delta) throws SlickException {
+	@EventTarget
+	public void update(EventUpdate event) throws SlickException {
 		if(getNetwork().isConnected()) {
 			
 		}
 	}
 	
-	@Override
-	public void recievedPacket(Connection c, Object o) {
-		if(o instanceof PacketHelloWorld) {
+	@EventTarget
+	public void recievedPacket(EventPacketRecieved event) {
+		if(event.getPacket() instanceof PacketHelloWorld) {
 			getMainClient().changeState(EnumGameState.PLAYING);
 		}
 	}

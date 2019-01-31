@@ -1,6 +1,9 @@
 package org.golde.saas.risingseasgame.client.objects;
 
 import org.golde.saas.risingseasgame.client.MainClient;
+import org.golde.saas.risingseasgame.client.event.EventTarget;
+import org.golde.saas.risingseasgame.client.event.events.EventRender;
+import org.golde.saas.risingseasgame.client.event.events.mouse.EventMouseClicked;
 import org.golde.saas.risingseasgame.client.helper.BetterTrueTypeFont;
 import org.golde.saas.risingseasgame.client.helper.FontManager;
 import org.golde.saas.risingseasgame.client.helper.TextHelper;
@@ -13,7 +16,6 @@ import org.golde.saas.risingseasgame.shared.cards.EnumCardImpl;
 import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 //Assign "EnumCard" to be a generic type of enum that extends EnumCard that also extends Enum. This could be any name but EnumCard is specific enough.
@@ -63,9 +65,9 @@ public class Card<EnumCard extends Enum<EnumCard> & EnumCardImpl> extends Sprite
 		return theEnum;
 	}
 
-	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException {
-		super.render(gc, g);
+	@SuppressWarnings("deprecation")
+	@EventTarget
+	public void render(EventRender event) throws SlickException {
 
 		//g.setColor(Color.black);
 		BetterTrueTypeFont fontName = FontManager.getOrCreateFont(10);
@@ -78,17 +80,17 @@ public class Card<EnumCard extends Enum<EnumCard> & EnumCardImpl> extends Sprite
 
 		if(cardInsideImage != null) {
 			if(cardInsideImage.getImage() == null) {
-				cardInsideImage.init(gc);
+				cardInsideImage.init(event.getGameContainer());
 			}
-			cardInsideImage.render(gc, g);
+			//cardInsideImage.render(gc, g);
 		}
 		
 		if(selected) {
 			checkmark.setXY(getX() + 10, getY() + 2);
-			checkmark.render(gc, g);
+			//checkmark.render(gc, g);
 		}
 
-		drawDebugHitbox(g);
+		drawDebugHitbox(event.getGraphics());
 		
 	}
 
@@ -101,8 +103,8 @@ public class Card<EnumCard extends Enum<EnumCard> & EnumCardImpl> extends Sprite
 		setX(Card.CARD_WIDTH * index);
 	}
 
-	@Override
-	public void mouseClicked(int button, int x, int y, int clickCount) {
+	@EventTarget
+	public void mouseClicked(EventMouseClicked event) {
 		GameStatePlaying gsp = (GameStatePlaying)MainClient.getInstance().getGameState(EnumGameState.PLAYING);
 		if(isMouseInside()) {
 			if(gsp.canSelectCard()) {

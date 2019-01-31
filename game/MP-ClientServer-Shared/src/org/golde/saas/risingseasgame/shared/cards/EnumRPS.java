@@ -20,6 +20,7 @@ public enum EnumRPS implements EnumCardImpl {
 		return "rps/" + name().toLowerCase();
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Enum getEnum() {
 		return this;

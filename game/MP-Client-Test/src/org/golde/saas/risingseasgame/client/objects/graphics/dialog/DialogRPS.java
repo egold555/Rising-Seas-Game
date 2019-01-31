@@ -34,13 +34,13 @@ public class DialogRPS extends DialogBox {
 
 	@Override
 	public void onRender(GameContainer gc, Graphics g) throws SlickException {
-		spriteRock.render(gc, g);
+		//spriteRock.render(gc, g);
 		spriteRock.drawDebugHitbox(g);
 		
-		spritePaper.render(gc, g);
+		//spritePaper.render(gc, g);
 		spritePaper.drawDebugHitbox(g);
 		
-		spriteScissors.render(gc, g);
+		//spriteScissors.render(gc, g);
 		spriteScissors.drawDebugHitbox(g);
 
 		
@@ -59,19 +59,19 @@ public class DialogRPS extends DialogBox {
 		font2.drawString(MainClient.screenSize.width / 2 - 600, 40, "Player " + id + " has challenged you to a game of Rock Paper Axes!");
 	}
 	
-	@Override
-	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-		super.mouseMoved(oldx, oldy, newx, newy);
-		spriteRock.mouseMoved(oldx, oldy, newx, newy);
-		spritePaper.mouseMoved(oldx, oldy, newx, newy);
-		spriteScissors.mouseMoved(oldx, oldy, newx, newy);
-	}
-	
-	@Override
-	public void mouseClicked(int button, int x, int y, int clickCount) {
-		super.mouseClicked(button, x, y, clickCount);
-		
-	}
+//	@Override
+//	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+//		super.mouseMoved(oldx, oldy, newx, newy);
+//		spriteRock.mouseMoved(oldx, oldy, newx, newy);
+//		spritePaper.mouseMoved(oldx, oldy, newx, newy);
+//		spriteScissors.mouseMoved(oldx, oldy, newx, newy);
+//	}
+//	
+//	@Override
+//	public void mouseClicked(int button, int x, int y, int clickCount) {
+//		super.mouseClicked(button, x, y, clickCount);
+//		
+//	}
 	
 	public void open(GameStateAbstract gs, int id) {
 		super.open(gs);
@@ -84,6 +84,7 @@ public class DialogRPS extends DialogBox {
 		super.close(gs);
 	}
 	
+	@SuppressWarnings("serial")
 	private class SpriteRPC extends SpriteClickable {
 
 		public SpriteRPC(String fileName) {

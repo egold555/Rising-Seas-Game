@@ -1,11 +1,12 @@
 package org.golde.saas.risingseasgame.client.objects.graphics.sprite;
 
+import org.golde.saas.risingseasgame.client.event.EventTarget;
+import org.golde.saas.risingseasgame.client.event.events.EventRender;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.impl.ISprite;
 import org.golde.saas.risingseasgame.client.objects.GameObjectClickable;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -57,8 +58,8 @@ public class SpriteClickable extends GameObjectClickable implements ISprite {
 		checkPoints(); //Not sure if I need to call this but the constructor does so Ill do it to
 	}
 	
-	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException {
+	@EventTarget
+	public void render(EventRender event) throws SlickException {
 		img.draw(getX(), getY());
 	}
 	

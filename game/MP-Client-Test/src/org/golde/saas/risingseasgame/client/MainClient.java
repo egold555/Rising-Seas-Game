@@ -6,15 +6,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.golde.saas.risingseasgame.client.event.events.EventPacketRecieved;
+import org.golde.saas.risingseasgame.client.event.events.EventRender;
+import org.golde.saas.risingseasgame.client.event.events.EventUpdate;
+import org.golde.saas.risingseasgame.client.event.events.keyboard.EventKeyPressed;
+import org.golde.saas.risingseasgame.client.event.events.keyboard.EventKeyReleased;
+import org.golde.saas.risingseasgame.client.event.events.mouse.EventMouseClicked;
+import org.golde.saas.risingseasgame.client.event.events.mouse.EventMouseDragged;
+import org.golde.saas.risingseasgame.client.event.events.mouse.EventMouseMoved;
+import org.golde.saas.risingseasgame.client.event.events.mouse.EventMousePressed;
+import org.golde.saas.risingseasgame.client.event.events.mouse.EventMouseReleased;
+import org.golde.saas.risingseasgame.client.event.events.mouse.EventMouseWheelMoved;
 import org.golde.saas.risingseasgame.client.states.EnumGameState;
 import org.golde.saas.risingseasgame.client.states.GameStateAbstract;
 import org.golde.saas.risingseasgame.client.states.GameStateConnecting;
 import org.golde.saas.risingseasgame.client.states.GameStateImpl;
 import org.golde.saas.risingseasgame.client.states.GameStatePlaying;
 import org.golde.saas.risingseasgame.shared.Logger;
+import org.golde.saas.risingseasgame.shared.packets.base.Packet;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.Game;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -93,101 +104,114 @@ public class MainClient extends BasicGame implements GameStateImpl {
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		for(GameStateAbstract gs : everyGameState) {
-			if(gs.getEnumGameState() == GAME_STATE) {
-				gs.render(gc, g);
-			}
-		}
+//		for(GameStateAbstract gs : everyGameState) {
+//			if(gs.getEnumGameState() == GAME_STATE) {
+//				gs.render(gc, g);
+//			}
+//		}
+		new EventRender(gc, g).call();
 	}
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
-		for(GameStateAbstract gs : everyGameState) {
-			if(gs.getEnumGameState() == GAME_STATE) {
-				gs.update(gc, delta);
-			}
-		}
+//		for(GameStateAbstract gs : everyGameState) {
+//			if(gs.getEnumGameState() == GAME_STATE) {
+//				gs.update(gc, delta);
+//			}
+//		}
+		new EventUpdate(gc, delta).call();
 	}
 	
 	@Override
 	public void keyPressed(int key, char c) {
-		for(GameStateAbstract gs : everyGameState) {
-			if(gs.getEnumGameState() == GAME_STATE) {
-				gs.keyPressed(key, c);
-			}
-		}
+//		for(GameStateAbstract gs : everyGameState) {
+//			if(gs.getEnumGameState() == GAME_STATE) {
+//				gs.keyPressed(key, c);
+//			}
+//		}
+		new EventKeyPressed(key, c);
 	}
 	
 	@Override
 	public void keyReleased(int key, char c) {
-		for(GameStateAbstract gs : everyGameState) {
-			if(gs.getEnumGameState() == GAME_STATE) {
-				gs.keyReleased(key, c);
-			}
-		}
+//		for(GameStateAbstract gs : everyGameState) {
+//			if(gs.getEnumGameState() == GAME_STATE) {
+//				gs.keyReleased(key, c);
+//			}
+//		}
+		new EventKeyReleased(key, c).call();
 	}
 	
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount) {
-		for(GameStateAbstract gs : everyGameState) {
-			if(gs.getEnumGameState() == GAME_STATE) {
-				gs.mouseClicked(button, x, y, clickCount);
-			}
-		}
+//		for(GameStateAbstract gs : everyGameState) {
+//			if(gs.getEnumGameState() == GAME_STATE) {
+//				gs.mouseClicked(button, x, y, clickCount);
+//			}
+//		}
+		new EventMouseClicked(button, x, y, clickCount).call();
 	}
 	
 	@Override
 	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
-		for(GameStateAbstract gs : everyGameState) {
-			if(gs.getEnumGameState() == GAME_STATE) {
-				gs.mouseDragged(oldx, oldy, newx, newy);
-			}
-		}
+//		for(GameStateAbstract gs : everyGameState) {
+//			if(gs.getEnumGameState() == GAME_STATE) {
+//				gs.mouseDragged(oldx, oldy, newx, newy);
+//			}
+//		}
+		new EventMouseDragged(oldx, oldy, newx, newy).call();
 	}
 	
 	@Override
 	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-		for(GameStateAbstract gs : everyGameState) {
-			if(gs.getEnumGameState() == GAME_STATE) {
-				gs.mouseMoved(oldx, oldy, newx, newy);
-			}
-		}
+//		for(GameStateAbstract gs : everyGameState) {
+//			if(gs.getEnumGameState() == GAME_STATE) {
+//				gs.mouseMoved(oldx, oldy, newx, newy);
+//			}
+//		}
+		new EventMouseMoved(oldx, oldy, newx, newy).call();
 	}
 	
 	@Override
 	public void mousePressed(int button, int x, int y) {
-		for(GameStateAbstract gs : everyGameState) {
-			if(gs.getEnumGameState() == GAME_STATE) {
-				gs.mousePressed(button, x, y);
-			}
-		}
+//		for(GameStateAbstract gs : everyGameState) {
+//			if(gs.getEnumGameState() == GAME_STATE) {
+//				gs.mousePressed(button, x, y);
+//			}
+//		}
+		new EventMousePressed(button, x, y).call();
 	}
 	
 	@Override
 	public void mouseReleased(int button, int x, int y) {
-		for(GameStateAbstract gs : everyGameState) {
-			if(gs.getEnumGameState() == GAME_STATE) {
-				gs.mouseReleased(button, x, y);
-			}
-		}
+//		for(GameStateAbstract gs : everyGameState) {
+//			if(gs.getEnumGameState() == GAME_STATE) {
+//				gs.mouseReleased(button, x, y);
+//			}
+//		}
+		new EventMouseReleased(button, x, y);
 	}
 	
 	@Override
 	public void mouseWheelMoved(int change) {
-		for(GameStateAbstract gs : everyGameState) {
-			if(gs.getEnumGameState() == GAME_STATE) {
-				gs.mouseWheelMoved(change);
-			}
-		}
+//		for(GameStateAbstract gs : everyGameState) {
+//			if(gs.getEnumGameState() == GAME_STATE) {
+//				gs.mouseWheelMoved(change);
+//			}
+//		}
+		new EventMouseWheelMoved(change).call();
 	}
 	
-	@Override
 	public void recievedPacket(Connection c, Object o) {
-		for(GameStateAbstract gs : everyGameState) {
-			if(gs.getEnumGameState() == GAME_STATE) {
-				gs.recievedPacket(c, o);
-			}
+//		for(GameStateAbstract gs : everyGameState) {
+//			if(gs.getEnumGameState() == GAME_STATE) {
+//				gs.recievedPacket(c, o);
+//			}
+//		}
+		if(o instanceof Packet) {
+			new EventPacketRecieved(c, (Packet)o).call();
 		}
+		
 	}
 
 	@Override

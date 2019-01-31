@@ -7,6 +7,7 @@ public interface EnumCardImpl {
 	
 	public String getImage();
 	
+	@SuppressWarnings("rawtypes")
 	public Enum getEnum();
 	
 }

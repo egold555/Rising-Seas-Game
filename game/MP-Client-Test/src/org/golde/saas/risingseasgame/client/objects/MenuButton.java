@@ -1,11 +1,14 @@
 package org.golde.saas.risingseasgame.client.objects;
 
+import org.golde.saas.risingseasgame.client.event.EventTarget;
+import org.golde.saas.risingseasgame.client.event.events.EventRender;
+import org.golde.saas.risingseasgame.client.event.events.mouse.EventMouseClicked;
+import org.golde.saas.risingseasgame.client.event.events.mouse.EventMouseMoved;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.graphics.sprite.Sprite;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.RoundedRectangle;
 
@@ -52,22 +55,22 @@ public class MenuButton extends RoundedRectangle implements GameObject {
         textPosY = (height - textHeight) / 2 + y;
     }
     
-    @Override
-    public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-    	inside = this.contains(newx, newy);
+    @EventTarget
+    public void mouseMoved(EventMouseMoved event) {
+    	inside = this.contains(event.getNewX(), event.getNewY());
     }
     
-    @Override
-    public void mouseClicked(int button, int x, int y, int clickCount) {
+    @EventTarget
+    public void mouseClicked(EventMouseClicked event) {
     	if(inside) {
-    		System.out.println("Clicked id " + button);
+    		System.out.println("Clicked id " + event.getButton());
     	}
     }
     
     @SuppressWarnings("deprecation")
-	@Override
-    public void render(GameContainer gc, Graphics g) throws SlickException {
-    	updateFontWidth(g.getFont());
+	@EventTarget
+    public void render(EventRender event) throws SlickException {
+    	updateFontWidth(event.getGraphics().getFont());
     	if(pressedBackground.getImage() != null && normalBackground.getImage() != null) {
     		if(inside) {
         		pressedBackground.getImage().draw(x, y, width, height);
@@ -77,7 +80,7 @@ public class MenuButton extends RoundedRectangle implements GameObject {
     	}
     	
     	
-		g.getFont().drawString(textPosX, textPosY, text, Color.white);
+		event.getGraphics().getFont().drawString(textPosX, textPosY, text, Color.white);
     }
 
 	@Override

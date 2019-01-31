@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.golde.saas.risingseasgame.client.MainClient;
+import org.golde.saas.risingseasgame.client.event.EventTarget;
+import org.golde.saas.risingseasgame.client.event.events.mouse.EventMouseClicked;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
-import org.golde.saas.risingseasgame.client.objects.GameObjectMoveable;
-import org.golde.saas.risingseasgame.client.objects.graphics.SolidFill;
 import org.golde.saas.risingseasgame.client.objects.graphics.sprite.Sprite;
 import org.golde.saas.risingseasgame.client.states.GameStatePlaying;
 import org.golde.saas.risingseasgame.shared.Logger;
@@ -16,12 +16,6 @@ import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
 import org.golde.saas.risingseasgame.shared.packets.PacketPlaceGenerator;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetPosition;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetWater;
-import org.golde.saas.risingseasgame.shared.packets.base.Packet;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
 
 import com.esotericsoftware.kryonet.Connection;
 
@@ -100,8 +94,8 @@ public class Gameboard extends Sprite {
 		
 	}
 	
-	@Override
-	public void mouseClicked(int button, int x, int y, int clickCount) {
+	@EventTarget
+	public void mouseClicked(EventMouseClicked event) {
 		for(PlaceToMove ptm : placesToMove) {
 			if(ptm.isMouseInside()) {
 				ptm.setIsSelected(!ptm.isSelected());
@@ -136,12 +130,12 @@ public class Gameboard extends Sprite {
 		}
 	}
 
-	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException {
-		super.render(gc, g); //draw bg
-		//g.drawString("Water Level: " + waterLevel, 10, 50);
-		//draw debug mouse
-		
-	}
+//	@Override
+//	public void render(GameContainer gc, Graphics g) throws SlickException {
+//		super.render(gc, g); //draw bg
+//		//g.drawString("Water Level: " + waterLevel, 10, 50);
+//		//draw debug mouse
+//		
+//	}
 
 }

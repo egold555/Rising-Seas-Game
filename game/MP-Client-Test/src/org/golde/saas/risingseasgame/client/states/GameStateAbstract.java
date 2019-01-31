@@ -11,8 +11,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-import com.esotericsoftware.kryonet.Connection;
-
 public abstract class GameStateAbstract implements GameStateImpl {
 
 	public final List<GameObject> gameObjects = new ArrayList<GameObject>();
@@ -30,75 +28,75 @@ public abstract class GameStateAbstract implements GameStateImpl {
 		gc.getInput().setScale(ConstantsClient.COORD_SYS_WIDTH / ConstantsClient.WINDOW_WIDTH, ConstantsClient.COORD_SYS_HEIGHT / ConstantsClient.WINDOW_HEIGHT);
 	}
 
-	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException {
-		for(GameObject obj : gameObjects) {
-			if(obj.isVisable()) { obj.render(gc, g); }
-		}
-	}
-
-	@Override
-	public void update(GameContainer gc, int delta) throws SlickException {
-		for(GameObject obj : gameObjects) {
-			if(canDialog(obj)) {obj.update(gc, delta);}
-		}
-	}
-
-	@Override
-	public void keyPressed(int key, char c) {
-		for(GameObject obj : gameObjects) {
-			if(canDialog(obj)) {obj.keyPressed(key, c);}
-		}
-	}
-
-	@Override
-	public void keyReleased(int key, char c) {
-		for(GameObject obj : gameObjects) {
-			if(canDialog(obj)) {obj.keyReleased(key, c);}
-		}
-	}
-
-	@Override
-	public void mouseClicked(int button, int x, int y, int clickCount) {
-		for(GameObject obj : gameObjects) {
-			if(canDialog(obj)) {obj.mouseClicked(button, x, y, clickCount);}
-		}
-	}
-
-	@Override
-	public void mouseWheelMoved(int newValue) {
-		for(GameObject obj : gameObjects) {
-			if(canDialog(obj)) {obj.mouseWheelMoved(newValue);}
-		}
-	}
-
-	@Override
-	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
-		for(GameObject obj : gameObjects) {
-			if(canDialog(obj)) {obj.mouseDragged(oldx, oldy, newx, newy);}
-		}
-	}
-
-	@Override
-	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-		for(GameObject obj : gameObjects) {
-			if(canDialog(obj)) {obj.mouseMoved(oldx, oldy, newx, newy);}
-		}
-	}
-
-	@Override
-	public void mousePressed(int button, int x, int y) {
-		for(GameObject obj : gameObjects) {
-			if(canDialog(obj)) {obj.mousePressed(button, x, y);}
-		}
-	}
-
-	@Override
-	public void mouseReleased(int button, int x, int y) {
-		for(GameObject obj : gameObjects) {
-			if(canDialog(obj)) {obj.mouseReleased(button, x, y);}
-		}
-	}
+//	@Override
+//	public void render(GameContainer gc, Graphics g) throws SlickException {
+//		for(GameObject obj : gameObjects) {
+//			if(obj.isVisable()) { obj.render(gc, g); }
+//		}
+//	}
+//
+//	@Override
+//	public void update(GameContainer gc, int delta) throws SlickException {
+//		for(GameObject obj : gameObjects) {
+//			if(canDialog(obj)) {obj.update(gc, delta);}
+//		}
+//	}
+//
+//	@Override
+//	public void keyPressed(int key, char c) {
+//		for(GameObject obj : gameObjects) {
+//			if(canDialog(obj)) {obj.keyPressed(key, c);}
+//		}
+//	}
+//
+//	@Override
+//	public void keyReleased(int key, char c) {
+//		for(GameObject obj : gameObjects) {
+//			if(canDialog(obj)) {obj.keyReleased(key, c);}
+//		}
+//	}
+//
+//	@Override
+//	public void mouseClicked(int button, int x, int y, int clickCount) {
+//		for(GameObject obj : gameObjects) {
+//			if(canDialog(obj)) {obj.mouseClicked(button, x, y, clickCount);}
+//		}
+//	}
+//
+//	@Override
+//	public void mouseWheelMoved(int newValue) {
+//		for(GameObject obj : gameObjects) {
+//			if(canDialog(obj)) {obj.mouseWheelMoved(newValue);}
+//		}
+//	}
+//
+//	@Override
+//	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
+//		for(GameObject obj : gameObjects) {
+//			if(canDialog(obj)) {obj.mouseDragged(oldx, oldy, newx, newy);}
+//		}
+//	}
+//
+//	@Override
+//	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+//		for(GameObject obj : gameObjects) {
+//			if(canDialog(obj)) {obj.mouseMoved(oldx, oldy, newx, newy);}
+//		}
+//	}
+//
+//	@Override
+//	public void mousePressed(int button, int x, int y) {
+//		for(GameObject obj : gameObjects) {
+//			if(canDialog(obj)) {obj.mousePressed(button, x, y);}
+//		}
+//	}
+//
+//	@Override
+//	public void mouseReleased(int button, int x, int y) {
+//		for(GameObject obj : gameObjects) {
+//			if(canDialog(obj)) {obj.mouseReleased(button, x, y);}
+//		}
+//	}
 	
 	private boolean canDialog(GameObject go) {
 		if(!dialogOpen) {
@@ -110,8 +108,8 @@ public abstract class GameStateAbstract implements GameStateImpl {
 		return false;
 	}
 
-	@Override
-	public void recievedPacket(Connection c, Object o) {}
+//	@Override
+//	public void recievedPacket(Connection c, Object o) {}
 
 	public final GameContainer getGameContainer() {
 		return container;

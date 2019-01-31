@@ -1,8 +1,8 @@
 package org.golde.saas.risingseasgame.client.objects.graphics.dialog;
 
 import org.golde.saas.risingseasgame.client.MainClient;
-import org.golde.saas.risingseasgame.client.helper.BetterTrueTypeFont;
-import org.golde.saas.risingseasgame.client.helper.FontManager;
+import org.golde.saas.risingseasgame.client.event.EventTarget;
+import org.golde.saas.risingseasgame.client.event.events.EventRender;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.GameObjectMoveable;
 import org.golde.saas.risingseasgame.client.objects.graphics.SolidFill;
@@ -27,17 +27,17 @@ public abstract class DialogBox extends GameObjectMoveable {
 		return 1000;
 	}
 	
-	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException {
+	@EventTarget
+	public void render(EventRender event) throws SlickException {
 		
-		super.render(gc, g);
+		//super.render(gc, g);
 		
 		//BetterTrueTypeFont font = FontManager.getOrCreateFont(40);
 		
-		g.fill(new Rectangle(0, 0, MainClient.screenSize.width, MainClient.screenSize.height), new SolidFill(new Color(0.5f, 0.5f, 0.5f, 0.7f)));
+		event.getGraphics().fill(new Rectangle(0, 0, MainClient.screenSize.width, MainClient.screenSize.height), new SolidFill(new Color(0.5f, 0.5f, 0.5f, 0.7f)));
 		//font.drawString(MainClient.screenSize.width / 2, MainClient.screenSize.height / 2, "Test");
 		
-		onRender(gc, g);
+		onRender(event.getGameContainer(), event.getGraphics());
 		
 	}
 

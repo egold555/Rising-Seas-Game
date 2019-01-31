@@ -35,6 +35,7 @@ public enum EnumPowerCards implements EnumCardImpl {
 		return "generators/" + name().toLowerCase();
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Enum getEnum() {
 		return this;

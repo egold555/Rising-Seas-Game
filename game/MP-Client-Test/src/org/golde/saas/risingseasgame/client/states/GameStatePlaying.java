@@ -1,41 +1,35 @@
 package org.golde.saas.risingseasgame.client.states;
 
-import java.awt.Font;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.golde.saas.risingseasgame.client.ConstantsClient;
-import org.golde.saas.risingseasgame.client.MainClient;
+import org.golde.saas.risingseasgame.client.event.EventTarget;
+import org.golde.saas.risingseasgame.client.event.events.EventPacketRecieved;
+import org.golde.saas.risingseasgame.client.event.events.EventRender;
+import org.golde.saas.risingseasgame.client.event.events.EventUpdate;
+import org.golde.saas.risingseasgame.client.event.events.keyboard.EventKeyPressed;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.Card;
-import org.golde.saas.risingseasgame.client.objects.MenuButton;
 import org.golde.saas.risingseasgame.client.objects.board.Gameboard;
 import org.golde.saas.risingseasgame.client.objects.board.PlaceToMove;
 import org.golde.saas.risingseasgame.client.objects.btn.Button;
 import org.golde.saas.risingseasgame.client.objects.btn.Button.ButtonClickHandler;
-import org.golde.saas.risingseasgame.client.objects.graphics.dialog.DialogBox;
 import org.golde.saas.risingseasgame.client.objects.graphics.dialog.DialogRPS;
-import org.golde.saas.risingseasgame.client.objects.btn.ButtonAbstract;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
 import org.golde.saas.risingseasgame.shared.cards.EnumDiplomaticStrategies;
 import org.golde.saas.risingseasgame.shared.cards.EnumGenericCards;
 import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
-import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
 import org.golde.saas.risingseasgame.shared.packets.PacketRPSChallenge;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetCards;
-import org.golde.saas.risingseasgame.shared.packets.PacketSetWater;
 import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketSubmitCards;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
-
-import com.esotericsoftware.kryonet.Connection;
 
 public class GameStatePlaying extends GameStateAbstract {
 
@@ -49,6 +43,7 @@ public class GameStatePlaying extends GameStateAbstract {
 
 	public TrueTypeFont ttf;
 
+	@SuppressWarnings("rawtypes")
 	List<Card> cards = new ArrayList<Card>();
 
 	//WaterLevelCircle WaterLevelCircle = new WaterLevelCircle();
@@ -96,6 +91,7 @@ public class GameStatePlaying extends GameStateAbstract {
 		
 		sendCards.setHandler(new ButtonClickHandler() {
 			
+			@SuppressWarnings("rawtypes")
 			@Override
 			public void onClicked(int button, int x, int y, int clickCount) {
 				PacketSubmitCards packetSubmitCards = new PacketSubmitCards();
@@ -122,31 +118,31 @@ public class GameStatePlaying extends GameStateAbstract {
 		
 	}
 
-	@Override
-	public void recievedPacket(Connection c, Object o) {
+	@EventTarget
+	public void recievedPacket(EventPacketRecieved event) {
 		
-		gameBoard.recievedPacket(c, o);
+		//gameBoard.recievedPacket(c, o);
 		
-		if(o instanceof PacketAddPlayer) {
-			PacketAddPlayer packet = (PacketAddPlayer)o;
+		if(event.getPacket() instanceof PacketAddPlayer) {
+			PacketAddPlayer packet = (PacketAddPlayer)event.getPacket();
 			connectedClients.add(packet.id);
 		}
 
-		else if(o instanceof PacketSetCards) {
-			setCards((PacketSetCards)o);
+		else if(event.getPacket() instanceof PacketSetCards) {
+			setCards((PacketSetCards)event.getPacket());
 		}
 		
-		else if(o instanceof PacketRPSChallenge) {
+		else if(event.getPacket() instanceof PacketRPSChallenge) {
 			dialogRPS.open(this);
 		}
 	}
 
 	@SuppressWarnings("deprecation")
-	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException {
+	@EventTarget
+	public void render(EventRender event) throws SlickException {
 
 		//g.setFont(ttf);
-		scaleRenderer(gc, g);
+		scaleRenderer(event.getGameContainer(), event.getGraphics());
 
 		for(GameObject temp : tempGameObject) {
 			gameObjects.add(temp);
@@ -158,16 +154,16 @@ public class GameStatePlaying extends GameStateAbstract {
 		//new render method thats abstract
 		int idCountX = 0;
 		for(int id : connectedClients) {
-			g.drawString(String.valueOf(id), 30 + idCountX, 60);
+			event.getGraphics().drawString(String.valueOf(id), 30 + idCountX, 60);
 			idCountX += 10;
 		} 
 
 		gameBoard.setX((ConstantsClient.WINDOW_WIDTH / 2) - gameBoard.getImage().getWidth());
 		//WaterLevelCircle.setXY(0, 0);
 
-		g.setBackground(ConstantsClient.WATER_COLOR);
+		event.getGraphics().setBackground(ConstantsClient.WATER_COLOR);
 		
-		super.render(gc, g);
+		//super.render(gc, g);
 		
 		//dBox.render(gc, g);
 
@@ -175,9 +171,10 @@ public class GameStatePlaying extends GameStateAbstract {
 		
 	}
 	
-	@Override
-	public void update(GameContainer gc, int delta) throws SlickException {
-		super.update(gc, delta);
+	@SuppressWarnings("rawtypes")
+	@EventTarget
+	public void update(EventUpdate event) throws SlickException {
+		//super.update(gc, delta);
 		int selected = 0;
 		canSelectCard = true;
 		int cardIndex = 0;
@@ -241,10 +238,10 @@ public class GameStatePlaying extends GameStateAbstract {
 		
 	}
 	
-	@Override
-	public void keyPressed(int key, char c) {
-		super.keyPressed(key, c);
-		if(key == Keyboard.KEY_ESCAPE) {
+	@EventTarget
+	public void keyPressed(EventKeyPressed event) {
+		//super.keyPressed(key, c);
+		if(event.getKey() == Keyboard.KEY_ESCAPE) {
 			System.exit(0);
 		}
 	}
@@ -254,6 +251,7 @@ public class GameStatePlaying extends GameStateAbstract {
 		return EnumGameState.PLAYING;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void setCards(PacketSetCards p) {
 		int cardNum = -1;
 		for(Field f : p.getClass().getDeclaredFields()) {
@@ -263,6 +261,7 @@ public class GameStatePlaying extends GameStateAbstract {
 				try {
 					val = (String)f.get(p);
 
+					@SuppressWarnings("rawtypes")
 					Enum impl = null;
 
 					try {

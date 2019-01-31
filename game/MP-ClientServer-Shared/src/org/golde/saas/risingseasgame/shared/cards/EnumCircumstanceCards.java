@@ -46,6 +46,7 @@ public enum EnumCircumstanceCards implements EnumCardImpl {
 		return name();
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Enum getEnum() {
 		return this;

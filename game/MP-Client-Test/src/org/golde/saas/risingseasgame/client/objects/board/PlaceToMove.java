@@ -3,6 +3,8 @@ package org.golde.saas.risingseasgame.client.objects.board;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.golde.saas.risingseasgame.client.event.EventTarget;
+import org.golde.saas.risingseasgame.client.event.events.EventRender;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.GameObjectClickable;
 import org.golde.saas.risingseasgame.client.objects.graphics.SolidFill;
@@ -10,7 +12,6 @@ import org.golde.saas.risingseasgame.client.objects.graphics.sprite.Sprite;
 import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 
@@ -123,31 +124,32 @@ public class PlaceToMove extends GameObjectClickable {
 		return this;
 	}
 
-	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException {
+	@SuppressWarnings("deprecation")
+	@EventTarget
+	public void render(EventRender event) throws SlickException {
 		if(isAction) {
-			g.setLineWidth(3);
-			g.draw(new Circle(getX() + OFFSET, getY() + OFFSET, 8), new SolidFill(Color.black));
-			g.resetLineWidth();
+			event.getGraphics().setLineWidth(3);
+			event.getGraphics().draw(new Circle(getX() + OFFSET, getY() + OFFSET, 8), new SolidFill(Color.black));
+			event.getGraphics().resetLineWidth();
 		}
 		
-		drawDebugHitbox(g);
+		drawDebugHitbox(event.getGraphics());
 		
 		if(placedGenerator != null) {
 			
 			if(placedGenerator.getImage() == null) {
-				placedGenerator.init(gc);
+				placedGenerator.init(event.getGameContainer());
 				
 				//g.fill(new Circle(getX() - 15 + OFFSET, getY() + OFFSET, 4), new SolidFill(genColor));
 			}
 			//placedGenerator.setXY(getX() - 50 + OFFSET, getY() + OFFSET - 15);
 			placedGenerator.setXY(getX() - OFFSET, getY() - OFFSET);
-			placedGenerator.render(gc, g);
+			//placedGenerator.render(gc, g);
 			
 		}
 		
 		if(isSelected) {
-			g.fill(new Circle(getX() + OFFSET, getY() + OFFSET, 6), new SolidFill(Color.red));
+			event.getGraphics().fill(new Circle(getX() + OFFSET, getY() + OFFSET, 6), new SolidFill(Color.red));
 		}
 		
 	}

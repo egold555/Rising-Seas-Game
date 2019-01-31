@@ -1,5 +1,7 @@
 package org.golde.saas.risingseasgame.client.objects;
 
+import org.golde.saas.risingseasgame.client.event.EventTarget;
+import org.golde.saas.risingseasgame.client.event.events.mouse.EventMouseMoved;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.impl.IGameObjectMoveable;
 import org.golde.saas.risingseasgame.client.objects.graphics.SolidFill;
@@ -7,7 +9,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.RoundedRectangle;
 
 @SuppressWarnings("serial")
@@ -39,9 +40,9 @@ public abstract class GameObjectClickable extends RoundedRectangle implements Ga
 		super.setY(y);
 	}
 	
-	@Override
-	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-		inside = this.contains(newx, newy);
+	@EventTarget
+	public void mouseMoved(EventMouseMoved event) {
+		inside = this.contains(event.getNewX(), event.getNewY());
 	}
 
 	public final boolean isMouseInside() {

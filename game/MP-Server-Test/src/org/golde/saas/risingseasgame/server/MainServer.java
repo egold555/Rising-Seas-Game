@@ -53,6 +53,7 @@ public class MainServer extends Listener {
 		}.start();
 		
 		while(true) {
+			@SuppressWarnings("resource")
 			Scanner scanner = new Scanner(System.in);
 			String in = scanner.nextLine();
 			
