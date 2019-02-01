@@ -72,7 +72,7 @@ public class MainServer extends Listener {
 			{
 				System.out.println("Unknown cmd: " + in);
 			}
-			
+			scanner.close();
 		}
 		
 	}

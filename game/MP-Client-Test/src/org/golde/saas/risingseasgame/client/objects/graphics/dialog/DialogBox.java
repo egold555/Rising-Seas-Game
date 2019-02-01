@@ -1,8 +1,6 @@
 package org.golde.saas.risingseasgame.client.objects.graphics.dialog;
 
 import org.golde.saas.risingseasgame.client.MainClient;
-import org.golde.saas.risingseasgame.client.helper.BetterTrueTypeFont;
-import org.golde.saas.risingseasgame.client.helper.FontManager;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.GameObjectMoveable;
 import org.golde.saas.risingseasgame.client.objects.graphics.SolidFill;

@@ -1,33 +1,25 @@
 package org.golde.saas.risingseasgame.client.states;
 
-import java.awt.Font;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.golde.saas.risingseasgame.client.ConstantsClient;
-import org.golde.saas.risingseasgame.client.MainClient;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.Card;
-import org.golde.saas.risingseasgame.client.objects.MenuButton;
 import org.golde.saas.risingseasgame.client.objects.board.Gameboard;
 import org.golde.saas.risingseasgame.client.objects.board.PlaceToMove;
 import org.golde.saas.risingseasgame.client.objects.btn.Button;
 import org.golde.saas.risingseasgame.client.objects.btn.Button.ButtonClickHandler;
-import org.golde.saas.risingseasgame.client.objects.graphics.dialog.DialogBox;
 import org.golde.saas.risingseasgame.client.objects.graphics.dialog.DialogRPS;
-import org.golde.saas.risingseasgame.client.objects.btn.ButtonAbstract;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
 import org.golde.saas.risingseasgame.shared.cards.EnumDiplomaticStrategies;
 import org.golde.saas.risingseasgame.shared.cards.EnumGenericCards;
 import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
-import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
 import org.golde.saas.risingseasgame.shared.packets.PacketRPSChallenge;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetCards;
-import org.golde.saas.risingseasgame.shared.packets.PacketSetWater;
 import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketSubmitCards;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.GameContainer;
@@ -49,6 +41,7 @@ public class GameStatePlaying extends GameStateAbstract {
 
 	public TrueTypeFont ttf;
 
+	@SuppressWarnings("rawtypes")
 	List<Card> cards = new ArrayList<Card>();
 
 	//WaterLevelCircle WaterLevelCircle = new WaterLevelCircle();
@@ -96,6 +89,7 @@ public class GameStatePlaying extends GameStateAbstract {
 		
 		sendCards.setHandler(new ButtonClickHandler() {
 			
+			@SuppressWarnings("rawtypes")
 			@Override
 			public void onClicked(int button, int x, int y, int clickCount) {
 				PacketSubmitCards packetSubmitCards = new PacketSubmitCards();
@@ -175,6 +169,7 @@ public class GameStatePlaying extends GameStateAbstract {
 		
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		super.update(gc, delta);
@@ -254,6 +249,7 @@ public class GameStatePlaying extends GameStateAbstract {
 		return EnumGameState.PLAYING;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void setCards(PacketSetCards p) {
 		int cardNum = -1;
 		for(Field f : p.getClass().getDeclaredFields()) {
@@ -263,6 +259,7 @@ public class GameStatePlaying extends GameStateAbstract {
 				try {
 					val = (String)f.get(p);
 
+					@SuppressWarnings("rawtypes")
 					Enum impl = null;
 
 					try {

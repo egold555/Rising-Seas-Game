@@ -2,8 +2,6 @@ package org.golde.saas.risingseasgame.shared.scheduler;
 
 import java.util.PriorityQueue;
 
-import org.golde.saas.risingseasgame.shared.Logger;
-
 public class Scheduler {
 
 	private PriorityQueue<ScheduledTask> queue = new PriorityQueue<ScheduledTask>();

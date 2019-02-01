@@ -1,5 +1,6 @@
 package org.golde.saas.risingseasgame.client.objects.btn;
 
+@SuppressWarnings("serial")
 public class Button extends ButtonAbstract {
 
 	ButtonClickHandler handler;

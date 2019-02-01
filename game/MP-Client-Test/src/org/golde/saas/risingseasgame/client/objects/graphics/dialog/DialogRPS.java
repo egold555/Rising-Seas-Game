@@ -84,6 +84,7 @@ public class DialogRPS extends DialogBox {
 		super.close(gs);
 	}
 	
+	@SuppressWarnings("serial")
 	private class SpriteRPC extends SpriteClickable {
 
 		public SpriteRPC(String fileName) {

@@ -123,6 +123,7 @@ public class PlaceToMove extends GameObjectClickable {
 		return this;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		if(isAction) {

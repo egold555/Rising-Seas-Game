@@ -1,6 +1,5 @@
 package org.golde.saas.risingseasgame.client.objects.graphics.sprite;
 
-import org.golde.saas.risingseasgame.client.MainClient;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.impl.ISprite;
 import org.golde.saas.risingseasgame.client.objects.GameObjectMoveable;

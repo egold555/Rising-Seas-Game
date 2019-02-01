@@ -63,6 +63,7 @@ public class Card<EnumCard extends Enum<EnumCard> & EnumCardImpl> extends Sprite
 		return theEnum;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		super.render(gc, g);
