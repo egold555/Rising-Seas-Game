@@ -26,7 +26,7 @@ public class Network extends Listener {
 			client.start();
 			client.connect(5000, "localhost", Constants.MP_PORT, Constants.MP_PORT);
 			client.addListener(this);
-			Logger.info("Running networking client!");
+			Logger.info("Running networking client! ID: " + client.getID());
 			isConnected = true;
 		}
 		catch(IOException ex) {
@@ -67,6 +67,10 @@ public class Network extends Listener {
 	
 	public PacketManagerClient getPacketManager() {
 		return packetManager;
+	}
+	
+	public int getID() {
+		return client.getID();
 	}
 
 }

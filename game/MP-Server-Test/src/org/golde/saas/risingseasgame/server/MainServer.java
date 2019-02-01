@@ -1,6 +1,7 @@
 package org.golde.saas.risingseasgame.server;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Timer;
@@ -12,7 +13,9 @@ import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
 import org.golde.saas.risingseasgame.shared.packets.PacketHelloWorld;
 import org.golde.saas.risingseasgame.shared.packets.PacketRPSChallenge;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetWater;
+import org.golde.saas.risingseasgame.shared.packets.PacketTurn;
 import org.golde.saas.risingseasgame.shared.packets.base.Packet;
+import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketStartGame;
 import org.golde.saas.risingseasgame.shared.scheduler.Scheduler;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -26,8 +29,10 @@ public class MainServer extends Listener {
 	public static final Random RANDOM = new Random();
 
 	private static Scheduler scheduler = new Scheduler();
-	
+
 	private static int waterLevel = 0;
+	
+	private static int currentTurn = 0;
 
 	public static void main(String[] args) throws IOException {
 		server = new Server();
@@ -51,30 +56,51 @@ public class MainServer extends Listener {
 				}
 			}
 		}.start();
-		
+
 		while(true) {
 			Scanner scanner = new Scanner(System.in);
-			String in = scanner.nextLine();
-			
-			if(in.equalsIgnoreCase("exit")) {
-				System.exit(0);
-			}
-			else if(in.equalsIgnoreCase("rpc")) {
-				int id = Player.getPlayers().get(0).getId();
-				
-				PacketRPSChallenge challenge = new PacketRPSChallenge();
-				
-				challenge.playerId = -1;
-				
-				packetManager.sendToPlayer(id, challenge);
-			}
-			else
-			{
-				System.out.println("Unknown cmd: " + in);
-			}
-			scanner.close();
+			//if(scanner.hasNextLine()) {
+				String in = scanner.nextLine();
+				String[] args = new String[0];
+				if(in.length() > 1) {
+					args = in.split(" ");
+				}
+				 
+
+				if(args[0].equalsIgnoreCase("exit")) {
+					System.exit(0);
+				}
+				else if(args[0].equalsIgnoreCase("rpc")) {
+					int id = Player.getPlayers().get(0).getId();
+
+					PacketRPSChallenge challenge = new PacketRPSChallenge();
+
+					challenge.playerId = -1;
+
+					packetManager.sendToPlayer(id, challenge);
+				}
+				else if(args[0].equalsIgnoreCase("turn")) {
+					PacketTurn packet = new PacketTurn();
+					packet.id = Integer.parseInt(args[1]);
+					packetManager.sendToEveryone(packet);
+				}
+				else
+				{
+					System.out.println("Unknown cmd: " + Arrays.asList(args).toString());
+				}
+//			}
+//			else {
+//				Logger.warning("Scanner has no new next line?");
+//				try {
+//					Thread.sleep(1000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+			//scanner.close();
 		}
-		
+
 	}
 
 	@Override
@@ -85,7 +111,24 @@ public class MainServer extends Listener {
 			Logger.packetRecieved("Recieved packet " + o.getClass().getSimpleName() + " from " + c.getID());
 		}
 		
+		if(o instanceof PacketStartGame) {
+			nextTurn();
+		}
+
 		Player.getPlayerById(c.getID()).recievePacket(o);
+	}
+	
+	public static  void nextTurn() {
+		PacketTurn packetTurn = new PacketTurn();
+		packetTurn.id = Player.getPlayers().get(currentTurn).getId();
+		packetManager.sendToEveryone(packetTurn);
+		Logger.info("Turn: " + currentTurn);
+		
+		currentTurn++;
+		if(currentTurn > Player.getPlayers().size() - 1) {
+			currentTurn = 0;
+		}
+		
 	}
 
 	@Override
@@ -104,7 +147,9 @@ public class MainServer extends Listener {
 
 			@Override
 			public void run() {
-				packetManager.sendToPlayer(c.getID(), new PacketHelloWorld());
+				PacketHelloWorld helloWorld = new PacketHelloWorld();
+				helloWorld.firstPlayer = (Player.getPlayers().size() == 1);
+				packetManager.sendToPlayer(c.getID(), helloWorld);
 
 			}
 		}, 500);
@@ -146,29 +191,29 @@ public class MainServer extends Listener {
 		}, 1000);
 
 		//This seems to not like 'activate' until I run in debug code and change a number and save again? Very confusing
-//		scheduler.runRepeatingTask(1, 500, new Runnable() {
-//
-//			@Override
-//			public void run() {
-//
-//				Logger.info("Set cards");
-//
-//				PacketSetCards packetSetCards = new PacketSetCards();
-//
-//				for(Field f : packetSetCards.getClass().getDeclaredFields()) {
-//					if(f.getName().startsWith("card") && f.getType() == String.class) {
-//						String what = getRandomCard().name();
-//						try {
-//							f.set(packetSetCards, what);
-//						} catch (IllegalArgumentException | IllegalAccessException e) {
-//							e.printStackTrace();
-//						}
-//					}
-//				}
-//
-//				packetManager.sendToPlayer(c.getID(), packetSetCards);
-//			}
-//		});
+		//		scheduler.runRepeatingTask(1, 500, new Runnable() {
+		//
+		//			@Override
+		//			public void run() {
+		//
+		//				Logger.info("Set cards");
+		//
+		//				PacketSetCards packetSetCards = new PacketSetCards();
+		//
+		//				for(Field f : packetSetCards.getClass().getDeclaredFields()) {
+		//					if(f.getName().startsWith("card") && f.getType() == String.class) {
+		//						String what = getRandomCard().name();
+		//						try {
+		//							f.set(packetSetCards, what);
+		//						} catch (IllegalArgumentException | IllegalAccessException e) {
+		//							e.printStackTrace();
+		//						}
+		//					}
+		//				}
+		//
+		//				packetManager.sendToPlayer(c.getID(), packetSetCards);
+		//			}
+		//		});
 
 	}
 
@@ -189,18 +234,17 @@ public class MainServer extends Listener {
 		return packetManager;
 	}
 
-//	private Enum<?> getRandomCard() {
-//		switch(RANDOM.nextInt(3)) {
-//		case 0: return randomEnum(EnumCircumstanceCards.class); 
-//		case 1: return randomEnum(EnumDiplomaticStrategies.class); 
-//		case 2: return randomEnum(EnumPowerCards.class); 
-//		default: return null; // :(
-//		}
-//	}
-//
-//	private <T extends Enum<? extends EnumCardImpl>> T randomEnum(Class<T> clazz){
-//		int x = RANDOM.nextInt(clazz.getEnumConstants().length);
-//		return clazz.getEnumConstants()[x];
-//	}
-
+	//	private Enum<?> getRandomCard() {
+	//		switch(RANDOM.nextInt(3)) {
+	//		case 0: return randomEnum(EnumCircumstanceCards.class); 
+	//		case 1: return randomEnum(EnumDiplomaticStrategies.class); 
+	//		case 2: return randomEnum(EnumPowerCards.class); 
+	//		default: return null; // :(
+	//		}
+	//	}
+	//
+	//	private <T extends Enum<? extends EnumCardImpl>> T randomEnum(Class<T> clazz){
+	//		int x = RANDOM.nextInt(clazz.getEnumConstants().length);
+	//		return clazz.getEnumConstants()[x];
+	//	}
 }

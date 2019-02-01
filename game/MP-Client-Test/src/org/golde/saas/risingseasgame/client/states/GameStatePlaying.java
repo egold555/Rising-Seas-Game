@@ -12,6 +12,7 @@ import org.golde.saas.risingseasgame.client.objects.board.PlaceToMove;
 import org.golde.saas.risingseasgame.client.objects.btn.Button;
 import org.golde.saas.risingseasgame.client.objects.btn.Button.ButtonClickHandler;
 import org.golde.saas.risingseasgame.client.objects.graphics.dialog.DialogRPS;
+import org.golde.saas.risingseasgame.client.objects.graphics.dialog.DialogTurn;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
 import org.golde.saas.risingseasgame.shared.cards.EnumDiplomaticStrategies;
@@ -20,6 +21,7 @@ import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
 import org.golde.saas.risingseasgame.shared.packets.PacketRPSChallenge;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetCards;
+import org.golde.saas.risingseasgame.shared.packets.PacketTurn;
 import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketSubmitCards;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.GameContainer;
@@ -54,8 +56,11 @@ public class GameStatePlaying extends GameStateAbstract {
 	private static final int MAX_CARDS_SELECTABLE = 4;
 	
 	private DialogRPS dialogRPS = new DialogRPS();
+	private DialogTurn dialogTurn = new DialogTurn();
 	
 	private int[] selectedCards = new int[MAX_CARDS_SELECTABLE];
+	
+	public boolean isFirstPlayer;
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
@@ -113,6 +118,8 @@ public class GameStatePlaying extends GameStateAbstract {
 		});
 		
 		gameObjects.add(dialogRPS.init(gc));
+		gameObjects.add(dialogTurn.init(gc));
+		dialogTurn.open(this);
 		
 	}
 
@@ -132,6 +139,18 @@ public class GameStatePlaying extends GameStateAbstract {
 		
 		else if(o instanceof PacketRPSChallenge) {
 			dialogRPS.open(this);
+		}
+		
+		else if(o instanceof PacketTurn) {
+			PacketTurn turn = (PacketTurn)o;
+			boolean isMyTurn = turn.id == getNetwork().getID();
+			dialogTurn.setTurn(turn.id);
+			if(isMyTurn) {
+				dialogTurn.close(this);
+			}
+			else {
+				dialogTurn.open(this);
+			}
 		}
 	}
 

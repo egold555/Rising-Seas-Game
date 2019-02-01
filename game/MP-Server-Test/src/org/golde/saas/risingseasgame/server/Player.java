@@ -143,6 +143,7 @@ public class Player {
 			
 			setCards(newCards);
 			handelCardFunctions(origCard, packetSubmitCards.place);
+			MainServer.nextTurn();
 		}
 		
 	}

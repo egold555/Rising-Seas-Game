@@ -1,6 +1,8 @@
 package org.golde.saas.risingseasgame.client.states;
 
+import org.golde.saas.risingseasgame.client.objects.graphics.dialog.DialogTurn;
 import org.golde.saas.risingseasgame.shared.packets.PacketHelloWorld;
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -19,14 +21,15 @@ public class GameStateConnecting extends GameStateAbstract {
 	
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
-		if(getNetwork().isConnected()) {
-			
-		}
+		
 	}
 	
 	@Override
 	public void recievedPacket(Connection c, Object o) {
 		if(o instanceof PacketHelloWorld) {
+			//Display.setTitle("RisingSeas (ID: " + getNetwork().getID() + ")");
+			PacketHelloWorld packet = (PacketHelloWorld)o;
+			DialogTurn.firstPlayer = packet.firstPlayer;
 			getMainClient().changeState(EnumGameState.PLAYING);
 		}
 	}
