@@ -12,16 +12,19 @@ import org.golde.saas.risingseasgame.shared.cards.EnumCardImpl;
 import org.golde.saas.risingseasgame.shared.cards.EnumCircumstanceCards;
 import org.golde.saas.risingseasgame.shared.cards.EnumDiplomaticStrategies;
 import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
+import org.golde.saas.risingseasgame.shared.packets.PacketGameOver;
 import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
 import org.golde.saas.risingseasgame.shared.packets.PacketPlaceGenerator;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetPosition;
+import org.golde.saas.risingseasgame.shared.packets.PacketTurn;
 import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketSubmitCards;
 
 import com.esotericsoftware.kryonet.Connection;
 
 public class Player {
 
+	private static boolean gameOver = false;
 	private static List<Player> PLAYERS = new ArrayList<Player>();
 
 	public static Player getPlayerById(int id) {
@@ -45,7 +48,15 @@ public class Player {
 			PLAYERS.remove(getPlayerById(con.getID()));
 		}
 	}
+	
+	public static boolean isGameOver() {
+		return gameOver;
+	}
 
+	public static List<Player> getPlayers() {
+		return PLAYERS;
+	}
+	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private boolean[] eventSpaces = new boolean[30];
@@ -66,10 +77,6 @@ public class Player {
 
 	public int getId() {
 		return conn.getID();
-	}
-
-	public static List<Player> getPlayers() {
-		return PLAYERS;
 	}
 
 	public void connectedToServer() {
@@ -290,7 +297,7 @@ public class Player {
 			//Player won the game
 			this.position = 29;
 			pos = 29;
-			System.out.println("Player " + getId() + " won the game!");
+			won();
 		}
 		
 		
@@ -303,6 +310,18 @@ public class Player {
 		
 		
 		
+	}
+	
+	private void won() {
+		gameOver = true;
+		System.out.println("Player " + getId() + " won the game!");
+		PacketTurn packetTurn = new PacketTurn();
+		packetTurn.id = -2;
+		MainServer.getPacketManager().sendToEveryone(packetTurn);
+		
+		PacketGameOver packetGameOver = new PacketGameOver();
+		packetGameOver.personWhoWon = getId();
+		MainServer.getPacketManager().sendToEveryone(packetGameOver);
 	}
 	
 	private static int howManySpacesToMove(int generatorPlacedIn) {

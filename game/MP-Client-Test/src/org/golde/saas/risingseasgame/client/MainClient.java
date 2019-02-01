@@ -206,5 +206,11 @@ public class MainClient extends BasicGame implements GameStateImpl {
 			}
 		}
 	}
+	
+	public void shutdown(String reason) {
+		network.close();
+		Logger.info("----- CLIENT SHUTDOWN -----");
+		Logger.info("Reason: " + reason);
+	}
 
 }

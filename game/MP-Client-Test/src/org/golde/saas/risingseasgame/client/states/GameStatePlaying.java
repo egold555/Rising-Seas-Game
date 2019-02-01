@@ -155,7 +155,9 @@ public class GameStatePlaying extends GameStateAbstract {
 				dialogTurn.close(this);
 			}
 			else {
-				dialogTurn.open(this);
+				if(turn.id != -2) {
+					dialogTurn.open(this);
+				}
 			}
 		}
 		

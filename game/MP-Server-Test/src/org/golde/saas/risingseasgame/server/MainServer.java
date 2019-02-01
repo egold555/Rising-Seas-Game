@@ -33,6 +33,8 @@ public class MainServer extends Listener {
 	private static int waterLevel = 0;
 	
 	private static int currentTurn = 0;
+	
+	private static boolean shutdown = false;
 
 	public static void main(String[] args) throws IOException {
 		server = new Server();
@@ -51,13 +53,16 @@ public class MainServer extends Listener {
 		Logger.info("Game loop started.");
 		new Thread() {
 			public void run() {
-				while(true) {
+				while(!shutdown) {
 					scheduler.update();
+					if(Player.isGameOver()) {
+						shutdown("Game over");
+					}
 				}
 			}
 		}.start();
 
-		while(true) {
+		while(!shutdown) {
 			Scanner scanner = new Scanner(System.in);
 			//if(scanner.hasNextLine()) {
 				String in = scanner.nextLine();
@@ -68,7 +73,7 @@ public class MainServer extends Listener {
 				 
 
 				if(args[0].equalsIgnoreCase("exit")) {
-					System.exit(0);
+					shutdown("User Exit Command");
 				}
 				else if(args[0].equalsIgnoreCase("rpc")) {
 					int id = Player.getPlayers().get(0).getId();
@@ -221,6 +226,14 @@ public class MainServer extends Listener {
 	public void disconnected(Connection c) {
 		Logger.info("Connection dropped: " + c.getID());
 		Player.onDisconnect(c);
+	}
+	
+	public static void shutdown(String reason) {
+		shutdown = true;
+		server.stop();
+		Logger.info("----- SERVER CLOSED -----");
+		Logger.info("Reason: " + reason);
+		System.exit(0);
 	}
 
 	public static void addWater(int waterAmount) {

@@ -1,5 +1,6 @@
 package org.golde.saas.risingseasgame.client.objects.graphics.dialog;
 
+import org.golde.saas.risingseasgame.client.MainClient;
 import org.golde.saas.risingseasgame.client.helper.BetterTrueTypeFont;
 import org.golde.saas.risingseasgame.client.helper.FontManager;
 import org.golde.saas.risingseasgame.client.objects.btn.Button.ButtonClickHandler;
@@ -22,7 +23,7 @@ public class DialogGameOver extends DialogBox {
 			
 			@Override
 			public void onClicked(int button, int x, int y, int clickCount) {
-				
+				MainClient.getInstance().shutdown("Game over");
 			}
 			
 		});

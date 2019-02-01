@@ -73,4 +73,8 @@ public class Network extends Listener {
 		return client.getID();
 	}
 
+	public void close() {
+		client.close();
+	}
+
 }
