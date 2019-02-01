@@ -18,6 +18,7 @@ public abstract class _PacketManager {
 		kryo.register(PacketPlaceGenerator.class);
 		kryo.register(PacketRPSChallenge.class);
 		kryo.register(PacketTurn.class);
+		kryo.register(PacketGameOver.class);
 		
 		//Client 
 		kryo.register(PacketSubmitCards.class);

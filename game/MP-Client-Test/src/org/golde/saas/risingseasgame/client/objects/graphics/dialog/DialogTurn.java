@@ -14,13 +14,13 @@ public class DialogTurn extends DialogBox {
 
 	private int turn = -1;
 	public static boolean firstPlayer = false;
-	DialogButton start = new DialogButton(90, 90, 60, 40, "Start Game!");
+	DialogButton btnStart = new DialogButton(90, 90, 60, 40, "Start Game!");
 	
 	@Override
 	public void onInit(GameContainer gc) throws SlickException {
-		start.init(gc);
-		start.setVisable(false);
-		start.setHandler(new ButtonClickHandler() {
+		btnStart.init(gc);
+		btnStart.setVisable(false);
+		btnStart.setHandler(new ButtonClickHandler() {
 			
 			@Override
 			public void onClicked(int button, int x, int y, int clickCount) {
@@ -34,13 +34,13 @@ public class DialogTurn extends DialogBox {
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount) {
 		super.mouseClicked(button, x, y, clickCount);
-		start.mouseClicked(button, x, y, clickCount);
+		btnStart.mouseClicked(button, x, y, clickCount);
 	}
 	
 	@Override
 	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
 		super.mouseMoved(oldx, oldy, newx, newy);
-		start.mouseMoved(oldx, oldy, newx, newy);
+		btnStart.mouseMoved(oldx, oldy, newx, newy);
 	}
 
 	@Override
@@ -50,8 +50,8 @@ public class DialogTurn extends DialogBox {
 			font.drawString(50, 50, "Game not started.");
 			
 			if(firstPlayer) {
-				start.setVisable(true);
-				start.render(gc, g);
+				btnStart.setVisable(true);
+				btnStart.render(gc, g);
 			}
 		}
 		else {
@@ -65,19 +65,6 @@ public class DialogTurn extends DialogBox {
 	
 	public void setFirstPlayer(boolean firstPlayer) {
 		this.firstPlayer = firstPlayer;
-	}
-	
-	private class DialogButton extends Button {
-
-		public DialogButton(float x, float y, float width, float height, String text) {
-			super(x, y, width, height, text);
-		}
-		
-		@Override
-		public boolean isOnDialog() {
-			return true;
-		}
-		
 	}
 
 }

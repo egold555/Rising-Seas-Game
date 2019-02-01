@@ -11,6 +11,7 @@ import org.golde.saas.risingseasgame.client.objects.board.Gameboard;
 import org.golde.saas.risingseasgame.client.objects.board.PlaceToMove;
 import org.golde.saas.risingseasgame.client.objects.btn.Button;
 import org.golde.saas.risingseasgame.client.objects.btn.Button.ButtonClickHandler;
+import org.golde.saas.risingseasgame.client.objects.graphics.dialog.DialogGameOver;
 import org.golde.saas.risingseasgame.client.objects.graphics.dialog.DialogRPS;
 import org.golde.saas.risingseasgame.client.objects.graphics.dialog.DialogTurn;
 import org.golde.saas.risingseasgame.shared.Logger;
@@ -19,6 +20,7 @@ import org.golde.saas.risingseasgame.shared.cards.EnumDiplomaticStrategies;
 import org.golde.saas.risingseasgame.shared.cards.EnumGenericCards;
 import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
+import org.golde.saas.risingseasgame.shared.packets.PacketGameOver;
 import org.golde.saas.risingseasgame.shared.packets.PacketRPSChallenge;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketTurn;
@@ -57,6 +59,7 @@ public class GameStatePlaying extends GameStateAbstract {
 	
 	private DialogRPS dialogRPS = new DialogRPS();
 	private DialogTurn dialogTurn = new DialogTurn();
+	private DialogGameOver dialogGameOver = new DialogGameOver();
 	
 	private int[] selectedCards = new int[MAX_CARDS_SELECTABLE];
 	
@@ -121,6 +124,9 @@ public class GameStatePlaying extends GameStateAbstract {
 		gameObjects.add(dialogTurn.init(gc));
 		dialogTurn.open(this);
 		
+		gameObjects.add(dialogGameOver.init(gc));
+		dialogGameOver.close(this);
+		
 	}
 
 	@Override
@@ -151,6 +157,11 @@ public class GameStatePlaying extends GameStateAbstract {
 			else {
 				dialogTurn.open(this);
 			}
+		}
+		
+		else if(o instanceof PacketGameOver) {
+			PacketGameOver packetGameOver = (PacketGameOver)o;
+			dialogGameOver.open(this, packetGameOver);
 		}
 	}
 

@@ -3,6 +3,7 @@ package org.golde.saas.risingseasgame.client.objects.graphics.dialog;
 import org.golde.saas.risingseasgame.client.MainClient;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.GameObjectMoveable;
+import org.golde.saas.risingseasgame.client.objects.btn.Button;
 import org.golde.saas.risingseasgame.client.objects.graphics.SolidFill;
 import org.golde.saas.risingseasgame.client.states.GameStateAbstract;
 import org.newdawn.slick.Color;
@@ -58,6 +59,20 @@ public abstract class DialogBox extends GameObjectMoveable {
 	@Override
 	public boolean isOnDialog() {
 		return true;
+	}
+	
+	@SuppressWarnings("serial")
+	protected class DialogButton extends Button {
+
+		public DialogButton(float x, float y, float width, float height, String text) {
+			super(x, y, width, height, text);
+		}
+		
+		@Override
+		public boolean isOnDialog() {
+			return true;
+		}
+		
 	}
 
 }
