@@ -127,7 +127,7 @@ public class MainServer extends Listener {
 		PacketTurn packetTurn = new PacketTurn();
 		packetTurn.id = Player.getPlayers().get(currentTurn).getId();
 		packetManager.sendToEveryone(packetTurn);
-		Logger.info("Turn: " + currentTurn);
+		Logger.info("Turn: " + packetTurn.id);
 		
 		currentTurn++;
 		if(currentTurn > Player.getPlayers().size() - 1) {
