@@ -7,9 +7,11 @@ import java.util.List;
 import org.golde.saas.risingseasgame.client.MainClient;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.graphics.sprite.Sprite;
+import org.golde.saas.risingseasgame.client.states.EnumGameState;
 import org.golde.saas.risingseasgame.client.states.GameStatePlaying;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
+import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
 import org.golde.saas.risingseasgame.shared.packets.PacketInitalizeGameboard;
 import org.golde.saas.risingseasgame.shared.packets.PacketPlaceGenerator;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetPosition;
@@ -22,18 +24,20 @@ import com.esotericsoftware.kryonet.Connection;
 
 public class Gameboard extends Sprite {
 	
-	private int playerPosition = 0;
+	//private int playerPosition = 0;
 	
 	private final List<PlaceToMove> placesToMove = new ArrayList<PlaceToMove>();
 	
-	private PlayerPositionGraphic playerPositionGraphic;
+	//private PlayerPositionGraphic playerPositionGraphic;
 	
 	private WaterLevelGraphic waterLevelGraphic = new WaterLevelGraphic();
+	
+	private List<PlayerPositionGraphic> playerGraphics = new ArrayList<PlayerPositionGraphic>();
 	
 	public Gameboard() {
 		super("Gameboard3");
 		placesToMove.addAll(PlaceToMove.getEveryPlaceToMove());
-		playerPositionGraphic  = new PlayerPositionGraphic(placesToMove);
+		//playerPositionGraphic  = new PlayerPositionGraphic(placesToMove);
 	}
 
 	
@@ -55,7 +59,7 @@ public class Gameboard extends Sprite {
 		List<GameObject> toReturn = new ArrayList<GameObject>();
 		
 		toReturn.addAll(placesToMove);
-		toReturn.add(playerPositionGraphic);
+		//toReturn.add(playerPositionGraphic);
 		toReturn.add(waterLevelGraphic);
 		
 		return toReturn;
@@ -115,8 +119,17 @@ public class Gameboard extends Sprite {
 			waterLevelGraphic.setWaterLevel( ((PacketSetWater)o).waterLevel);
 		}
 		else if(o instanceof PacketSetPosition) {
-			this.playerPosition = ((PacketSetPosition)o).position;
-			playerPositionGraphic.setPosition(playerPosition);
+			//this.playerPosition = ((PacketSetPosition)o).position;
+			//playerPositionGraphic.setPosition(playerPosition);
+			PacketSetPosition packetSetPosition = (PacketSetPosition)o;
+			//Logger.error("I have recieved the packet PacketSetPosition. PlayerGraphics has a size of: " + playerGraphics.size());
+			for(PlayerPositionGraphic ppg : playerGraphics) {
+				//Logger.info("Does id " + ppg.getId() + " from ppg match the packet id of " + packetSetPosition.id + "?");
+				if(ppg.getId() == packetSetPosition.id) {
+					ppg.setPosition(packetSetPosition.position);
+					//Logger.warning("Set position of " + packetSetPosition.id + " to position " + packetSetPosition.position);
+				}
+			}
 		}
 		else if(o instanceof PacketInitalizeGameboard) {
 			this.initalizeGameboard((PacketInitalizeGameboard)o);
@@ -128,6 +141,13 @@ public class Gameboard extends Sprite {
 				return;
 			}
 			getPlacesToMove().get(packetPlaceGenerator.position).setPlacedGenerator(EnumPowerCards.valueOf(packetPlaceGenerator.generator));
+		}
+		else if(o instanceof PacketAddPlayer) {
+			PacketAddPlayer packetAddPlayer = (PacketAddPlayer)o;
+			PlayerPositionGraphic ppg = new PlayerPositionGraphic(getPlacesToMove(), packetAddPlayer.id);
+			((GameStatePlaying)MainClient.getInstance().getGameState(EnumGameState.PLAYING)).tempGameObject.add(ppg); //Concurrent mod fix
+			playerGraphics.add(ppg);
+			//Logger.warning("Added player to the game with a ID of: " + packetAddPlayer.id);
 		}
 	}
 

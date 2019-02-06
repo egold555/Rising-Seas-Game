@@ -303,7 +303,9 @@ public class Player {
 		
 		PacketSetPosition packetSetPosition = new PacketSetPosition();
 		packetSetPosition.position = this.position;
-		MainServer.getPacketManager().sendToPlayer(conn.getID(), packetSetPosition);
+		packetSetPosition.id = getId();
+		//MainServer.getPacketManager().sendToPlayer(conn.getID(), packetSetPosition);
+		MainServer.getPacketManager().sendToEveryone(packetSetPosition);
 		if(eventSpaces[pos]) {
 			System.out.println("Player " + getId() + " landed on a event space");
 		}

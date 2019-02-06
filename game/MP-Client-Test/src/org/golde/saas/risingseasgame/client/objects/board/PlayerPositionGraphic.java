@@ -16,13 +16,21 @@ public class PlayerPositionGraphic extends GameObjectMoveable {
 
 	private int pos = 0;
 	private List<PlaceToMove> placesToMove = new ArrayList<PlaceToMove>();
+	private final int id;
+	private final Color drawColor;
 	
-	public PlayerPositionGraphic(List<PlaceToMove> placesToMove) {
+	public PlayerPositionGraphic(List<PlaceToMove> placesToMove, int id) {
 		this.placesToMove = placesToMove;
+		this.id = id;
+		this.drawColor = getColor(id);
 	}
 	
 	public final void setPosition(int pos) {
 		this.pos = pos;
+	}
+	
+	public int getId() {
+		return id;
 	}
 	
 	@Override
@@ -44,7 +52,18 @@ public class PlayerPositionGraphic extends GameObjectMoveable {
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		g.fill(new Circle(this.getX(), this.getY(), 8), new SolidFill(Color.white));
+		g.fill(new Circle(this.getX(), this.getY(), 8), new SolidFill(drawColor));
+	}
+	
+	private static Color getColor(int idIn) {
+		switch(idIn) {
+		case 0: return Color.red;
+		case 1: return Color.yellow;
+		case 2: return Color.green;
+		case 3: return Color.blue;
+		case 4: return Color.magenta;
+		default: return Color.white;
+		}
 	}
 	
 }
