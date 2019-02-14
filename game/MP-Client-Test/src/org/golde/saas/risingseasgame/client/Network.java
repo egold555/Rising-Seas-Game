@@ -26,9 +26,9 @@ public class Network extends Listener {
 			packetManager.registerPackets(client.getKryo());
 			
 			Logger.info("Please type in a IP");
-			Scanner scanner = new Scanner(System.in);
+			
 			//if(scanner.hasNextLine()) {
-			String in = scanner.nextLine();
+			String in = MainClient.getInstance().scanner.nextLine();
 
 			client.start();
 			client.connect(5000, in, Constants.MP_PORT, Constants.MP_PORT);
@@ -36,7 +36,6 @@ public class Network extends Listener {
 			//client.connect(5000, foundServer, Constants.MP_PORT);
 			client.addListener(this);
 			Logger.info("Running networking client! ID: " + client.getID());
-			scanner.close();
 			
 		}
 		catch(IOException ex) {

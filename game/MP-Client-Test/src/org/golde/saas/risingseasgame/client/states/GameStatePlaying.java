@@ -2,6 +2,7 @@ package org.golde.saas.risingseasgame.client.states;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.golde.saas.risingseasgame.client.ConstantsClient;
@@ -11,6 +12,7 @@ import org.golde.saas.risingseasgame.client.objects.board.Gameboard;
 import org.golde.saas.risingseasgame.client.objects.board.PlaceToMove;
 import org.golde.saas.risingseasgame.client.objects.btn.Button;
 import org.golde.saas.risingseasgame.client.objects.btn.Button.ButtonClickHandler;
+import org.golde.saas.risingseasgame.client.objects.graphics.dialog.DialogChoosePersonRPS;
 import org.golde.saas.risingseasgame.client.objects.graphics.dialog.DialogGameOver;
 import org.golde.saas.risingseasgame.client.objects.graphics.dialog.DialogRPS;
 import org.golde.saas.risingseasgame.client.objects.graphics.dialog.DialogTurn;
@@ -22,6 +24,7 @@ import org.golde.saas.risingseasgame.shared.cards.EnumPowerCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketAddPlayer;
 import org.golde.saas.risingseasgame.shared.packets.PacketGameOver;
 import org.golde.saas.risingseasgame.shared.packets.PacketRPSChallenge;
+import org.golde.saas.risingseasgame.shared.packets.PacketRPSPicker;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketTurn;
 import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketSubmitCards;
@@ -34,8 +37,6 @@ import org.newdawn.slick.TrueTypeFont;
 import com.esotericsoftware.kryonet.Connection;
 
 public class GameStatePlaying extends GameStateAbstract {
-
-	List<Integer> connectedClients = new ArrayList<Integer>();
 
 	private Gameboard gameBoard = new Gameboard();
 
@@ -58,12 +59,15 @@ public class GameStatePlaying extends GameStateAbstract {
 	private static final int MAX_CARDS_SELECTABLE = 4;
 	
 	private DialogRPS dialogRPS = new DialogRPS();
+	//private DialogChoosePersonRPS dialogChoosePersonRPS = new DialogChoosePersonRPS();
 	private DialogTurn dialogTurn = new DialogTurn();
 	private DialogGameOver dialogGameOver = new DialogGameOver();
 	
 	private int[] selectedCards = new int[MAX_CARDS_SELECTABLE];
 	
 	public boolean isFirstPlayer;
+	
+	private HashMap<Integer, String> playerNames = new HashMap<Integer, String>();
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
@@ -121,6 +125,7 @@ public class GameStatePlaying extends GameStateAbstract {
 		});
 		
 		gameObjects.add(dialogRPS.init(gc));
+		//gameObjects.add(dialogChoosePersonRPS.init(gc));
 		gameObjects.add(dialogTurn.init(gc));
 		dialogTurn.open(this);
 		
@@ -136,7 +141,7 @@ public class GameStatePlaying extends GameStateAbstract {
 		
 		if(o instanceof PacketAddPlayer) {
 			PacketAddPlayer packet = (PacketAddPlayer)o;
-			connectedClients.add(packet.id);
+			playerNames.put(packet.id, packet.name);
 		}
 
 		else if(o instanceof PacketSetCards) {
@@ -146,6 +151,10 @@ public class GameStatePlaying extends GameStateAbstract {
 		else if(o instanceof PacketRPSChallenge) {
 			dialogRPS.open(this);
 		}
+		
+//		else if(o instanceof PacketRPSPicker) {
+//			dialogChoosePersonRPS.open(this);
+//		}
 		
 		else if(o instanceof PacketTurn) {
 			PacketTurn turn = (PacketTurn)o;
@@ -183,7 +192,7 @@ public class GameStatePlaying extends GameStateAbstract {
 
 		//new render method thats abstract
 		int idCountX = 0;
-		for(int id : connectedClients) {
+		for(int id : playerNames.keySet()) {
 			g.drawString(String.valueOf(id), 30 + idCountX, 60);
 			idCountX += 10;
 		} 

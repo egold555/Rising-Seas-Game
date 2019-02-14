@@ -18,6 +18,7 @@ import org.golde.saas.risingseasgame.shared.packets.PacketPlaceGenerator;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetCards;
 import org.golde.saas.risingseasgame.shared.packets.PacketSetPosition;
 import org.golde.saas.risingseasgame.shared.packets.PacketTurn;
+import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketSetName;
 import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketSubmitCards;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -57,6 +58,12 @@ public class Player {
 		return PLAYERS;
 	}
 	
+	public static String getPlayerName(int id) {
+		Player p = getPlayerById(id);
+		if(p == null) {return null;}
+		return p.getName();
+	}
+	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private boolean[] eventSpaces = new boolean[30];
@@ -64,6 +71,7 @@ public class Player {
 	private EnumCardImpl[] cards = new EnumCardImpl[7];
 	private int position = 0;
 	private HashMap<EnumPowerCards, Integer> generatorsPlaced = new HashMap<EnumPowerCards, Integer>();
+	private String name;
 
 	//Called when they join the server
 	public Player(Connection conn) {
@@ -153,6 +161,9 @@ public class Player {
 			MainServer.nextTurn();
 		}
 		
+		else if(o instanceof PacketSetName) {
+			this.name = ((PacketSetName)o).name;
+		}
 	}
 	
 	private void handelCardFunctions(EnumCardImpl card, int place) {
@@ -339,6 +350,10 @@ public class Player {
 		else {
 			return 4;
 		}
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 }

@@ -59,6 +59,7 @@ public class PlayerPositionGraphic extends GameObjectMoveable {
 		ttf.drawString(this.getX()- PlaceToMove.OFFSET, this.getY() - PlaceToMove.OFFSET, "" + id);
 	}
 	
+	//Change to mod?
 	private static Color getColor(int idIn) {
 		switch(idIn) {
 		case 1: return Color.red;

@@ -5,6 +5,7 @@ import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.GameObjectMoveable;
 import org.golde.saas.risingseasgame.client.objects.btn.Button;
 import org.golde.saas.risingseasgame.client.objects.graphics.SolidFill;
+import org.golde.saas.risingseasgame.client.objects.graphics.sprite.SpriteClickable;
 import org.golde.saas.risingseasgame.client.states.GameStateAbstract;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -66,6 +67,24 @@ public abstract class DialogBox extends GameObjectMoveable {
 
 		public DialogButton(float x, float y, float width, float height, String text) {
 			super(x, y, width, height, text);
+		}
+		
+		@Override
+		public boolean isOnDialog() {
+			return true;
+		}
+		
+	}
+	
+	@SuppressWarnings("serial")
+	protected class DialogSpriteClickable extends SpriteClickable {
+
+		public DialogSpriteClickable(String fileName) {
+			super(fileName);
+		}
+		
+		public DialogSpriteClickable(String fileName, int x, int y) {
+			super(fileName, x, y);
 		}
 		
 		@Override

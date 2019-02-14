@@ -75,14 +75,20 @@ public class MainServer extends Listener {
 				if(args[0].equalsIgnoreCase("exit")) {
 					shutdown("User Exit Command");
 				}
-				else if(args[0].equalsIgnoreCase("rpc")) {
+				else if(args[0].equalsIgnoreCase("rps")) {
+//					int id = Player.getPlayers().get(0).getId();
+//
+//					PacketRPSChallenge challenge = new PacketRPSChallenge();
+//
+//					challenge.playerId = -1;
+//
+//					packetManager.sendToPlayer(id, challenge);
+					
 					int id = Player.getPlayers().get(0).getId();
-
-					PacketRPSChallenge challenge = new PacketRPSChallenge();
-
-					challenge.playerId = -1;
-
-					packetManager.sendToPlayer(id, challenge);
+					PacketRPSChallenge packet = new PacketRPSChallenge();
+					
+					packetManager.sendToPlayer(id, packet);
+					
 				}
 				else if(args[0].equalsIgnoreCase("turn")) {
 					PacketTurn packet = new PacketTurn();
@@ -167,6 +173,7 @@ public class MainServer extends Listener {
 					if(player.getId() != c.getID()) {
 						PacketAddPlayer packetAddPlayer = new PacketAddPlayer();
 						packetAddPlayer.id = player.getId();
+						packetAddPlayer.name = player.getName();
 						packetManager.sendToPlayer(c.getID(), packetAddPlayer);
 					}
 				}

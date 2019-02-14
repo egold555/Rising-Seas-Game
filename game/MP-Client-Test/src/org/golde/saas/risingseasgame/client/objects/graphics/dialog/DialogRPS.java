@@ -70,7 +70,9 @@ public class DialogRPS extends DialogBox {
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount) {
 		super.mouseClicked(button, x, y, clickCount);
-		
+		spriteRock.mouseClicked(button, x, y, clickCount);
+		spritePaper.mouseClicked(button, x, y, clickCount);
+		spriteScissors.mouseClicked(button, x, y, clickCount);
 	}
 	
 	public void open(GameStateAbstract gs, int id) {
@@ -85,15 +87,10 @@ public class DialogRPS extends DialogBox {
 	}
 	
 	@SuppressWarnings("serial")
-	private class SpriteRPC extends SpriteClickable {
+	private class SpriteRPC extends DialogSpriteClickable {
 
 		public SpriteRPC(String fileName) {
 			super("rps/" + fileName);
-		}
-		
-		@Override
-		public boolean isOnDialog() {
-			return true;
 		}
 		
 		@Override

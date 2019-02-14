@@ -1,6 +1,7 @@
 package org.golde.saas.risingseasgame.shared.packets;
 
 import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketRPSSubmit;
+import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketSetName;
 import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketStartGame;
 import org.golde.saas.risingseasgame.shared.packets.fromclient.PacketSubmitCards;
 
@@ -19,11 +20,13 @@ public abstract class _PacketManager {
 		kryo.register(PacketRPSChallenge.class);
 		kryo.register(PacketTurn.class);
 		kryo.register(PacketGameOver.class);
+		kryo.register(PacketRPSPicker.class);
 		
 		//Client 
 		kryo.register(PacketSubmitCards.class);
 		kryo.register(PacketRPSSubmit.class);
 		kryo.register(PacketStartGame.class);
+		kryo.register(PacketSetName.class);
 	}
 
 }

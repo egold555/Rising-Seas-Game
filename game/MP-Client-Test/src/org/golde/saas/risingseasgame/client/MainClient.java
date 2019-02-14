@@ -37,6 +37,7 @@ public class MainClient extends BasicGame implements GameStateImpl {
 	private List<GameStateAbstract> everyGameState = new ArrayList<GameStateAbstract>();
 
 	private static boolean running = true;
+	public Scanner scanner = new Scanner(System.in);
 
 	public MainClient() {
 		super("MultiPlayer Client test");
