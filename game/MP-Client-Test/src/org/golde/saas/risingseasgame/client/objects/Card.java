@@ -89,7 +89,7 @@ public class Card<EnumCard extends Enum<EnumCard> & EnumCardImpl> extends Sprite
 			checkmark.render(gc, g);
 		}
 
-		drawDebugHitbox(g);
+		//drawDebugHitbox(g);
 		
 	}
 

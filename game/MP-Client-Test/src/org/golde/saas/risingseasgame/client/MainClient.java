@@ -3,8 +3,10 @@ package org.golde.saas.risingseasgame.client;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 import org.golde.saas.risingseasgame.client.states.EnumGameState;
 import org.golde.saas.risingseasgame.client.states.GameStateAbstract;
@@ -22,31 +24,36 @@ import com.esotericsoftware.kryonet.Connection;
 
 public class MainClient extends BasicGame implements GameStateImpl {
 
-	private Network network = new Network();
-	
+	private static Network network = new Network();
+
 	private static MainClient INSTANCE;
-	
+
 	public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	
+
 	public static final Random RANDOM = new Random();
-	
+
 	private EnumGameState GAME_STATE = EnumGameState.TITLE_SCREEN;
-	
+
 	private List<GameStateAbstract> everyGameState = new ArrayList<GameStateAbstract>();
-	
+
+	private static boolean running = true;
+
 	public MainClient() {
 		super("MultiPlayer Client test");
 		INSTANCE = this;
-		
+
 		everyGameState.add(new GameStateConnecting());
 		everyGameState.add(new GameStatePlaying());
-		
+
 		changeState(EnumGameState.TITLE_SCREEN);
-		
+
 	}
-	
+
 	public static void main(String[] args) {
 		try {
+			
+		
+			
 			AppGameContainer appgc;
 			//appgc = new AppGameContainer(new GameS());
 			appgc = new AppGameContainer(new MainClient());
@@ -54,25 +61,28 @@ public class MainClient extends BasicGame implements GameStateImpl {
 			appgc.setTargetFrameRate(ConstantsClient.MAX_FPS);
 			appgc.setAlwaysRender(true);
 			appgc.start();
+
+			
+
 		}
 		catch (SlickException ex) {
 			Logger.error(ex, "Failed to create game instance");
 		}
 	}
-	
+
 	public static MainClient getInstance() {
 		return INSTANCE;
 	}
-	
+
 	public Network getNetwork() {
 		return network;
 	}
-	
+
 	public void changeState(EnumGameState newState) {
 		Logger.info("Changed game state from " + GAME_STATE.name() + " to " + newState.name());
 		this.GAME_STATE = newState;
 	}
-	
+
 	public GameStateAbstract getGameState(EnumGameState getState) {
 		for(GameStateAbstract theGameState : everyGameState) {
 			if(theGameState.getEnumGameState() == getState) {
@@ -81,7 +91,7 @@ public class MainClient extends BasicGame implements GameStateImpl {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		for(GameStateAbstract gs : everyGameState) {
@@ -107,7 +117,7 @@ public class MainClient extends BasicGame implements GameStateImpl {
 			}
 		}
 	}
-	
+
 	@Override
 	public void keyPressed(int key, char c) {
 		for(GameStateAbstract gs : everyGameState) {
@@ -116,7 +126,7 @@ public class MainClient extends BasicGame implements GameStateImpl {
 			}
 		}
 	}
-	
+
 	@Override
 	public void keyReleased(int key, char c) {
 		for(GameStateAbstract gs : everyGameState) {
@@ -125,7 +135,7 @@ public class MainClient extends BasicGame implements GameStateImpl {
 			}
 		}
 	}
-	
+
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount) {
 		for(GameStateAbstract gs : everyGameState) {
@@ -134,7 +144,7 @@ public class MainClient extends BasicGame implements GameStateImpl {
 			}
 		}
 	}
-	
+
 	@Override
 	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
 		for(GameStateAbstract gs : everyGameState) {
@@ -143,7 +153,7 @@ public class MainClient extends BasicGame implements GameStateImpl {
 			}
 		}
 	}
-	
+
 	@Override
 	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
 		for(GameStateAbstract gs : everyGameState) {
@@ -152,7 +162,7 @@ public class MainClient extends BasicGame implements GameStateImpl {
 			}
 		}
 	}
-	
+
 	@Override
 	public void mousePressed(int button, int x, int y) {
 		for(GameStateAbstract gs : everyGameState) {
@@ -161,7 +171,7 @@ public class MainClient extends BasicGame implements GameStateImpl {
 			}
 		}
 	}
-	
+
 	@Override
 	public void mouseReleased(int button, int x, int y) {
 		for(GameStateAbstract gs : everyGameState) {
@@ -170,7 +180,7 @@ public class MainClient extends BasicGame implements GameStateImpl {
 			}
 		}
 	}
-	
+
 	@Override
 	public void mouseWheelMoved(int change) {
 		for(GameStateAbstract gs : everyGameState) {
@@ -179,7 +189,7 @@ public class MainClient extends BasicGame implements GameStateImpl {
 			}
 		}
 	}
-	
+
 	@Override
 	public void recievedPacket(Connection c, Object o) {
 		for(GameStateAbstract gs : everyGameState) {
@@ -206,8 +216,9 @@ public class MainClient extends BasicGame implements GameStateImpl {
 			}
 		}
 	}
-	
-	public void shutdown(String reason) {
+
+	public static void shutdown(String reason) {
+		running = false;
 		network.close();
 		Logger.info("----- CLIENT SHUTDOWN -----");
 		Logger.info("Reason: " + reason);

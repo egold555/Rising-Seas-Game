@@ -3,6 +3,8 @@ package org.golde.saas.risingseasgame.client.objects.board;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.golde.saas.risingseasgame.client.helper.BetterTrueTypeFont;
+import org.golde.saas.risingseasgame.client.helper.FontManager;
 import org.golde.saas.risingseasgame.client.impl.GameObject;
 import org.golde.saas.risingseasgame.client.objects.GameObjectMoveable;
 import org.golde.saas.risingseasgame.client.objects.graphics.SolidFill;
@@ -52,13 +54,14 @@ public class PlayerPositionGraphic extends GameObjectMoveable {
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
+		BetterTrueTypeFont ttf = FontManager.getOrCreateFont(14);
 		g.fill(new Circle(this.getX(), this.getY(), 8), new SolidFill(drawColor));
+		ttf.drawString(this.getX()- PlaceToMove.OFFSET, this.getY() - PlaceToMove.OFFSET, "" + id);
 	}
 	
 	private static Color getColor(int idIn) {
 		switch(idIn) {
-		case 0: return Color.red;
-		case 1: return Color.yellow;
+		case 1: return Color.red;
 		case 2: return Color.green;
 		case 3: return Color.blue;
 		case 4: return Color.magenta;

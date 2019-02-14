@@ -132,7 +132,7 @@ public class PlaceToMove extends GameObjectClickable {
 			g.resetLineWidth();
 		}
 		
-		drawDebugHitbox(g);
+		//drawDebugHitbox(g);
 		
 		if(placedGenerator != null) {
 			

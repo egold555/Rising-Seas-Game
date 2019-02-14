@@ -35,13 +35,13 @@ public class DialogRPS extends DialogBox {
 	@Override
 	public void onRender(GameContainer gc, Graphics g) throws SlickException {
 		spriteRock.render(gc, g);
-		spriteRock.drawDebugHitbox(g);
+		//spriteRock.drawDebugHitbox(g);
 		
 		spritePaper.render(gc, g);
-		spritePaper.drawDebugHitbox(g);
+		//spritePaper.drawDebugHitbox(g);
 		
 		spriteScissors.render(gc, g);
-		spriteScissors.drawDebugHitbox(g);
+		//spriteScissors.drawDebugHitbox(g);
 
 		
 //		spriteRock.setY(200);

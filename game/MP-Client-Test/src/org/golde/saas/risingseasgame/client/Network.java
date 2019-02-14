@@ -1,6 +1,9 @@
 package org.golde.saas.risingseasgame.client;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.util.List;
+import java.util.Scanner;
 
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.constants.Constants;
@@ -16,18 +19,25 @@ public class Network extends Listener {
 	private PacketManagerClient packetManager;
 	private boolean isConnected = false;
 
-
 	public void connect() {
 		try {
 			client = new Client();
 			packetManager = new PacketManagerClient(client);
 			packetManager.registerPackets(client.getKryo());
+			
+			Logger.info("Please type in a IP");
+			Scanner scanner = new Scanner(System.in);
+			//if(scanner.hasNextLine()) {
+			String in = scanner.nextLine();
 
 			client.start();
-			client.connect(5000, "localhost", Constants.MP_PORT, Constants.MP_PORT);
+			client.connect(5000, in, Constants.MP_PORT, Constants.MP_PORT);
+			//InetAddress foundServer = client.discoverHost(Constants.MP_PORT, 10000);
+			//client.connect(5000, foundServer, Constants.MP_PORT);
 			client.addListener(this);
 			Logger.info("Running networking client! ID: " + client.getID());
-			isConnected = true;
+			scanner.close();
+			
 		}
 		catch(IOException ex) {
 			Logger.error(ex, "Error running networking client");
