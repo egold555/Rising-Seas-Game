@@ -1,6 +1,7 @@
 package org.golde.saas.risingseasgame.server;
 
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
@@ -44,6 +45,7 @@ public class MainServer extends Listener {
 		server.start();
 		server.addListener(new MainServer());
 		Logger.info("Server started on: " + Constants.MP_PORT);
+		Logger.info("IP: " + Inet4Address.getLocalHost().getHostAddress());
 
 		startGameLoop();
 

@@ -106,7 +106,7 @@ public class Player {
 			}
 		}
 
-		System.out.println("Set array: " + Arrays.toString(eventSpaces));
+		Logger.info("Set array: " + Arrays.toString(eventSpaces));
 		MainServer.getPacketManager().sendToPlayer(conn.getID(), packetInitalizeGameboard);
 
 		//Set initial cards
@@ -167,10 +167,10 @@ public class Player {
 	}
 	
 	private void handelCardFunctions(EnumCardImpl card, int place) {
-		if(card instanceof EnumCircumstanceCards) {
+		/*if(card instanceof EnumCircumstanceCards) {
 			doCircumstanceAction((EnumCircumstanceCards)card);
 		}
-		else if(card instanceof EnumDiplomaticStrategies) {
+		else*/ if(card instanceof EnumDiplomaticStrategies) {
 			doDiplomaticAction((EnumDiplomaticStrategies)card);
 		}
 		else if(card instanceof EnumPowerCards) {
@@ -199,6 +199,15 @@ public class Player {
 		}
 		
 		move(howManySpacesToMove(place));
+		
+		if(isCurcumstancePlace(place)) {
+			EnumCircumstanceCards enumCircumstanceCard = EnumUtil.randomEnum(EnumCircumstanceCards.class);
+			
+			Logger.info(getId() + " (" + getName() + ") landed on circumstance card " + enumCircumstanceCard.name());
+			
+			//TODO: doCircumstanceAction(enumCircumstanceCard);
+		}
+		
 		PacketPlaceGenerator packetPlaceGenerator = new PacketPlaceGenerator();
 		packetPlaceGenerator.generator = card.name();
 		packetPlaceGenerator.position = place;
@@ -206,6 +215,10 @@ public class Player {
 		
 		incrementGeneratorHashmap(card);
 		
+	}
+	
+	private boolean isCurcumstancePlace(int place) {
+		return eventSpaces[place];
 	}
 	
 	private void incrementGeneratorHashmap(EnumPowerCards ep) {
@@ -318,7 +331,7 @@ public class Player {
 		//MainServer.getPacketManager().sendToPlayer(conn.getID(), packetSetPosition);
 		MainServer.getPacketManager().sendToEveryone(packetSetPosition);
 		if(eventSpaces[pos]) {
-			System.out.println("Player " + getId() + " landed on a event space");
+			Logger.info("Player " + getId() + "(" + getName() + ") landed on a event space");
 		}
 		
 		
@@ -327,7 +340,7 @@ public class Player {
 	
 	private void won() {
 		gameOver = true;
-		System.out.println("Player " + getId() + " won the game!");
+		Logger.info("Player " + getId() + "(" + getName() +  ") won the game!");
 		PacketTurn packetTurn = new PacketTurn();
 		packetTurn.id = -2;
 		MainServer.getPacketManager().sendToEveryone(packetTurn);
