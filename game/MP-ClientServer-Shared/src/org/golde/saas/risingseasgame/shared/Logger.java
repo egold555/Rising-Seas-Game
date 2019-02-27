@@ -72,8 +72,9 @@ public class Logger {
 	static {
 		try {
 			String side = isClient() ? "Client" : "Server";
-			File logFile = new File(dateFormat.format(new Date()) + "-" + side + ".txt");
-			//logFile.mkdirs();
+			File logsDir = new File("logs");
+			logsDir.mkdirs();
+			File logFile = new File(logsDir, dateFormat.format(new Date()) + "-" + side + ".txt");
 			fileLog = new PrintStream(logFile);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
