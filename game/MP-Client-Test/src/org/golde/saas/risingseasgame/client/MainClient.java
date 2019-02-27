@@ -14,6 +14,7 @@ import org.golde.saas.risingseasgame.client.states.GameStateConnecting;
 import org.golde.saas.risingseasgame.client.states.GameStateImpl;
 import org.golde.saas.risingseasgame.client.states.GameStatePlaying;
 import org.golde.saas.risingseasgame.shared.Logger;
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -40,7 +41,7 @@ public class MainClient extends BasicGame implements GameStateImpl {
 	public Scanner scanner = new Scanner(System.in);
 
 	public MainClient() {
-		super("MultiPlayer Client test");
+		super("RisingSeas - -1");
 		INSTANCE = this;
 
 		everyGameState.add(new GameStateConnecting());

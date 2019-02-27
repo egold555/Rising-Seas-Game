@@ -8,6 +8,7 @@ import java.util.Scanner;
 import org.golde.saas.risingseasgame.shared.Logger;
 import org.golde.saas.risingseasgame.shared.constants.Constants;
 import org.golde.saas.risingseasgame.shared.packets.base.Packet;
+import org.lwjgl.opengl.Display;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -36,6 +37,7 @@ public class Network extends Listener {
 			//client.connect(5000, foundServer, Constants.MP_PORT);
 			client.addListener(this);
 			Logger.info("Running networking client! ID: " + client.getID());
+			Display.setTitle("RisingSeas - " + client.getID());
 			
 		}
 		catch(IOException ex) {
